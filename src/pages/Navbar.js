@@ -94,7 +94,7 @@ export default function Navbar() {
           transition={{ duration: 0.5 }}
         >
           <DollarSign className="h-6 w-6 text-orange-500" />
-          <Link to="/home" className="font-bold text-2xl">
+          <Link to="/" className="font-bold text-2xl">
             CostCatcher
           </Link>
         </motion.div>
