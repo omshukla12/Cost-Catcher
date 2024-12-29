@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DollarSign, Menu, X, Moon, Sun } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from "../components/ui/Button";
-import { Switch } from "../components/ui/Switch";
+import { Button } from "../components/ui/button";
+import { Switch } from "../components/ui/switch";
 
 
 export default function Navbar() {
