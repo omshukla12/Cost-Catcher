@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DollarSign, Menu, X, Moon, Sun } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from "../components/ui/button";
-import { Switch } from "../components/ui/switch";
+import { Button } from "../components/ui/Button";
+import { Switch } from "../components/ui/Switch";
+
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,7 +79,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b 
+      className={`sticky top-0 left-0 right-0 z-40 backdrop-blur-md border-b 
         ${
           scrolled
             ? 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'

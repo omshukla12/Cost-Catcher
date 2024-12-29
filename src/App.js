@@ -19,6 +19,17 @@ import Account from './pages/Account';
 import EditAccountDetails from './pages/EditAccountDetails';
 import VerifyOTP from './components/VerifyOTP';
 import NewPassword from './pages/NewPassword';
+import Features from './pages/Features';
+import Pricing from './pages/Pricing';
+import API from './pages/API';
+import Blog from './pages/Blog';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import CookiePolicy from './pages/CookiePolicy';
+import Documentation from './pages/Documentation';
+import HelpCenter from './pages/HelpCenter.js';
+import Community from './pages/Community.js';
+import './App.css';
 
 const AppLayout = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -62,6 +73,18 @@ const router = createBrowserRouter([
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/account', element: <Account /> },
+
+      { path: '/features', element: <Features /> },
+      { path: '/pricing', element: <Pricing /> },
+      { path: '/api', element: <API /> },
+      { path: '/blog', element: <Blog /> },
+      { path: '/terms', element: <TermsOfService /> },
+      { path: '/privacy', element: <PrivacyPolicy /> },
+      { path: '/cookie', element: <CookiePolicy /> },
+      { path: '/documentation', element: <Documentation /> },
+      { path: '/help', element: <HelpCenter /> },
+      { path: '/community', element: <Community /> },
+
       { path: '/editAccountDetails', element: <EditAccountDetails /> },
       { path: '/changePassword', element: <VerifyOTP /> },
       { path: '/newPassword', element: <NewPassword /> },

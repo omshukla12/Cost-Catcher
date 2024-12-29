@@ -9,33 +9,34 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Product</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">API</a></li>
+              <li><a href="/features" className="hover:text-orange-500 transition-colors">Features</a></li>
+              <li><a href="/pricing" className="hover:text-orange-500 transition-colors">Pricing</a></li>
+              <li><a href="/api" className="hover:text-orange-500 transition-colors">API</a></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Careers</a></li>
+              <li><a href="/about" className="hover:text-orange-500 transition-colors">About</a></li>
+              <li><a href="/contact" className="hover:text-orange-500 transition-colors">Contact</a></li>
+              <li><a href="/blog" className="hover:text-orange-500 transition-colors">Blog</a></li>
+              
             </ul>
           </div>
-          <div>
+           <div>
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Documentation</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Community</a></li>
+              <li><a href="/documentation" className="hover:text-orange-500 transition-colors">Documentation</a></li>
+              <li><a href="/help" className="hover:text-orange-500 transition-colors">Help Center</a></li>
+              <li><a href="/community" className="hover:text-orange-500 transition-colors">Community</a></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Cookie Policy</a></li>
+              <li><a href="/privacy" className="hover:text-orange-500 transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" className="hover:text-orange-500 transition-colors">Terms of Service</a></li>
+              <li><a href="/cookie" className="hover:text-orange-500 transition-colors">Cookie Policy</a></li>
             </ul>
           </div>
         </div>
