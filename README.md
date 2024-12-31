@@ -1,1 +1,3 @@
-## cost-catcher using REACT 
+# Cost Catcher
+
+This is the frontend of the web application.
