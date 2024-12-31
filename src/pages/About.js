@@ -1,7 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Users, Target, Shield } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { Users, Target, Shield } from "lucide-react";
 
 export default function About() {
   const teamMembers = [
@@ -9,46 +8,47 @@ export default function About() {
       name: "Om Shukla",
       role: "Founder & CEO",
       image: "/placeholder.svg?height=400&width=400",
-      bio: "With over 15 years of experience in e-commerce and price analytics"
-    },
-    {
-      name: "Nirmit Mishra",
-      role: "Chief Technology Officer",
-      image: "/placeholder.svg?height=400&width=400",
-      bio: "Former AI researcher with a passion for making technology accessible"
+      bio: "With over 15 years of experience in e-commerce and price analytics",
     },
     {
       name: "Anurag Dubey",
+      role: "Chief Technology Officer",
+      image: "/placeholder.svg?height=400&width=400",
+      bio: "Former AI researcher with a passion for making technology accessible",
+    },
+    {
+      name: "Akash Raj Nigam",
       role: "Head of Customer Success",
       image: "/placeholder.svg?height=400&width=400",
-      bio: "Dedicated to ensuring the best experience for our users"
-    }
-  ]
+      bio: "Dedicated to ensuring the best experience for our users",
+    },
+  ];
 
   const values = [
     {
       icon: Users,
       title: "Customer First",
-      description: "Everything we do is driven by our users' needs and feedback"
+      description:
+        "Everything we do is driven by our users' needs and feedback",
     },
     {
       icon: Target,
       title: "Innovation",
-      description: "Constantly pushing boundaries to provide cutting-edge solutions"
+      description:
+        "Constantly pushing boundaries to provide cutting-edge solutions",
     },
     {
       icon: Shield,
       title: "Trust & Security",
-      description: "Your data privacy and security are our top priorities"
-    }
-  ]
+      description: "Your data privacy and security are our top priorities",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
-      
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -58,7 +58,9 @@ export default function About() {
             About Cost-Catcher
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're on a mission to revolutionize how people shop online by providing intelligent price tracking and analytics, helping consumers make smarter purchasing decisions.
+            We're on a mission to revolutionize how people shop online by
+            providing intelligent price tracking and analytics, helping
+            consumers make smarter purchasing decisions.
           </p>
         </motion.section>
 
@@ -141,7 +143,6 @@ export default function About() {
           </div>
         </section>
       </main>
-      
     </div>
-  )
+  );
 }
