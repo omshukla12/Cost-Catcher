@@ -1,150 +1,200 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
-
-const PricingTier = ({ name, price, features, isPopular }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    className={`bg-white rounded-lg p-8 shadow-lg ${
-      isPopular ? "border-2 border-orange-500" : ""
-    }`}
-  >
-    {isPopular && (
-      <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4 inline-block">
-        Most Popular
-      </span>
-    )}
-    <h3 className="text-2xl font-bold mb-4">{name}</h3>
-    <p className="text-4xl font-bold mb-6">
-      ${price}
-      <span className="text-lg font-normal text-gray-600">/month</span>
-    </p>
-    <ul className="space-y-3 mb-8">
-      {features.map((feature, index) => (
-        <li key={index} className="flex items-center">
-          <Check className="h-5 w-5 text-green-500 mr-2" />
-          <span>{feature}</span>
-        </li>
-      ))}
-    </ul>
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className={`w-full py-2 px-4 rounded-md text-lg font-semibold ${
-        isPopular
-          ? "bg-orange-500 text-white hover:bg-orange-600"
-          : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-      } transition-colors duration-300`}
-    >
-      Choose Plan
-    </motion.button>
-  </motion.div>
-);
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Check, X } from 'lucide-react'
 
 export default function Pricing() {
-  const pricingTiers = [
+  const plans = [
     {
       name: "Basic",
-      price: 0,
+      price: "$0",
+      period: "Forever",
       features: [
-        "Track up to 10 items",
-        "Daily price updates",
-        "Email notifications",
-        "Basic price history charts",
+        "Track up to 50 items",
+        "Basic price alerts",
+        "30-day price history",
+        "Community access",
+        "Email support"
       ],
+      cta: "Get Started",
+      highlighted: false
     },
     {
       name: "Pro",
-      price: 9.99,
+      price: "$9.99",
+      period: "per month",
       features: [
-        "Track up to 100 items",
-        "Real-time price updates",
-        "Email and SMS notifications",
-        "Advanced price history charts",
-        "Price drop predictions",
+        "Track unlimited items",
+        "Advanced price alerts",
+        "Full price history",
+        "Price predictions",
+        "Priority support",
+        "API access (100 requests/day)",
+        "Browser extension"
       ],
-      isPopular: true,
+      cta: "Start Free Trial",
+      highlighted: true
     },
     {
       name: "Enterprise",
-      price: 29.99,
+      price: "Custom",
+      period: "Contact us",
       features: [
-        "Unlimited item tracking",
-        "Real-time price updates",
-        "Priority notifications",
-        "Advanced analytics",
-        "API access",
-        "Dedicated support",
+        "All Pro features",
+        "Unlimited API access",
+        "Dedicated account manager",
+        "Custom integrations",
+        "Volume discounts",
+        "On-premise deployment option",
+        "24/7 phone support"
       ],
+      cta: "Contact Sales",
+      highlighted: false
+    }
+  ]
+
+  const comparisonFeatures = [
+    "Number of tracked items",
+    "Price alerts",
+    "Price history",
+    "Community access",
+    "Support",
+    "Price predictions",
+    "API access",
+    "Browser extension",
+    "Custom integrations",
+    "On-premise deployment"
+  ]
+
+  const faqItems = [
+    {
+      question: "Can I upgrade or downgrade my plan at any time?",
+      answer: "Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle."
     },
-  ];
+    {
+      question: "Is there a free trial for the Pro plan?",
+      answer: "Yes, we offer a 14-day free trial for our Pro plan. You can cancel anytime during the trial period without being charged."
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer: "We accept all major credit cards, PayPal, and bank transfers for Enterprise customers."
+    },
+    {
+      question: "Do you offer refunds?",
+      answer: "We offer a 30-day money-back guarantee for Pro plan subscriptions. If you're not satisfied, contact our support team for a full refund."
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <main className="container mx-auto px-4 py-16">
-        <motion.section
+        <motion.section 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-20"
         >
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
+          <h1 className="text-5xl font-bold p-4 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 dark:from-orange-400 dark:to-pink-400">
             Simple, Transparent Pricing
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose the plan that fits your needs. Upgrade, downgrade, or cancel
-            anytime.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+            Choose the plan that fits your needs. Upgrade, downgrade, or cancel anytime. All plans come with our 30-day money-back guarantee.
           </p>
         </motion.section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {pricingTiers.map((tier, index) => (
-            <PricingTier key={index} {...tier} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg ${plan.highlighted ? 'ring-2 ring-orange-500 dark:ring-orange-400' : ''}`}
+            >
+              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">{plan.name}</h3>
+              <p className="text-4xl font-bold mb-2 text-orange-500 dark:text-orange-400">{plan.price}</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">{plan.period}</p>
+              <ul className="mb-8 space-y-2">
+                {plan.features.map((feature, featureIndex) => (
+                  <li key={featureIndex} className="flex items-center text-gray-600 dark:text-gray-300">
+                    <Check className="w-5 h-5 mr-2 text-green-500" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <button className={`w-full py-3 px-4 rounded-full font-bold transition-colors duration-300 ${plan.highlighted ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}>
+                {plan.cta}
+              </button>
+            </motion.div>
           ))}
         </div>
 
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-20 text-center"
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-6">
-            Frequently Asked Questions
-          </h2>
-          <div className="max-w-3xl mx-auto space-y-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                Can I change my plan later?
-              </h3>
-              <p className="text-gray-600">
-                Yes, you can upgrade, downgrade, or cancel your plan at any time
-                from your account settings.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                Is there a free trial?
-              </h3>
-              <p className="text-gray-600">
-                We offer a 14-day free trial for our Pro plan. No credit card
-                required.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                What payment methods do you accept?
-              </h3>
-              <p className="text-gray-600">
-                We accept all major credit cards, PayPal, and bank transfers for
-                Enterprise plans.
-              </p>
-            </div>
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-200">Feature Comparison</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-700">
+                  <th className="px-6 py-3 text-left text-gray-800 dark:text-gray-200">Feature</th>
+                  <th className="px-6 py-3 text-center text-gray-800 dark:text-gray-200">Basic</th>
+                  <th className="px-6 py-3 text-center text-gray-800 dark:text-gray-200">Pro</th>
+                  <th className="px-6 py-3 text-center text-gray-800 dark:text-gray-200">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonFeatures.map((feature, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-900' : 'bg-white dark:bg-gray-800'}>
+                    <td className="px-6 py-4 text-gray-800 dark:text-gray-200">{feature}</td>
+                    <td className="px-6 py-4 text-center">
+                      {index < 4 ? <Check className="w-5 h-5 mx-auto text-green-500" /> : <X className="w-5 h-5 mx-auto text-red-500" />}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      {index < 8 ? <Check className="w-5 h-5 mx-auto text-green-500" /> : <X className="w-5 h-5 mx-auto text-red-500" />}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Check className="w-5 h-5 mx-auto text-green-500" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+        </motion.section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mb-20"
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-200">Frequently Asked Questions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {faqItems.map((item, index) => (
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">{item.question}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">Ready to start saving?</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">Choose the plan that's right for you and start saving money today.</p>
+          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+            Get Started
+          </button>
         </motion.section>
       </main>
     </div>
-  );
+  )
 }
