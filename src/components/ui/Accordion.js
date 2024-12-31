@@ -1,39 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-export const Accordion = ({ children }) => (
-  <div className="border rounded-md">{children}</div>
-)
+export const Accordion = ({
+  children,
+  type = "single",
+  collapsible = true,
+}) => {
+  const [openItems, setOpenItems] = useState(new Set());
 
-export const AccordionItem = ({ children }) => (
-  <div className="border-b last:border-b-0">{children}</div>
-)
-
-export const AccordionTrigger = ({ children, onClick }) => (
-  <button
-    className="w-full text-left p-4 focus:outline-none hover:bg-gray-100"
-    onClick={onClick}
-  >
-    {children}
-  </button>
-)
-
-export const AccordionContent = ({ children, isOpen }) => (
-  <div className={`p-4 ${isOpen ? 'block' : 'hidden'}`}>{children}</div>
-)
-
-export const AccordionWrapper = ({ items }) => {
-  const [openIndex, setOpenIndex] = useState(null)
+  const toggleItem = (value) => {
+    if (type === "single") {
+      setOpenItems(new Set(openItems.has(value) ? [] : [value]));
+    } else {
+      const newOpenItems = new Set(openItems);
+      if (newOpenItems.has(value)) {
+        newOpenItems.delete(value);
+      } else {
+        newOpenItems.add(value);
+      }
+      setOpenItems(newOpenItems);
+    }
+  };
 
   return (
-    <Accordion>
-      {items.map((item, index) => (
-        <AccordionItem key={index}>
-          <AccordionTrigger onClick={() => setOpenIndex(openIndex === index ? null : index)}>
-            {item.question}
-          </AccordionTrigger>
-          <AccordionContent isOpen={openIndex === index}>{item.answer}</AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
+    <div className="space-y-2">
+      {React.Children.map(children, (child) =>
+        React.cloneElement(child, {
+          isOpen: openItems.has(child.props.value),
+          onToggle: () => toggleItem(child.props.value),
+        })
+      )}
+    </div>
+  );
+};
+
+export const AccordionItem = ({ value, children, isOpen, onToggle }) => {
+  return (
+    <div className="border rounded-lg border-gray-200 dark:border-gray-800">
+      {React.Children.map(children, (child) =>
+        React.cloneElement(child, { isOpen, onToggle })
+      )}
+    </div>
+  );
+};
+
+export const AccordionTrigger = ({ children, isOpen, onToggle }) => {
+  return (
+    <button
+      onClick={onToggle}
+      className="flex justify-between w-full px-4 py-4 text-left"
+    >
+      <span className="font-medium">{children}</span>
+      <span
+        className={`transform transition-transform duration-200 ${
+          isOpen ? "rotate-180" : ""
+        }`}
+      >
+        ▼
+      </span>
+    </button>
+  );
+};
+
+export const AccordionContent = ({ children, isOpen }) => {
+  return (
+    <div
+      className={`px-4 transition-all duration-200 overflow-hidden ${
+        isOpen ? "max-h-96 pb-4" : "max-h-0"
+      }`}
+    >
+      {children}
+    </div>
   );
 };

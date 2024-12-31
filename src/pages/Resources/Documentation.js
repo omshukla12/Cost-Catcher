@@ -1,14 +1,14 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Book, Key, Code, Database } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { Book, Key, Code, Database } from "lucide-react";
 
 export default function Documentation() {
   const sections = [
     {
       icon: Key,
       title: "Authentication",
-      description: "Learn how to authenticate your requests to the Cost-Catcher API.",
+      description:
+        "Learn how to authenticate your requests to the Cost-Catcher API.",
       content: `
         To authenticate your requests, you need to include your API key in the header of each request:
 
@@ -17,12 +17,13 @@ export default function Documentation() {
         \`\`\`
 
         You can obtain an API key from your Cost-Catcher dashboard.
-      `
+      `,
     },
     {
       icon: Database,
       title: "Endpoints",
-      description: "Explore the various endpoints available in the Cost-Catcher API.",
+      description:
+        "Explore the various endpoints available in the Cost-Catcher API.",
       content: `
         - GET /api/products: Retrieve a list of tracked products
         - POST /api/products: Add a new product to track
@@ -30,7 +31,7 @@ export default function Documentation() {
         - PUT /api/products/{id}: Update a product's tracking settings
         - DELETE /api/products/{id}: Stop tracking a product
         - GET /api/price-history/{id}: Retrieve price history for a product
-      `
+      `,
     },
     {
       icon: Code,
@@ -50,16 +51,15 @@ export default function Documentation() {
           return data;
         };
         \`\`\`
-      `
-    }
-  ]
+      `,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
-      
       <main className="container mx-auto px-4 py-16">
         {/* Hero Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -72,7 +72,8 @@ export default function Documentation() {
             API Documentation
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Integrate Cost-Catcher's powerful price tracking capabilities into your own applications with our comprehensive API.
+            Integrate Cost-Catcher's powerful price tracking capabilities into
+            your own applications with our comprehensive API.
           </p>
         </motion.section>
 
@@ -104,12 +105,26 @@ export default function Documentation() {
 
         {/* Additional Resources */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-12">Additional Resources</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Additional Resources
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "API Reference", description: "Detailed information about all API endpoints and parameters." },
-              { title: "SDKs & Libraries", description: "Official SDKs and libraries for popular programming languages." },
-              { title: "Webhooks", description: "Learn how to receive real-time updates for price changes." }
+              {
+                title: "API Reference",
+                description:
+                  "Detailed information about all API endpoints and parameters.",
+              },
+              {
+                title: "SDKs & Libraries",
+                description:
+                  "Official SDKs and libraries for popular programming languages.",
+              },
+              {
+                title: "Webhooks",
+                description:
+                  "Learn how to receive real-time updates for price changes.",
+              },
             ].map((resource, index) => (
               <motion.div
                 key={index}
@@ -120,7 +135,12 @@ export default function Documentation() {
               >
                 <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
                 <p className="text-gray-600">{resource.description}</p>
-                <a href="#" className="text-orange-500 hover:underline mt-4 inline-block">Learn more</a>
+                <a
+                  href="#"
+                  className="text-orange-500 hover:underline mt-4 inline-block"
+                >
+                  Learn more
+                </a>
               </motion.div>
             ))}
           </div>
@@ -134,13 +154,15 @@ export default function Documentation() {
           className="bg-orange-100 rounded-lg p-8 text-center"
         >
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl text-gray-600 mb-6">Sign up for a free API key and start integrating Cost-Catcher into your applications today.</p>
+          <p className="text-xl text-gray-600 mb-6">
+            Sign up for a free API key and start integrating Cost-Catcher into
+            your applications today.
+          </p>
           <button className="bg-orange-500 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-orange-600 transition-colors duration-300">
             Get Your API Key
           </button>
         </motion.section>
       </main>
-      
     </div>
-  )
+  );
 }

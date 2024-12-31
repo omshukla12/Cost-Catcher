@@ -1,3 +1,1 @@
-# Cost-Catcher
-
-E-commerce Price Tracker 
+## cost-catcher using REACT 

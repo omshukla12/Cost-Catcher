@@ -1,7 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Calendar, User, ArrowRight } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { Calendar, User, ArrowRight } from "lucide-react";
 
 const BlogPost = ({ title, excerpt, date, author, image }) => (
   <motion.div
@@ -29,59 +28,65 @@ const BlogPost = ({ title, excerpt, date, author, image }) => (
       </motion.a>
     </div>
   </motion.div>
-)
+);
 
 export default function Blog() {
   const blogPosts = [
     {
       title: "5 Ways to Save Money on Your Online Shopping",
-      excerpt: "Discover insider tips and tricks to maximize your savings when shopping online.",
+      excerpt:
+        "Discover insider tips and tricks to maximize your savings when shopping online.",
       date: "May 15, 2023",
       author: "Jane Doe",
-      image: "/placeholder.svg?height=300&width=400"
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
       title: "The Future of E-commerce: AI-Driven Price Predictions",
-      excerpt: "Learn how artificial intelligence is revolutionizing the way we predict and track prices online.",
+      excerpt:
+        "Learn how artificial intelligence is revolutionizing the way we predict and track prices online.",
       date: "May 10, 2023",
       author: "John Smith",
-      image: "/placeholder.svg?height=300&width=400"
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
       title: "Mastering the Art of Price Tracking: A Beginner's Guide",
-      excerpt: "Everything you need to know to start tracking prices like a pro and save big on your purchases.",
+      excerpt:
+        "Everything you need to know to start tracking prices like a pro and save big on your purchases.",
       date: "May 5, 2023",
       author: "Emily Johnson",
-      image: "/placeholder.svg?height=300&width=400"
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
       title: "The Psychology of Online Shopping: Why We Buy What We Buy",
-      excerpt: "Explore the psychological factors that influence our online shopping decisions and how to make smarter choices.",
+      excerpt:
+        "Explore the psychological factors that influence our online shopping decisions and how to make smarter choices.",
       date: "April 30, 2023",
       author: "Michael Brown",
-      image: "/placeholder.svg?height=300&width=400"
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
-      title: "Sustainable Shopping: How Price Tracking Can Help the Environment",
-      excerpt: "Discover how smart price tracking can contribute to more sustainable shopping habits and reduce waste.",
+      title:
+        "Sustainable Shopping: How Price Tracking Can Help the Environment",
+      excerpt:
+        "Discover how smart price tracking can contribute to more sustainable shopping habits and reduce waste.",
       date: "April 25, 2023",
       author: "Sarah Green",
-      image: "/placeholder.svg?height=300&width=400"
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
       title: "The Rise of Dynamic Pricing: What It Means for Consumers",
-      excerpt: "Understanding dynamic pricing strategies and how to use them to your advantage as a savvy online shopper.",
+      excerpt:
+        "Understanding dynamic pricing strategies and how to use them to your advantage as a savvy online shopper.",
       date: "April 20, 2023",
       author: "David Lee",
-      image: "/placeholder.svg?height=300&width=400"
-    }
-  ]
+      image: "/placeholder.svg?height=300&width=400",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
-     
       <main className="container mx-auto px-4 py-16">
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -91,7 +96,8 @@ export default function Blog() {
             Cost-Catcher Blog
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stay informed with the latest tips, trends, and insights in online shopping and price tracking.
+            Stay informed with the latest tips, trends, and insights in online
+            shopping and price tracking.
           </p>
         </motion.section>
 
@@ -116,7 +122,6 @@ export default function Blog() {
           </motion.button>
         </motion.div>
       </main>
-      
     </div>
-  )
+  );
 }

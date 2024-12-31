@@ -1,7 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { FileText, Shield, Users, AlertTriangle } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { FileText, Shield, Users, AlertTriangle } from "lucide-react";
 
 const Section = ({ icon: Icon, title, content }) => (
   <motion.div
@@ -14,43 +13,48 @@ const Section = ({ icon: Icon, title, content }) => (
       <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mr-4">
         <Icon className="h-6 w-6 text-orange-500 dark:text-orange-400" />
       </div>
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {title}
+      </h2>
     </div>
     <div className="pl-14">
       <p className="text-gray-600 dark:text-gray-300">{content}</p>
     </div>
   </motion.div>
-)
+);
 
 export default function TermsOfService() {
   const sections = [
     {
       icon: FileText,
       title: "Acceptance of Terms",
-      content: "By accessing or using Cost-Catcher, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any part of these terms, you may not use our service."
+      content:
+        "By accessing or using Cost-Catcher, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any part of these terms, you may not use our service.",
     },
     {
       icon: Shield,
       title: "Privacy Policy",
-      content: "Your use of Cost-Catcher is also governed by our Privacy Policy, which is incorporated into these Terms of Service by reference. Please review our Privacy Policy to understand our practices."
+      content:
+        "Your use of Cost-Catcher is also governed by our Privacy Policy, which is incorporated into these Terms of Service by reference. Please review our Privacy Policy to understand our practices.",
     },
     {
       icon: Users,
       title: "User Accounts",
-      content: "You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account."
+      content:
+        "You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account.",
     },
     {
       icon: AlertTriangle,
       title: "Prohibited Activities",
-      content: "You agree not to engage in any activity that interferes with or disrupts the services or servers and networks connected to Cost-Catcher."
-    }
-  ]
+      content:
+        "You agree not to engage in any activity that interferes with or disrupts the services or servers and networks connected to Cost-Catcher.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8] dark:from-gray-900 dark:to-gray-800">
-      
       <main className="container mx-auto px-4 py-16">
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -82,7 +86,8 @@ export default function TermsOfService() {
           className="mt-12 text-center"
         >
           <p className="text-gray-600 dark:text-gray-300 mb-8">
-            If you have any questions about these Terms of Service, please contact us.
+            If you have any questions about these Terms of Service, please
+            contact us.
           </p>
           <motion.a
             href="/contact"
@@ -94,7 +99,6 @@ export default function TermsOfService() {
           </motion.a>
         </motion.section>
       </main>
-      
     </div>
-  )
+  );
 }

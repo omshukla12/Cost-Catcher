@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export const Slider = ({ min, max, value, onChange }) => (
   <input
@@ -9,4 +9,4 @@ export const Slider = ({ min, max, value, onChange }) => (
     onChange={onChange}
     className="w-full"
   />
-)
+);

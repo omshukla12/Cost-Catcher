@@ -1,7 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { TrendingDown, Bell, BarChart, Search, Star, Zap } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { TrendingDown, Bell, BarChart, Search, Star, Zap } from "lucide-react";
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <motion.div
@@ -16,47 +15,52 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
     <p className="text-gray-600">{description}</p>
   </motion.div>
-)
+);
 
 export default function Features() {
   const features = [
     {
       icon: TrendingDown,
       title: "AI-Powered Price Tracking",
-      description: "Our advanced algorithms monitor price fluctuations across multiple retailers in real-time, ensuring you never miss a deal."
+      description:
+        "Our advanced algorithms monitor price fluctuations across multiple retailers in real-time, ensuring you never miss a deal.",
     },
     {
       icon: Bell,
       title: "Smart Notifications",
-      description: "Receive instant, personalized alerts when prices hit your target or when we predict an imminent price drop."
+      description:
+        "Receive instant, personalized alerts when prices hit your target or when we predict an imminent price drop.",
     },
     {
       icon: BarChart,
       title: "Comprehensive Analytics",
-      description: "Gain valuable insights into price trends, seasonal patterns, and potential savings opportunities."
+      description:
+        "Gain valuable insights into price trends, seasonal patterns, and potential savings opportunities.",
     },
     {
       icon: Search,
       title: "One-Click Price Comparison",
-      description: "Effortlessly compare prices across multiple stores to find the best deal with a single click."
+      description:
+        "Effortlessly compare prices across multiple stores to find the best deal with a single click.",
     },
     {
       icon: Star,
       title: "Customizable Watchlists",
-      description: "Create and manage multiple watchlists for different product categories or shopping goals."
+      description:
+        "Create and manage multiple watchlists for different product categories or shopping goals.",
     },
     {
       icon: Zap,
       title: "Lightning-Fast Deal Alerts",
-      description: "Be the first to know about flash sales and limited-time offers with our rapid alert system."
-    }
-  ]
+      description:
+        "Be the first to know about flash sales and limited-time offers with our rapid alert system.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
-      
       <main className="container mx-auto px-4 py-16">
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -66,7 +70,8 @@ export default function Features() {
             Cost-Catcher Features
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover how our cutting-edge features can revolutionize your online shopping experience and help you save money effortlessly.
+            Discover how our cutting-edge features can revolutionize your online
+            shopping experience and help you save money effortlessly.
           </p>
         </motion.section>
 
@@ -84,7 +89,8 @@ export default function Features() {
         >
           <h2 className="text-3xl font-bold mb-6">Ready to Start Saving?</h2>
           <p className="text-xl text-gray-600 mb-8">
-            Join thousands of smart shoppers who are already saving money with Cost-Catcher.
+            Join thousands of smart shoppers who are already saving money with
+            Cost-Catcher.
           </p>
           <motion.a
             href="/signup"
@@ -96,7 +102,6 @@ export default function Features() {
           </motion.a>
         </motion.section>
       </main>
-      
     </div>
-  )
+  );
 }

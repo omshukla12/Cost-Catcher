@@ -1,7 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Code, Database, Lock, Zap } from 'lucide-react'
-
+import React from "react";
+import { motion } from "framer-motion";
+import { Code, Database, Lock, Zap } from "lucide-react";
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <motion.div
@@ -16,37 +15,40 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
     <p className="text-gray-600">{description}</p>
   </motion.div>
-)
+);
 
 export default function API() {
   const features = [
     {
       icon: Database,
       title: "Comprehensive Data Access",
-      description: "Get access to our extensive database of product prices, historical trends, and real-time updates."
+      description:
+        "Get access to our extensive database of product prices, historical trends, and real-time updates.",
     },
     {
       icon: Zap,
       title: "Real-time Updates",
-      description: "Receive instant notifications about price changes and deals through our websocket connections."
+      description:
+        "Receive instant notifications about price changes and deals through our websocket connections.",
     },
     {
       icon: Lock,
       title: "Secure Authentication",
-      description: "Our API uses industry-standard OAuth 2.0 for secure authentication and authorization."
+      description:
+        "Our API uses industry-standard OAuth 2.0 for secure authentication and authorization.",
     },
     {
       icon: Code,
       title: "Easy Integration",
-      description: "Well-documented endpoints and SDKs for popular programming languages make integration a breeze."
-    }
-  ]
+      description:
+        "Well-documented endpoints and SDKs for popular programming languages make integration a breeze.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
-     
       <main className="container mx-auto px-4 py-16">
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -56,7 +58,8 @@ export default function API() {
             Cost-Catcher API
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Harness the power of our price tracking technology in your own applications with our robust and flexible API.
+            Harness the power of our price tracking technology in your own
+            applications with our robust and flexible API.
           </p>
         </motion.section>
 
@@ -77,25 +80,29 @@ export default function API() {
             <li className="text-lg">
               <span className="font-semibold">Sign up for an API key:</span>
               <p className="text-gray-600 ml-6 mt-2">
-                Create an account and obtain your API key from the developer dashboard.
+                Create an account and obtain your API key from the developer
+                dashboard.
               </p>
             </li>
             <li className="text-lg">
               <span className="font-semibold">Choose your endpoint:</span>
               <p className="text-gray-600 ml-6 mt-2">
-                Select the appropriate endpoint for your needs (e.g., /products, /prices, /alerts).
+                Select the appropriate endpoint for your needs (e.g., /products,
+                /prices, /alerts).
               </p>
             </li>
             <li className="text-lg">
               <span className="font-semibold">Make your first request:</span>
               <p className="text-gray-600 ml-6 mt-2">
-                Use your preferred programming language to make an HTTP request to our API.
+                Use your preferred programming language to make an HTTP request
+                to our API.
               </p>
             </li>
             <li className="text-lg">
               <span className="font-semibold">Handle the response:</span>
               <p className="text-gray-600 ml-6 mt-2">
-                Process the JSON response and integrate the data into your application.
+                Process the JSON response and integrate the data into your
+                application.
               </p>
             </li>
           </ol>
@@ -109,7 +116,8 @@ export default function API() {
         >
           <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-xl text-gray-600 mb-8">
-            Explore our comprehensive API documentation and start building powerful price tracking features into your applications today.
+            Explore our comprehensive API documentation and start building
+            powerful price tracking features into your applications today.
           </p>
           <motion.a
             href="/documentation"
@@ -121,7 +129,6 @@ export default function API() {
           </motion.a>
         </motion.section>
       </main>
-      
     </div>
-  )
+  );
 }
