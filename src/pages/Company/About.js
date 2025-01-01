@@ -7,19 +7,19 @@ export default function About() {
     {
       name: "Om Shukla",
       role: "Founder & CEO",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "https://avatars.githubusercontent.com/u/121335245?v=4",
       bio: "With over 15 years of experience in e-commerce and price analytics",
     },
     {
       name: "Anurag Dubey",
       role: "Chief Technology Officer",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "https://avatars.githubusercontent.com/u/71247280?v=4",
       bio: "Former AI researcher with a passion for making technology accessible",
     },
     {
       name: "Akash Raj Nigam",
       role: "Head of Customer Success",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "https://avatars.githubusercontent.com/u/99388525?v=4",
       bio: "Dedicated to ensuring the best experience for our users",
     },
   ];

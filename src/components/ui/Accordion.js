@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export const Accordion = ({
   children,
@@ -55,7 +56,8 @@ export const AccordionTrigger = ({ children, isOpen, onToggle }) => {
           isOpen ? "rotate-180" : ""
         }`}
       >
-        ▼
+        {/* ▼ */}
+        <ChevronDown size={24} />
       </span>
     </button>
   );
