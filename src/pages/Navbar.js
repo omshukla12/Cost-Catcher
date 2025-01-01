@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../utils/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Button } from "../components/ui/button";
-import { Switch } from "../components/ui/switch";
+import { Button } from "../components/ui/Button";
+import { Switch } from "../components/ui/Switch";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
