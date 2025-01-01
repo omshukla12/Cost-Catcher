@@ -16,7 +16,7 @@ import Pricing from "./pages/Product/Pricing";
 import Features from "./pages/Product/Features";
 
 // Company Pages
-import Blog from "./pages/Company/Blog";
+
 import About from "./pages/Company/About";
 import Contact from "./pages/Company/Contact";
 
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
       { path: "/features", element: <Features /> },
 
       // Company
-      { path: "/blog", element: <Blog /> },
+      
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
 
