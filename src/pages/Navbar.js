@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { DollarSign, Menu, X, Moon, Sun } from "lucide-react";
+import { IndianRupee, Menu, X, Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../utils/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -69,7 +69,7 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <DollarSign className="h-6 w-6 text-orange-500" />
+          <IndianRupee className="h-6 w-6 text-orange-500" />
           <Link to="/" className="font-bold text-2xl">
             CostCatcher
           </Link>

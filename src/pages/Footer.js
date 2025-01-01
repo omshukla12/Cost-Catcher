@@ -1,139 +1,80 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { DollarSign } from "lucide-react";
+import React from "react"
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { IndianRupee, ExternalLink, ChevronRight } from 'lucide-react'
+
+const footerLinks = [
+  { name: "About", href: "/about" },
+  { name: "Features", href: "/features" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "/contact" },
+]
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 dark:bg-gray-800 py-12 px-6">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="font-semibold mb-4">Product</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/features"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/pricing"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/api"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  API
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/about"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blog"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/docs"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Documentation
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/help"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/community"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Community
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/privacy"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/terms"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/cookie"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Cookie Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
+    <footer className="bg-gray-100 dark:bg-gray-800 py-12 px-6" > 
+      <div className="container mx-auto max-w-5xl relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+          <motion.div
+            className="flex items-center space-x-2 mb-8 md:mb-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="bg-white dark:bg-gray-700 p-3 rounded-full shadow-lg">
+              <IndianRupee className="h-8 w-8 text-orange-500" />
+            </div>
+            <span className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
+              <Link to="/">
+              CostCatcher
+              </Link>
+              </span>
+          </motion.div>
+          <motion.nav
+            className="flex flex-wrap justify-center gap-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            {footerLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300 flex items-center group"
+              >
+                {link.name}
+                <ChevronRight className="h-4 w-4 ml-1 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            ))}
+          </motion.nav>
         </div>
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <DollarSign className="h-6 w-6 text-orange-500" />
-            <span className="font-bold text-xl">CostCatcher</span>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2024 CostCatcher. All rights reserved.
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-orange-200 dark:border-gray-700"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 md:mb-0">
+            © {new Date().getFullYear()} CostCatcher. All rights reserved.
           </p>
-        </div>
+          <div className="flex space-x-6">
+            <Link to="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300">
+              Terms of Service
+            </Link>
+            <a href="https://github.com/omshukla12/Cost-Catcher" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300 flex items-center">
+              GitHub <ExternalLink className="ml-1 h-3 w-3" />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+      <div className="absolute top-0 left-0 w-full h-full opacity-50 dark:opacity-30">
+        <div className="absolute top-10 left-10 w-20 h-20 bg-orange-300 dark:bg-orange-700 rounded-full filter blur-xl"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-pink-300 dark:bg-pink-700 rounded-full filter blur-xl"></div>
       </div>
     </footer>
-  );
+  )
 }

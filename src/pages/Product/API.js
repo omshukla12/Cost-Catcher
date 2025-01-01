@@ -1,134 +1,188 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Code, Database, Lock, Zap } from "lucide-react";
-
-const FeatureCard = ({ icon: Icon, title, description }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    className="bg-white rounded-lg p-6 shadow-lg"
-  >
-    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-      <Icon className="h-6 w-6 text-orange-500" />
-    </div>
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
-  </motion.div>
-);
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Code, Database, Shield, Zap, Book, Cpu } from 'lucide-react'
 
 export default function API() {
   const features = [
     {
+      icon: Code,
+      title: "RESTful API",
+      description: "Easy-to-use RESTful API with comprehensive documentation for seamless integration."
+    },
+    {
       icon: Database,
-      title: "Comprehensive Data Access",
-      description:
-        "Get access to our extensive database of product prices, historical trends, and real-time updates.",
+      title: "Real-time Data",
+      description: "Access real-time pricing data and historical trends for millions of products."
+    },
+    {
+      icon: Shield,
+      title: "Secure",
+      description: "Bank-level encryption and authentication to keep your data safe and secure."
     },
     {
       icon: Zap,
-      title: "Real-time Updates",
-      description:
-        "Receive instant notifications about price changes and deals through our websocket connections.",
+      title: "High Performance",
+      description: "Optimized for speed with 99.9% uptime guarantee and low-latency responses."
     },
     {
-      icon: Lock,
-      title: "Secure Authentication",
-      description:
-        "Our API uses industry-standard OAuth 2.0 for secure authentication and authorization.",
+      icon: Book,
+      title: "Comprehensive Docs",
+      description: "Detailed documentation with examples and guides for quick integration."
     },
     {
-      icon: Code,
-      title: "Easy Integration",
-      description:
-        "Well-documented endpoints and SDKs for popular programming languages make integration a breeze.",
-    },
-  ];
+      icon: Cpu,
+      title: "Multiple SDKs",
+      description: "Official SDKs available for popular programming languages and frameworks."
+    }
+  ]
+
+  const codeSnippet = `
+import axios from 'axios';
+
+const API_KEY = 'your_api_key_here';
+const BASE_URL = 'https://api.costcatcher.com/v1';
+
+async function getProductPrice(productId) {
+  try {
+    const response = await axios.get(\`\${BASE_URL}/products/\${productId}/price\`, {
+      headers: { 'Authorization': \`Bearer \${API_KEY}\` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching product price:', error);
+  }
+}
+
+// Usage
+getProductPrice('ABC123').then(priceData => {
+  console.log('Current price:', priceData.currentPrice);
+  console.log('Historical low:', priceData.historicalLow);
+});
+  `.trim();
+
+  const pricingTiers = [
+    { name: "Basic", requests: "1,000", price: "$0" },
+    { name: "Pro", requests: "100,000", price: "$49" },
+    { name: "Business", requests: "1,000,000", price: "$199" },
+    { name: "Enterprise", requests: "Custom", price: "Contact us" }
+  ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <main className="container mx-auto px-4 py-16">
-        <motion.section
+        <motion.section 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-20"
         >
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
+          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 dark:from-orange-400 dark:to-pink-400">
             Cost-Catcher API
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Harness the power of our price tracking technology in your own
-            applications with our robust and flexible API.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+            Integrate powerful price tracking and analysis capabilities into your applications with our robust API.
           </p>
         </motion.section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {features.map((feature, index) => (
-            <FeatureCard key={index} {...feature} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg"
+            >
+              <feature.icon className="w-12 h-12 text-orange-500 dark:text-orange-400 mb-4" />
+              <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{feature.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+            </motion.div>
           ))}
         </div>
 
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="bg-white rounded-lg p-8 shadow-lg"
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg mb-20"
         >
-          <h2 className="text-3xl font-bold mb-6">Quick Start Guide</h2>
-          <ol className="list-decimal list-inside space-y-4">
-            <li className="text-lg">
-              <span className="font-semibold">Sign up for an API key:</span>
-              <p className="text-gray-600 ml-6 mt-2">
-                Create an account and obtain your API key from the developer
-                dashboard.
-              </p>
-            </li>
-            <li className="text-lg">
-              <span className="font-semibold">Choose your endpoint:</span>
-              <p className="text-gray-600 ml-6 mt-2">
-                Select the appropriate endpoint for your needs (e.g., /products,
-                /prices, /alerts).
-              </p>
-            </li>
-            <li className="text-lg">
-              <span className="font-semibold">Make your first request:</span>
-              <p className="text-gray-600 ml-6 mt-2">
-                Use your preferred programming language to make an HTTP request
-                to our API.
-              </p>
-            </li>
-            <li className="text-lg">
-              <span className="font-semibold">Handle the response:</span>
-              <p className="text-gray-600 ml-6 mt-2">
-                Process the JSON response and integrate the data into your
-                application.
-              </p>
-            </li>
+          <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Getting Started</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            Follow these steps to start using the Cost-Catcher API:
+          </p>
+          <ol className="list-decimal list-inside space-y-4 text-gray-600 dark:text-gray-300 mb-8">
+            <li>Sign up for a Cost-Catcher account at <a href="#" className="text-orange-500 hover:underline">https://costcatcher.com/signup</a></li>
+            <li>Navigate to the API section in your dashboard</li>
+            <li>Generate your API key</li>
+            <li>Install our official SDK or use direct API calls</li>
+            <li>Read our comprehensive documentation at <a href="#" className="text-orange-500 hover:underline">https://docs.costcatcher.com</a></li>
+            <li>Make your first API call</li>
           </ol>
+          <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Example API Call</h3>
+          <pre className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto">
+            <code className="text-sm">{codeSnippet}</code>
+          </pre>
         </motion.section>
 
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-20 text-center"
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Explore our comprehensive API documentation and start building
-            powerful price tracking features into your applications today.
-          </p>
-          <motion.a
-            href="/documentation"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block bg-orange-500 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-orange-600 transition-colors duration-300"
-          >
-            View API Documentation
-          </motion.a>
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">API Pricing Tiers</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-700">
+                  <th className="px-6 py-3 text-left text-gray-800 dark:text-gray-200">Tier</th>
+                  <th className="px-6 py-3 text-center text-gray-800 dark:text-gray-200">Monthly Requests</th>
+                  <th className="px-6 py-3 text-center text-gray-800 dark:text-gray-200">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pricingTiers.map((tier, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-900' : 'bg-white dark:bg-gray-800'}>
+                    <td className="px-6 py-4 text-gray-800 dark:text-gray-200">{tier.name}</td>
+                    <td className="px-6 py-4 text-center text-gray-800 dark:text-gray-200">{tier.requests}</td>
+                    <td className="px-6 py-4 text-center text-gray-800 dark:text-gray-200">{tier.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </motion.section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mb-20"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">Available SDKs</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {['JavaScript', 'Python', 'Ruby', 'PHP', 'Java', 'Go'].map((lang, index) => (
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg text-center">
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{lang}</h3>
+                <a href="#" className="text-orange-500 hover:underline">View Documentation</a>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">Ready to get started?</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">Explore our API documentation and start building today.</p>
+          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+            View Full API Documentation
+          </button>
         </motion.section>
       </main>
     </div>
-  );
+  )
 }

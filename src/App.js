@@ -21,12 +21,12 @@ import About from "./pages/Company/About";
 import Contact from "./pages/Company/Contact";
 
 // Resource Pages
-import Community from "./pages/Resources/Community";
+
 import HelpCenter from "./pages/Resources/HelpCenter";
-import Documentation from "./pages/Resources/Documentation";
+
 
 // Legal Pages
-import CookiePolicy from "./pages/Legal/CookiePolicy";
+
 import PrivacyPolicy from "./pages/Legal/PrivacyPolicy";
 import TermsOfService from "./pages/Legal/TermsOfService";
 
@@ -88,11 +88,10 @@ const router = createBrowserRouter([
 
       // Resources
       { path: "/help", element: <HelpCenter /> },
-      { path: "/docs", element: <Documentation /> },
-      { path: "/community", element: <Community /> },
+      
 
       // Legal
-      { path: "/cookie", element: <CookiePolicy /> },
+      
       { path: "/terms", element: <TermsOfService /> },
       { path: "/privacy", element: <PrivacyPolicy /> },
 

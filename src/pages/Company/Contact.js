@@ -1,223 +1,126 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Mail, Phone, MapPin, MessageSquare } from 'lucide-react'
+import {Link} from 'react-router-dom'
 
 export default function Contact() {
-  const faqs = [
-    {
-      question: "What are your support hours?",
-      answer:
-        "Our support team is available Monday through Friday, 9 AM to 6 PM PST. We typically respond to all inquiries within 24 hours.",
-    },
-    {
-      question: "How can I report a technical issue?",
-      answer:
-        "You can report technical issues through this contact form or by emailing support@costcatcher.com. Please include as much detail as possible.",
-    },
-    {
-      question: "Do you offer phone support?",
-      answer:
-        "Yes, phone support is available for premium users. Free users can reach us via email or through this contact form.",
-    },
-    {
-      question: "What information should I include in my message?",
-      answer:
-        "Please include your account email, a detailed description of your inquiry or issue, and any relevant screenshots or error messages.",
-    },
-  ];
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const contactMethods = [
+    { icon: Mail, title: "Email", content: "support@costcatcher.com" },
+    { icon: Phone, title: "Phone", content: "+1 (800) 123-4567" },
+    { icon: MapPin, title: "Address", content: "123 Price St, Savings City, SC 12345" },
+    { icon: MessageSquare, title: "Live Chat", content: "Available 24/7" }
+  ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFFBF5] to-[#F8E8D8]">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <main className="container mx-auto px-4 py-16">
-        {/* Hero Section */}
-        <motion.section
+        <motion.section 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-20"
         >
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
-            Get in Touch
+          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 dark:from-orange-400 dark:to-pink-400">
+            Contact Us
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Have questions or feedback? We'd love to hear from you. Our team is
-            always here to help.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+            We're here to help! Reach out to us through any of the following methods.
           </p>
         </motion.section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-            <div className="space-y-6">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                  <Mail className="h-6 w-6 text-orange-500" />
+            <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Get in Touch</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {contactMethods.map((method, index) => (
+                <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+                  <method.icon className="w-8 h-8 text-orange-500 dark:text-orange-400 mb-4" />
+                  <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{method.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{method.content}</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold">Email</h3>
-                  <p className="text-gray-600">support@costcatcher.com</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                  <Phone className="h-6 w-6 text-orange-500" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                  <MapPin className="h-6 w-6 text-orange-500" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Office</h3>
-                  <p className="text-gray-600">
-                    123 Innovation Drive
-                    <br />
-                    San Francisco, CA 94105
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
-          </motion.div>
+          </motion.section>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg p-8 shadow-lg"
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
+            <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Send Us a Message</h2>
+            <form className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                <input type="text" id="name" name="name" className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
               </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                <input type="email" id="email" name="email" className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
               </div>
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
+              <div className="mb-4">
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+                <input type="text" id="subject" name="subject" className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
               </div>
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
+              <div className="mb-4">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                <textarea id="message" name="message" rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required></textarea>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition-colors duration-300"
-              >
+              <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300">
                 Send Message
-              </motion.button>
+              </button>
             </form>
-          </motion.div>
+          </motion.section>
         </div>
 
-        {/* FAQ Section */}
-        <section className="mt-20">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Frequently Asked Questions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {faqs.map((faq, index) => (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mb-20"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">Frequently Asked Questions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              { question: "How do I reset my password?", answer: "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email." },
+              { question: "How often are prices updated?", answer: "We update prices multiple times a day for most products. The exact frequency can vary depending on the product and retailer." },
+              { question: "Can I track prices from any online store?", answer: "Cost-Catcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system." },
+              { question: "Is there a mobile app available?", answer: "Yes, we have mobile apps available for both iOS and Android devices. You can download them from the App Store or Google Play Store." }
+            ].map((faq, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-lg p-6 shadow-lg"
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg"
               >
-                <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
-                <p className="text-gray-600">{faq.answer}</p>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{faq.question}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center"
+        >
+          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">Still have questions?</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+            Check out our comprehensive Help Center for more information and tutorials.
+          </p>
+          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+           <Link to="/help">
+            Visit Help Center
+            </Link>
+          </button> 
+        </motion.section>
       </main>
     </div>
-  );
+  )
 }

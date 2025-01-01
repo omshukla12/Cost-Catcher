@@ -150,8 +150,7 @@ const Signup = () => {
           <div className="text-center py-4">
             <p className="text-sm">
               Already have an account?{" "}
-              <Link
-                to="/signin"
+              <Link to="/signin"
                 className="hover:underline font-semibold hover:text-orange-500"
               >
                 Signin

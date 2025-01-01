@@ -1,12 +1,13 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Pricing() {
   const plans = [
     {
       name: "Basic",
-      price: "$0",
+      price: "₹0",
       period: "Forever",
       features: [
         "Track up to 50 items",
@@ -20,7 +21,7 @@ export default function Pricing() {
     },
     {
       name: "Pro",
-      price: "$9.99",
+      price: "₹150",
       period: "per month",
       features: [
         "Track unlimited items",
@@ -191,7 +192,9 @@ export default function Pricing() {
           <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">Ready to start saving?</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">Choose the plan that's right for you and start saving money today.</p>
           <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+            <Link to="/signup">
             Get Started
+            </Link>
           </button>
         </motion.section>
       </main>

@@ -95,13 +95,8 @@ export default function Features() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-20 text-center"
         >
-          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">Ready to start saving?</h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Join thousands of smart shoppers using Cost-Catcher today. Our powerful features are designed to help you save time and money on all your online purchases.
-          </p>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
-            Get Started for Free
-          </button>
+          
+          
         </motion.section>
 
         <motion.section
