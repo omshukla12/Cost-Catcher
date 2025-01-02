@@ -1,18 +1,18 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
-import { IndianRupee, ExternalLink, ChevronRight } from 'lucide-react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { IndianRupee, ExternalLink, ChevronRight } from "lucide-react";
 
 const footerLinks = [
   { name: "About", href: "/about" },
   { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
-]
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 dark:bg-gray-800 py-12 px-6" > 
+    <footer className="bg-gray-100 dark:bg-gray-800 py-12 px-6">
       <div className="container mx-auto max-w-5xl relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <motion.div
@@ -25,13 +25,11 @@ export default function Footer() {
               <IndianRupee className="h-8 w-8 text-orange-500" />
             </div>
             <span className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500">
-              <Link to="/">
-              CostCatcher
-              </Link>
-              </span>
+              <Link to="/">CostCatcher</Link>
+            </span>
           </motion.div>
           <motion.nav
-            className="flex flex-wrap justify-center gap-8"
+            className="flex md:flex-row flex-col items-center flex-wrap justify-center gap-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -58,22 +56,29 @@ export default function Footer() {
             © {new Date().getFullYear()} CostCatcher. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <Link to="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300">
+            <Link
+              to="/privacy"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300"
+            >
               Privacy Policy
             </Link>
-            <Link to="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300">
+            <Link
+              to="/terms"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300"
+            >
               Terms of Service
             </Link>
-            <a href="https://github.com/omshukla12/Cost-Catcher" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300 flex items-center">
+            <a
+              href="https://github.com/omshukla12/Cost-Catcher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300 flex items-center"
+            >
               GitHub <ExternalLink className="ml-1 h-3 w-3" />
             </a>
           </div>
         </motion.div>
       </div>
-      <div className="absolute top-0 left-0 w-full h-full opacity-50 dark:opacity-30">
-        <div className="absolute top-10 left-10 w-20 h-20 bg-orange-300 dark:bg-orange-700 rounded-full filter blur-xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-pink-300 dark:bg-pink-700 rounded-full filter blur-xl"></div>
-      </div>
     </footer>
-  )
+  );
 }

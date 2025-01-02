@@ -11,7 +11,7 @@ const ParentComponent = ({ productId }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_ITEMS_URI}${productId}`,
+          `${process.env.REACT_APP_CC_API}/tracklist/products/${productId}`,
           {
             method: "GET",
             headers: {

@@ -24,7 +24,7 @@ const Edit = ({ productId, currentHitPrice, onEdit }) => {
       const token = localStorage.getItem("token"); // Get JWT token if needed
 
       const response = await fetch(
-        `${process.env.REACT_APP_TRACKLIST_URI}${productId}`,
+        `${process.env.REACT_APP_CC_API}/trackinglist/${productId}`,
         {
           method: "PUT",
           headers: {

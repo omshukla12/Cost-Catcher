@@ -30,13 +30,16 @@ const Home = () => {
       try {
         const token = localStorage.getItem("token"); // Assuming JWT token is stored in localStorage
 
-        const response = await fetch(process.env.REACT_APP_TRACKING_LIST_URI, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Include JWT token in the headers
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_CC_API}/trackinglist`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // Include JWT token in the headers
+            },
+          }
+        );
 
         const result = await response.json();
 

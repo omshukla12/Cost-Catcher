@@ -21,7 +21,7 @@ const Signup = () => {
     event.preventDefault();
     console.log(formData);
 
-    const url = `${process.env.REACT_APP_CC_API}//signup`;
+    const url = `${process.env.REACT_APP_CC_API}/signup`;
     try {
       const data = await fetch(url, {
         method: "POST",
@@ -55,13 +55,13 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter px-6">
       <div className="w-full max-w-md space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Sign Up</h1>
         </div>
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm"
+          className="rounded-lg border border-gray-200 dark:border-gray-700 bg-card text-card-foreground shadow-sm"
           data-v0-t="card"
         >
           <form onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@ const Signup = () => {
                   Name
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="name"
                   name="name"
@@ -91,7 +91,7 @@ const Signup = () => {
                   Email
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="email"
                   name="email"
@@ -109,7 +109,7 @@ const Signup = () => {
                   Whatsapp Number
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="phone"
                   name="phone"
@@ -127,7 +127,7 @@ const Signup = () => {
                   Password
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="password"
                   name="password"
@@ -138,7 +138,7 @@ const Signup = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center p-6">
+            <div className="flex items-center py-2 px-6">
               <button
                 type="submit"
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-black text-white hover:bg-black/90 h-10 px-4 py-2 w-full"
@@ -150,7 +150,8 @@ const Signup = () => {
           <div className="text-center py-4">
             <p className="text-sm">
               Already have an account?{" "}
-              <Link to="/signin"
+              <Link
+                to="/signin"
                 className="hover:underline font-semibold hover:text-orange-500"
               >
                 Signin

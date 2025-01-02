@@ -1,7 +1,8 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Check, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { motion } from "framer-motion";
+import { Check, X } from "lucide-react";
+import { Link } from "react-router-dom";
+
 export default function Pricing() {
   const plans = [
     {
@@ -16,6 +17,7 @@ export default function Pricing() {
         "Email support",
       ],
       cta: "Get Started",
+      link: "/signup",
       highlighted: false,
     },
     {
@@ -32,6 +34,7 @@ export default function Pricing() {
         "Browser extension",
       ],
       cta: "Start Free Trial",
+      link: "/signup",
       highlighted: true,
     },
     {
@@ -48,6 +51,7 @@ export default function Pricing() {
         "24/7 phone support",
       ],
       cta: "Contact Sales",
+      link: "/contact",
       highlighted: false,
     },
   ];
@@ -139,15 +143,17 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <button
-                className={`w-full py-3 px-4 rounded-full font-bold transition-colors duration-300 ${
-                  plan.highlighted
-                    ? "bg-orange-500 hover:bg-orange-600 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
-                }`}
-              >
-                {plan.cta}
-              </button>
+              <Link to={plan.link}>
+                <button
+                  className={`w-full py-3 px-4 rounded-full font-bold transition-colors duration-300 ${
+                    plan.highlighted
+                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+                  }`}
+                >
+                  {plan.cta}
+                </button>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -255,9 +261,7 @@ export default function Pricing() {
             Choose the plan that's right for you and start saving money today.
           </p>
           <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
-            <Link to="/signup">
-            Get Started
-            </Link>
+            <Link to="/signup">Get Started</Link>
           </button>
         </motion.section>
       </main>

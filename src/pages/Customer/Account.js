@@ -28,7 +28,7 @@ const Account = () => {
     const fetchAccountDetails = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_ACC_API_URI}${accountId}`
+          `${process.env.REACT_APP_CC_API}/account/${accountId}`
         );
         const data = await response.json();
         if (response.ok) {

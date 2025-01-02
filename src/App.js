@@ -11,22 +11,17 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 
 // Product Pages
-import API from "./pages/Product/API";
 import Pricing from "./pages/Product/Pricing";
 import Features from "./pages/Product/Features";
 
 // Company Pages
-
 import About from "./pages/Company/About";
 import Contact from "./pages/Company/Contact";
 
 // Resource Pages
-
 import HelpCenter from "./pages/Resources/HelpCenter";
 
-
 // Legal Pages
-
 import PrivacyPolicy from "./pages/Legal/PrivacyPolicy";
 import TermsOfService from "./pages/Legal/TermsOfService";
 
@@ -77,21 +72,17 @@ const router = createBrowserRouter([
       { path: "/signin", element: <Signin /> },
 
       // Product
-      { path: "/api", element: <API /> },
       { path: "/pricing", element: <Pricing /> },
       { path: "/features", element: <Features /> },
 
       // Company
-      
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
 
       // Resources
       { path: "/help", element: <HelpCenter /> },
-      
 
       // Legal
-      
       { path: "/terms", element: <TermsOfService /> },
       { path: "/privacy", element: <PrivacyPolicy /> },
 

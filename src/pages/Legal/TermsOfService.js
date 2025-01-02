@@ -1,35 +1,39 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { FileText, UserCheck, AlertTriangle, HelpCircle } from 'lucide-react'
+import React from "react";
+import { motion } from "framer-motion";
+import { FileText, UserCheck, AlertTriangle, HelpCircle } from "lucide-react";
 
 export default function TermsOfService() {
   const sections = [
     {
       icon: FileText,
       title: "Acceptance of Terms",
-      content: "By accessing or using Cost-Catcher's services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service."
+      content:
+        "By accessing or using Cost-Catcher's services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.",
     },
     {
       icon: UserCheck,
       title: "User Responsibilities",
-      content: "You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account or password."
+      content:
+        "You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account or password.",
     },
     {
       icon: AlertTriangle,
       title: "Limitations of Liability",
-      content: "Cost-Catcher shall not be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses."
+      content:
+        "Cost-Catcher shall not be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
     },
     {
       icon: HelpCircle,
       title: "Governing Law",
-      content: "These Terms shall be governed and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions."
-    }
-  ]
+      content:
+        "These Terms shall be governed and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <main className="container mx-auto px-4 py-16">
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -39,7 +43,8 @@ export default function TermsOfService() {
             Terms of Service
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            Please read these Terms of Service carefully before using the Cost-Catcher website and services.
+            Please read these Terms of Service carefully before using the
+            Cost-Catcher website and services.
           </p>
         </motion.section>
 
@@ -54,9 +59,13 @@ export default function TermsOfService() {
             >
               <div className="flex items-center mb-4">
                 <section.icon className="w-8 h-8 text-orange-500 dark:text-orange-400 mr-4" />
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">{section.title}</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                  {section.title}
+                </h2>
               </div>
-              <p className="text-gray-600 dark:text-gray-300">{section.content}</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {section.content}
+              </p>
             </motion.section>
           ))}
         </div>
@@ -67,12 +76,18 @@ export default function TermsOfService() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-20"
         >
-          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Changes to These Terms</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+            Changes to These Terms
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any significant changes by posting the new Terms on this page.
+            We reserve the right, at our sole discretion, to modify or replace
+            these Terms at any time. We will provide notice of any significant
+            changes by posting the new Terms on this page.
           </p>
           <p className="text-gray-600 dark:text-gray-300">
-            Your continued use of the Service after we post any modifications to the Terms will constitute your acknowledgment of the modifications and your consent to abide and be bound by the modified Terms.
+            Your continued use of the Service after we post any modifications to
+            the Terms will constitute your acknowledgment of the modifications
+            and your consent to abide and be bound by the modified Terms.
           </p>
         </motion.section>
 
@@ -81,10 +96,8 @@ export default function TermsOfService() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           className="text-center"
-        >
-          
-        </motion.section>
+        ></motion.section>
       </main>
     </div>
-  )
+  );
 }
