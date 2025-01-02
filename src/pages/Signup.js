@@ -21,7 +21,7 @@ const Signup = () => {
     event.preventDefault();
     console.log(formData);
 
-    const url = `${process.env.REACT_APP_CC_API}//signup`;
+    const url = `${process.env.REACT_APP_CC_API}/signup`;
     try {
       const data = await fetch(url, {
         method: "POST",
@@ -55,7 +55,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter px-6">
       <div className="w-full max-w-md space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Sign Up</h1>

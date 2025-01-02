@@ -38,7 +38,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter ">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground transition-colors duration-300 font-inter px-6">
       <div className="w-full max-w-md space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Sign In</h1>

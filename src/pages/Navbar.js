@@ -173,7 +173,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="w-1/2 fixed top-0 right-0 z-30 bg-gray-50 dark:bg-gray-700 md:hidden"
+            className="w-3/4 fixed top-0 right-0 z-30 bg-gray-50 dark:bg-gray-700 md:hidden"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
