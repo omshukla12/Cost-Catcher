@@ -61,7 +61,7 @@ const Signup = () => {
           <h1 className="text-3xl font-bold">Sign Up</h1>
         </div>
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm"
+          className="rounded-lg border border-gray-200 dark:border-gray-700 bg-card text-card-foreground shadow-sm"
           data-v0-t="card"
         >
           <form onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@ const Signup = () => {
                   Name
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="name"
                   name="name"
@@ -91,7 +91,7 @@ const Signup = () => {
                   Email
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="email"
                   name="email"
@@ -109,7 +109,7 @@ const Signup = () => {
                   Whatsapp Number
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="phone"
                   name="phone"
@@ -127,7 +127,7 @@ const Signup = () => {
                   Password
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm text-slate-800"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                   id="password"
                   name="password"
@@ -138,7 +138,7 @@ const Signup = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center p-6">
+            <div className="flex items-center py-2 px-6">
               <button
                 type="submit"
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-black text-white hover:bg-black/90 h-10 px-4 py-2 w-full"

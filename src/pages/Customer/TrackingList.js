@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
 
 const TrackingList = () => {
   const [trackingItems, setTrackingItems] = useState([]);
@@ -11,7 +12,7 @@ const TrackingList = () => {
         const token = localStorage.getItem("token"); // Assuming JWT token is stored in localStorage
 
         const response = await fetch(
-          process.env.REACT_APP_TRACKING_LIST_URI,
+          `${process.env.REACT_APP_CC_API}/trackinglist`,
           {
             method: "GET",
             headers: {
@@ -37,31 +38,38 @@ const TrackingList = () => {
     fetchTrackingList();
   }, []);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (error) return <div>Error: {error}</div>;
 
-  if (trackingItems.length === 0) {
-    return <div>No items in your tracking list.</div>;
-  }
+  if (!trackingItems) return <div>No items in your tracking list.</div>;
 
   return (
     <div className="flex flex-col items-center font-inter">
-      <div>
-        <h1 className="font-semibold text-2xl">{user}'s Tracking List</h1>
-      </div>
-      <div>
-        <ul className="gap-4 p-2 m-2">
-          {trackingItems.map((item, index) => (
-            <li key={index} className="border rounded shadow p-4 space-y-2 m-4">
-              <h2>Product Title: {item.productTitle}</h2>
-              <h2>Product Link: {item.productLink}</h2>
-              <h3>Current Price: ₹{item.currentPrice}</h3>
-              <h4>Target Price: ₹{item.hitPrice}</h4>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {trackingItems.length === 0 ? (
+        <div className="flex justify-center items-center">
+          <Loading />
+        </div>
+      ) : (
+        <>
+          <div>
+            <h1 className="font-semibold text-2xl">{user}'s Tracking List</h1>
+          </div>
+          <div>
+            <ul className="gap-4 p-2 m-2">
+              {trackingItems.map((item, index) => (
+                <li
+                  key={index}
+                  className="border rounded shadow p-4 space-y-2 m-4"
+                >
+                  <h2>Product Title: {item.productTitle}</h2>
+                  <h2>Product Link: {item.productLink}</h2>
+                  <h3>Current Price: ₹{item.currentPrice}</h3>
+                  <h4>Target Price: ₹{item.hitPrice}</h4>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 };

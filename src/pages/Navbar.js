@@ -1,18 +1,33 @@
 import React, { useState, useEffect, useContext } from "react";
-import { DollarSign, Menu, X, Moon, Sun } from "lucide-react";
+import { IndianRupee, Menu, X, Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../utils/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Button } from "../components/ui/button";
-import { Switch } from "../components/ui/switch";
+import { Button } from "../components/ui/Button";
+import { Switch } from "../components/ui/Switch";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { theme, toggleTheme } = useContext(ThemeContext); // 'setSystemTheme' TBD
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
+
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos, visible]);
 
   // Check if user is authenticated
   useEffect(() => {
@@ -54,12 +69,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 left-0 right-0 z-40 backdrop-blur-md border-b 
+      className={`sticky top-0 left-0 right-0 z-40 backdrop-blur-md border-b transition-transform duration-300 ease-in-out
         ${
           scrolled
             ? "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
             : "bg-white/80 dark:bg-gray-800/80 border-transparent"
-        }`}
+        } ${visible ? "md:translate-y-0" : "md:-translate-y-full"}`}
     >
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
@@ -69,7 +84,7 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <DollarSign className="h-6 w-6 text-orange-500" />
+          <IndianRupee className="h-6 w-6 text-orange-500" />
           <Link to="/" className="font-bold text-2xl">
             CostCatcher
           </Link>
@@ -86,11 +101,9 @@ export default function Navbar() {
             >
               <Button
                 variant="ghost"
-                onClick={() => navigate(to)}
-                aria-label={label}
-                className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400"
+                className="text-gray-800 dark:text-gray-200 bg-transparent hover:bg-transparent hover:text-orange-500 dark:hover:text-orange-400 transform transition-all duration-300 ease-in-out rounded-full p-2"
               >
-                {label}
+                <Link to={to}>{label}</Link>
               </Button>
             </motion.div>
           ))}
@@ -102,7 +115,7 @@ export default function Navbar() {
             >
               <Button
                 onClick={handleSignout}
-                className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400"
+                className="text-gray-800 p-2 hover:text-gray-100 dark:hover:text-gray-200"
               >
                 Sign Out
               </Button>
@@ -149,9 +162,9 @@ export default function Navbar() {
           aria-label="Toggle Menu"
         >
           {mobileMenuOpen ? (
-            <X className="h-6 w-6" />
+            " "
           ) : (
-            <Menu className="h-6 w-6" />
+            <Menu className="h-6 w-6 text-gray-800 dark:text-gray-200" />
           )}
         </Button>
       </nav>
@@ -160,42 +173,56 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-30 bg-white dark:bg-gray-800 md:hidden"
+            className="w-1/2 fixed top-0 right-0 z-30 bg-gray-50 dark:bg-gray-700 md:hidden"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <nav
-              className="container mx-auto px-4 py-8 flex flex-col space-y-4"
+              className="container h-screen pl-4 pr-2 py-4 flex flex-col space-y-2 border-gray-200 dark:border-gray-700"
               onClick={(e) => e.stopPropagation()}
             >
-              {links.map(({ to, label }) => (
+              <div className="flex justify-between mx-4 mt-2 rounded-md gap-2">
+                <div className="flex flex-col grow space-y-2">
+                  <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    MENU
+                  </h2>
+                  {links.map(({ to, label }) => (
+                    <Link
+                      key={to}
+                      to={to}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400 pb-2 rounded-md text-base font-medium"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                  {isAuthenticated && (
+                    <Link
+                      to="/signin"
+                      onClick={() => {
+                        handleSignout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400 px-3 py-2 rounded-md text-base font-medium"
+                    >
+                      Sign Out
+                    </Link>
+                  )}
+                </div>
                 <Button
-                  key={to}
                   variant="ghost"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    navigate(to);
-                  }}
-                  aria-label={label}
-                  className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400"
+                  size="icon"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close Menu"
+                  className="self-start"
                 >
-                  {label}
+                  <X className="h-6 w-6 text-gray-800 dark:text-gray-200" />
                 </Button>
-              ))}
-              {isAuthenticated && (
-                <Button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    handleSignout();
-                  }}
-                  className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400"
-                >
-                  Sign Out
-                </Button>
-              )}
-              <div className="flex items-center justify-center space-x-2">
+              </div>
+              <hr className="border-t-2 dark:border-gray-600 border-gray-200 m-3" />
+              <div className="flex items-center justify-center space-x-2 pt-2">
                 <Sun className="h-5 w-5" />
                 <Switch
                   checked={theme === "dark"}
