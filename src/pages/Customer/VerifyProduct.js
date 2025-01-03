@@ -56,7 +56,10 @@ function VerifyProduct() {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/trackProduct', {
+            const baseEndpoint = process.env.REACT_APP_CC_API;
+            const trackProductEndpoint = baseEndpoint + '/trackProduct';
+            
+            const response = await fetch(trackProductEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
