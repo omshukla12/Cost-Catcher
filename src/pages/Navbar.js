@@ -123,18 +123,20 @@ export default function Navbar() {
           )}
 
           {/* Get Started Button */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <Button
-              onClick={() => navigate("/signup")}
-              className="text-white bg-orange-500 hover:bg-orange-400 transform transition-all duration-300 ease-in-out rounded-full px-6 py-2"
+          {!isAuthenticated && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
-              Get Started
-            </Button>
-          </motion.div>
+              <Button
+                onClick={() => navigate("/signup")}
+                className="text-white bg-orange-500 hover:bg-orange-400 transform transition-all duration-300 ease-in-out rounded-full px-6 py-2"
+              >
+                Get Started
+              </Button>
+            </motion.div>
+          )}
 
           {/* Dark Mode Toggle */}
           <motion.div
@@ -198,16 +200,24 @@ export default function Navbar() {
                       {label}
                     </Link>
                   ))}
-                  {isAuthenticated && (
+                  {isAuthenticated ? (
                     <Link
                       to="/signin"
                       onClick={() => {
                         handleSignout();
                         setMobileMenuOpen(false);
                       }}
-                      className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400 px-3 py-2 rounded-md text-base font-medium"
+                      className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400 rounded-md text-base font-medium"
                     >
                       Sign Out
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/signin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-gray-800 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-400 rounded-md text-base font-medium"
+                    >
+                      Sign In
                     </Link>
                   )}
                 </div>
