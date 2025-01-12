@@ -1,17 +1,3 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,6 +12,51 @@ code {
   }
 
   body {
-    @apply font-inter bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100; /* Default font and theme styles */
+    @apply font-inter bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100;
+    /* Default font and theme styles */
   }
+}
+
+/* Light and Dark Theme Scrollbar Variables */
+:root {
+  --scrollbar-bg: #f9b385;
+  /* Subtle light orange for the track */
+  --scrollbar-thumb: #f5a063;
+  /* Muted orange for the thumb */
+  --scrollbar-thumb-hover: #e68a4e;
+  /* Slightly darker orange for hover */
+}
+
+.dark {
+  --scrollbar-bg: #374151;
+  /* Tailwind's bg-gray-700 for dark mode */
+  --scrollbar-thumb: #4b5563;
+  /* Slightly lighter gray for the thumb */
+  --scrollbar-thumb-hover: #6b7280;
+  /* Hover effect for dark mode */
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Scrollbar width */
+  height: 10px;
+  /* Scrollbar height for horizontal scroll */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+  /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  /* Scrollbar thumb color */
+  border-radius: 5px;
+  /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  /* Hover effect for the thumb */
 }

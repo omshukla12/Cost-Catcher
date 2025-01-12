@@ -4,17 +4,6 @@ import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Contact() {
-  // const contactMethods = [
-  //   { icon: Mail, title: "Email", content: "support@costcatcher.com" },
-  //   { icon: Phone, title: "Phone", content: "+1 (800) 123-4567" },
-  //   {
-  //     icon: MapPin,
-  //     title: "Address",
-  //     content: "123 Price St, Savings City, SC 12345",
-  //   },
-  //   { icon: MessageSquare, title: "Live Chat", content: "Available 24/7" },
-  // ];
-
   const contactMethods = [
     {
       icon: Mail,
@@ -25,7 +14,7 @@ export default function Contact() {
     {
       icon: Phone,
       title: "Phone",
-      content: "+1 (800) 123-4567",
+      content: "+91 123-456-7890",
       link: "tel:+18001234567",
     },
     {
@@ -89,25 +78,6 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {/* <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-              Get in Touch
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {contactMethods.map((method, index) => (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg"
-                >
-                  <method.icon className="w-8 h-8 text-orange-500 dark:text-orange-400 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">
-                    {method.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {method.content}
-                  </p>
-                </div>
-              ))}
-            </div> */}
             <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
               Get in Touch
             </h2>
@@ -128,7 +98,7 @@ export default function Contact() {
                     {content}
                   </a>
                 </div>
-              ))}
+              ))}w
             </div>
           </motion.section>
 
