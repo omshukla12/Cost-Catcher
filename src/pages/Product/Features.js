@@ -7,7 +7,7 @@ import {
   ShieldCheck,
   Zap,
   Users,
-  DollarSign,
+  IndianRupee,
   BarChart,
   ShoppingCart,
 } from "lucide-react";
@@ -51,7 +51,7 @@ export default function Features() {
         "Share and benefit from community-driven deal alerts and shopping tips. Connect with other savvy shoppers to discover hidden deals and money-saving strategies.",
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: "Price Comparison",
       description:
         "Easily compare prices across multiple retailers to ensure you're getting the best deal. Our tool aggregates prices from various sources, saving you time and effort in your search for the best value.",
