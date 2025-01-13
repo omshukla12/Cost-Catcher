@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import { getAmazonData } from "../../middleware/getAmazonData";
-import Loading from "../components/Loading";
 import { ToastContainer, toast } from "react-toastify";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+
+import { getAmazonData } from "../../middleware/getAmazonData";
+import Loading from "../../components/Loading";
+
 import "react-toastify/dist/ReactToastify.css";
 
 function VerifyProduct() {
