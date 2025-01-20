@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { DollarSign, Users, Zap, Globe, ChevronRight } from "lucide-react";
+import { IndianRupee, Users, Zap, Globe, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import TeamMember from "../../components/TeamMember";
@@ -9,7 +9,7 @@ import FeatureCard from "../../components/FeatureCard";
 export default function About() {
   const features = [
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: "Save Money",
       description:
         "Our AI-powered algorithms help you find the best deals and save money on your purchases.",
@@ -135,15 +135,17 @@ export default function About() {
             revolutionize online shopping. Join us in our mission to empower
             shoppers worldwide.
           </p>
-          <motion.a
-            href="/careers"
-            className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link to="/signup">Get Started </Link>
-            <ChevronRight className="ml-2 h-5 w-5" />
-          </motion.a>
+          <Link to="/signup">
+            <motion.a
+              href="/careers"
+              className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </motion.a>
+          </Link>
         </motion.section>
       </main>
     </div>

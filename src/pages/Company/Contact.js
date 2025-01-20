@@ -98,7 +98,7 @@ export default function Contact() {
                     {content}
                   </a>
                 </div>
-              ))}w
+              ))}
             </div>
           </motion.section>
 

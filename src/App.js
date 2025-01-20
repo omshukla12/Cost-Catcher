@@ -3,8 +3,10 @@ import { ScrollToTop } from "./utils/ScrollToTop";
 import { ThemeProvider, ThemeContext } from "./utils/ThemeContext";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-import Navbar from "./pages/Navbar";
-import Footer from "./pages/Footer";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+// Pages
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Landing from "./pages/Landing";

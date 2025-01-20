@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../utils/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Button } from "../components/ui/Button";
-import { Switch } from "../components/ui/Switch";
+import { Button } from "./ui/Button";
+import { Switch } from "./ui/Switch";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -185,7 +185,7 @@ export default function Navbar() {
               className="container h-screen pl-4 pr-2 py-4 flex flex-col space-y-2 border-gray-200 dark:border-gray-700"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between mx-4 mt-2 rounded-md gap-2">
+              <div className="flex justify-between mx-4 mt-2 mb-3 rounded-md gap-2">
                 <div className="flex flex-col grow space-y-2">
                   <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     MENU

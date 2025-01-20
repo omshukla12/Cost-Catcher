@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+
 import { getAmazonData } from "../../middleware/getAmazonData";
 import Loading from "../../components/Loading";
-import { useNavigate } from "react-router-dom";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function VerifyProduct() {
   // Get Product Link
@@ -14,12 +17,18 @@ function VerifyProduct() {
   const [hitPrice, setHitPrice] = useState(""); // State to store the user's input for hit price
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate(); // Moved outside of useEffect
+  const navigate = useNavigate();
 
   useEffect(() => {
+    function extractProductID(url) {
+      const match = url.match(/\/dp\/([A-Z0-9]+)/);
+      return match ? match[1] : null;
+    }
+
     const fetchProductData = async () => {
       if (productLink) {
-        const productId = productLink.split("/")[4];
+        // const productId = productLink.split("/")[4];
+        const productId = extractProductID(productLink);
         const data = await getAmazonData(productId);
         if (data) {
           setProductData(data);
@@ -47,34 +56,81 @@ function VerifyProduct() {
     };
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_CC_API}/trackProduct`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Pass JWT token
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
+      const baseEndpoint = process.env.REACT_APP_CC_API;
+      const trackProductEndpoint = baseEndpoint + "/trackProduct";
+
+      const response = await fetch(trackProductEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Pass JWT token
+        },
+        body: JSON.stringify(requestBody),
+      });
 
       const result = await response.json();
 
       if (response.ok) {
-        alert("Product tracking saved successfully.");
-        navigate("/trackinglist"); // Navigate to tracking list after success
+        // Show toast on success
+        toast.success("Product Tracking Successful", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+        // Delay navigation to give time for the toast to show
+        setTimeout(() => {
+          navigate("/trackinglist"); // Navigate to tracking list after a delay
+        }, 2000); // 2-second delay before navigating
       } else {
         setError(result.message || "Error tracking product.");
       }
     } catch (err) {
+      toast.error("Product Tracking Failed", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
       console.error("Error tracking product:", err);
       setError("Failed to track product.");
     }
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="flex justify-center items-center font-inter">
+        {/* Render a single ToastContainer */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <p className="font-xl">
+          So, this happened while fetching information about your Product:{" "}
+          <b>{error}</b>
+        </p>
+        <Link
+          to={"/addProduct"}
+          className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Try again
+        </Link>
+      </div>
+    );
   }
 
   if (!productData) {
@@ -96,6 +152,20 @@ function VerifyProduct() {
 
   return (
     <div className="font-inter flex flex-col items-center text-center">
+      {/* Render a single ToastContainer */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div>
         <h1 className="text-4xl font-semibold">Verifying Product</h1>
         <p className="font-fira">Product Link: {productLink}</p>
