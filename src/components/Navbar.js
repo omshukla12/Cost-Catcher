@@ -1,21 +1,117 @@
-import React, { useState, useEffect, useContext } from "react";
-import { IndianRupee, Menu, X, Moon, Sun } from "lucide-react";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import {
+  IndianRupee,
+  Menu,
+  X,
+  Moon,
+  Sun,
+  Mail,
+  CreditCard,
+  Settings,
+  HelpCircle,
+  LogOut,
+  User,
+  ChevronRight,
+  Bell,
+  Home,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeContext } from "../utils/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
+import Avatar from "react-avatar";
+// import clsx from "clsx";
+
+import { getUserFromToken } from "../services/authService";
+import { ThemeContext } from "../context/ThemeContext";
+import { AuthContext } from "../context/AuthContext";
 
 import { Button } from "./ui/Button";
 import { Switch } from "./ui/Switch";
 
+const recentAlerts = [
+  {
+    id: 1,
+    product: "Sony WH-1000XM4",
+    message: "Price dropped by 15%",
+    time: "1 hour ago",
+    type: "drop",
+  },
+  {
+    id: 2,
+    product: "MacBook Air M1",
+    message: "Back in stock",
+    time: "3 hours ago",
+    type: "stock",
+  },
+  {
+    id: 3,
+    product: "PlayStation 5",
+    message: "Price increased by 5%",
+    time: "1 day ago",
+    type: "increase",
+  },
+  {
+    id: 4,
+    product: "Nintendo Switch OLED",
+    message: "Price dropped by 10%",
+    time: "2 days ago",
+    type: "drop",
+  },
+  {
+    id: 5,
+    product: 'iPad Pro 12.9"',
+    message: "Price match found",
+    time: "3 days ago",
+    type: "match",
+  },
+];
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const navigate = useNavigate();
+
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const initialRenderDone = useRef(false);
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+  const navigate = useNavigate();
+
+  // Handle opening/closing user menu
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+
+    if (userMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [userMenuOpen]);
+
+  useEffect(() => {
+    if (!initialRenderDone.current) {
+      initialRenderDone.current = true;
+      setUserMenuOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Keep menu closed on auth changes
+    setUserMenuOpen(false);
+  }, [isAuthenticated]);
+
+  const toggleMenu = () => {
+    setUserMenuOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,12 +124,6 @@ export default function Navbar() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos, visible]);
-
-  // Check if user is authenticated
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
 
   // Handle scroll to toggle navbar background
   useEffect(() => {
@@ -49,18 +139,14 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   const handleSignout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
+    logout();
     navigate("/signin");
   };
 
   const links = isAuthenticated
     ? [
-        { to: "/home", label: "Home" },
-        { to: "/trackinglist", label: "My Tracklist" },
-        { to: "/addProduct", label: "Track New" },
-        { to: "/account", label: "Account" },
-        { to: "/contact", label: "Contact" },
+        { to: "/dashboard", label: "Dashboard" },
+        // { to: "/contact", label: "Contact" },
       ]
     : [
         { to: "/about", label: "About" },
@@ -107,20 +193,6 @@ export default function Navbar() {
               </Button>
             </motion.div>
           ))}
-          {isAuthenticated && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Button
-                onClick={handleSignout}
-                className="text-gray-800 p-2 hover:text-gray-100 dark:hover:text-gray-200"
-              >
-                Sign Out
-              </Button>
-            </motion.div>
-          )}
 
           {/* Get Started Button */}
           {!isAuthenticated && (
@@ -130,10 +202,10 @@ export default function Navbar() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Button
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/signin")}
                 className="text-white bg-orange-500 hover:bg-orange-400 transform transition-all duration-300 ease-in-out rounded-full px-6 py-2"
               >
-                Get Started
+                Login
               </Button>
             </motion.div>
           )}
@@ -145,15 +217,153 @@ export default function Navbar() {
             transition={{ duration: 0.5 }}
             className="flex items-center space-x-2"
           >
-            <Sun className="h-5 w-5" />
-            <Switch
-              checked={theme === "dark"}
-              onCheckedChange={toggleTheme}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300"
               aria-label="Toggle Dark Mode"
-            />
-            <Moon className="h-5 w-5" />
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-yellow-500" />
+              ) : (
+                <Moon className="h-5 w-5 text-gray-800" />
+              )}
+            </button>
           </motion.div>
+
+          {/* User */}
+
+          {isAuthenticated && (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={toggleMenu}
+                className="relative h-8 w-8 rounded-full focus:outline-none"
+              >
+                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+              </button>
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                    {(() => {
+                      const { name, email } = getUserFromToken() || {};
+                      return name && email ? (
+                        <>
+                          <p className="text-sm font-medium">{name}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {email}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          User details not available
+                        </p>
+                      );
+                    })()}
+                  </div>
+                  <div className="py-1">
+                    <Link
+                      to="/account"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <User className="inline-block w-4 h-4 mr-2" />
+                      Profile
+                    </Link>
+                    {/* <Link
+                      to="/dashboard"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <Home className="inline-block w-4 h-4 mr-2" />
+                      Dashboard
+                    </Link> */}
+                    <Link
+                      to="/contact"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <Mail className="inline-block w-4 h-4 mr-2" />
+                      Contact
+                    </Link>
+                    <Link
+                      to="/help"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <HelpCircle className="inline-block w-4 h-4 mr-2" />
+                      Help Center
+                    </Link>
+                  </div>
+                  <div className="py-1 border-t border-gray-200 dark:border-gray-700">
+                    <Link
+                      onClick={handleSignout}
+                      className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <LogOut className="inline-block w-4 h-4 mr-2" />
+                      Log out
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
+
+        {/* {isAuthenticated && (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={toggleMenu}
+                className="relative h-8 w-8 rounded-full focus:outline-none"
+              >
+                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+              </button>
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                    <p className="text-sm font-medium">{ }</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Free Plan
+                    </p>
+                  </div>
+                  <div className="py-1">
+                    <Link
+                      to="/account"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <User className="inline-block w-4 h-4 mr-2" />
+                      Profile
+                    </Link>
+                    <Link
+                      to="/home"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <Home className="inline-block w-4 h-4 mr-2" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/pricing"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <CreditCard className="inline-block w-4 h-4 mr-2" />
+                      Billing
+                    </Link>
+                    <Link
+                      to="/help"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <HelpCircle className="inline-block w-4 h-4 mr-2" />
+                      Help Center
+                    </Link>
+                  </div>
+                  <div className="py-1 border-t border-gray-200 dark:border-gray-700">
+                    <Link
+                      onClick={handleSignout}
+                      className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <LogOut className="inline-block w-4 h-4 mr-2" />
+                      Log out
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div> */}
 
         {/* Mobile Menu Button */}
         <Button

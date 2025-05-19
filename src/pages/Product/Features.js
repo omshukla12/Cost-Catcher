@@ -18,7 +18,7 @@ export default function Features() {
       icon: Search,
       title: "Advanced Price Tracking",
       description:
-        "Track prices across multiple retailers with real-time updates and historical data visualization. Set custom tracking parameters and receive notifications when prices match your criteria.",
+        "Track prices across multiple retailers with real-time updates. Set custom tracking parameters and receive notifications when prices match your criteria.",
     },
     {
       icon: Bell,
@@ -30,7 +30,7 @@ export default function Features() {
       icon: TrendingUp,
       title: "Price Prediction",
       description:
-        "Leverage our AI-powered price prediction tool to make informed purchasing decisions. Our algorithm analyzes historical data and market trends to forecast future price movements.",
+        "Stay informed with price history and trends, helping you decide the best time to buy.",
     },
     {
       icon: ShieldCheck,
@@ -68,11 +68,6 @@ export default function Features() {
       description:
         "Create and manage multiple wishlists for different occasions or categories. Our tool will track prices for all items in your wishlists and notify you of any significant price drops.",
     },
-    // {
-    //   icon: Gift,
-    //   title: "Deal Sharing",
-    //   description: "Easily share great deals with friends and family. Our built-in sharing feature allows you to spread the savings and help your loved ones save money on their purchases."
-    // }
   ];
 
   return (
@@ -154,7 +149,10 @@ export default function Features() {
                 </li>
                 <li>Use our comprehensive documentation and SDKs</li>
                 <li>Access real-time pricing data and historical trends</li>
-                <li>Enhance your app with AI-powered price predictions</li>
+                <li>
+                  Enhance your shopping experience with real-time price tracking
+                  and instant alerts.
+                </li>
               </ol>
             </div>
           </div>

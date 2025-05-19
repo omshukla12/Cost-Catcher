@@ -43,7 +43,7 @@ const TrackingList = () => {
   if (!trackingItems) return <div>No items in your tracking list.</div>;
 
   return (
-    <div className="flex flex-col items-center font-inter">
+    <div className="flex flex-col items-center font-inter py-12">
       {trackingItems.length === 0 ? (
         <div className="flex justify-center items-center">
           <Loading />

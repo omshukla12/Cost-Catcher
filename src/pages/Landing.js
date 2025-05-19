@@ -29,33 +29,33 @@ import {
 
 const features = [
   {
-    title: "AI-Powered Tracking",
-    description: "Real-time price monitoring across multiple retailers",
+    title: "Real-Time Tracking",
+    description: "Monitor price changes across multiple retailers",
     icon: TrendingDown,
   },
   {
     title: "Smart Notifications",
-    description: "Instant alerts for price drops and predictions",
+    description: "Get instant alerts when prices drop",
     icon: Bell,
   },
   {
-    title: "Comprehensive Analytics",
-    description: "Insights into price trends and savings opportunities",
+    title: "Price History",
+    description: "Track past prices to spot the best deals",
     icon: BarChart,
   },
   {
     title: "One-Click Comparison",
-    description: "Effortlessly compare prices across stores",
+    description: "Easily compare prices across stores",
     icon: Search,
   },
   {
     title: "Custom Watchlists",
-    description: "Manage multiple lists for different categories",
+    description: "Save and manage items in personalized lists",
     icon: Star,
   },
   {
-    title: "Rapid Deal Alerts",
-    description: "Be first to know about flash sales and offers",
+    title: "Flash Sale Alerts",
+    description: "Be the first to know about limited-time deals",
     icon: Zap,
   },
 ];
@@ -71,19 +71,19 @@ const testimonials = [
     name: "Sarah L.",
     role: "Savvy Shopper",
     content:
-      "CostCatcher has revolutionized the way I shop online. I've saved hundreds on my purchases!",
+      "CostCatcher has helped me track prices and grab the best deals effortlessly!",
   },
   {
     name: "Mike R.",
     role: "Tech Enthusiast",
     content:
-      "The AI-powered predictions are incredibly accurate. It's like having a personal shopping assistant.",
+      "I love how easy it is to compare prices in one place. Saves me a lot of time!",
   },
   {
     name: "Emily T.",
     role: "Busy Mom",
     content:
-      "As a mom of three, CostCatcher helps me find the best deals without spending hours searching.",
+      "As a mom of three, CostCatcher makes it simple to find budget-friendly options.",
   },
 ];
 
@@ -91,27 +91,27 @@ const faqs = [
   {
     question: "How does CostCatcher work?",
     answer:
-      "CostCatcher uses AI to monitor prices across retailers, analyzing data to predict fluctuations and identify the best times to buy.",
+      "CostCatcher tracks prices across different online stores, notifying users of any changes.",
   },
   {
     question: "Is CostCatcher free?",
     answer:
-      "Yes, we offer a free basic plan. Premium plans with advanced features are also available for power users.",
+      "Yes, we offer a free basic plan. Premium plans with additional features are available for power users.",
   },
   {
     question: "Which stores are supported?",
     answer:
-      "We support major retailers like Amazon, Walmart, Best Buy, Target, eBay, and many more. Our list is constantly expanding.",
+      "We support major retailers like Amazon, Walmart, Best Buy, Target, eBay, and more. Our list is constantly expanding.",
   },
   {
-    question: "How accurate are the predictions?",
+    question: "How accurate is the price tracking?",
     answer:
-      "Our AI-driven predictions are highly accurate, based on extensive historical data and market analysis.",
+      "Our system continuously scans retailers for price changes to ensure accurate and up-to-date tracking.",
   },
   {
     question: "Can I set custom alerts?",
     answer:
-      "Yes, you can set custom price alerts for any tracked product, with flexible notification options.",
+      "Yes, you can set price alerts for any tracked product and get notified when it reaches your desired price.",
   },
   {
     question: "Is there a mobile app?",
@@ -141,8 +141,8 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Harness AI-powered price tracking to catch unbeatable deals across
-              the digital marketplace.
+              Track prices in real time and never miss out on the best deals
+              across the digital marketplace.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
