@@ -1,9 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
+import {
+  Mail,
+  Phone,
+  MessageSquare,
+  Lock,
+  Edit,
+  ArrowLeft,
+  ChevronLeft,
+} from "lucide-react";
 import Avatar from "react-avatar";
+import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-// Function to get the userId from the JWT
+import NewAvatar from "../../components/ui/NewAvatar";
+
 const getUserIdFromToken = () => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -22,8 +33,25 @@ const Account = () => {
   const [accountDetails, setAccountDetails] = useState(null);
   const [error, setError] = useState(null);
 
+  // State to track scroll direction
+  const [isScrollingUp, setIsScrollingUp] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   const accountId = getUserIdFromToken();
 
+  // Handle scroll events to determine direction
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrollingUp(currentScrollY < lastScrollY);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  // Handle fetching of account details
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
@@ -57,121 +85,138 @@ const Account = () => {
   }
 
   return (
-    <div className="font-inter min-h-screen flex flex-col justify-center items-center w-full max-w-3xl mx-auto py-12 px-4 md:px-6">
-      {/* Avatar Section */}
-      <div className="flex flex-col items-center gap-4">
-        <Avatar name={accountDetails.name} size="100" round />
-        <h2 className="text-2xl font-semibold text-gray-800">
-          {accountDetails.name}
-        </h2>
-      </div>
-
-      <div className="w-full max-w-xl mt-8 space-y-8">
-        {/* Contact Info Section */}
-        <div className="bg-white rounded-lg p-6">
-          <h3 className="text-lg font-medium text-gray-800">Contact Info</h3>
-          <div className="space-y-4 mt-4">
-            <div className="grid gap-1">
-              <label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-600"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={accountDetails.email}
-                className="w-full h-10 px-3 border rounded-md text-sm"
-                readOnly
-              />
+    <div className="font-inter min-h-screen bg-gray-50 dark:bg-gray-900 text-foreground transition-colors duration-300">
+      {/* Header (<-) */}
+      <div className="transform transition-transform duration-300 sticky top-0 z-10  dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Link to="/dashboard" className="mr-4">
+                <ArrowLeft className="h-5 w-5 text-gray-200 hover:text-orange-500 focus:outline-none" />
+              </Link>
+              <h1 className="text-2xl font-bold">Settings</h1>
             </div>
-            <div className="grid gap-1">
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium text-gray-600"
-              >
-                Whatsapp Number
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                value={accountDetails.phone}
-                className="w-full h-10 px-3 border rounded-md text-sm"
-                readOnly
-              />
-            </div>
-            <div className="grid gap-1">
-              <label
-                htmlFor="telegram"
-                className="text-sm font-medium text-gray-600"
-              >
-                Telegram Username
-              </label>
-              <input
-                id="telegram"
-                type="text"
-                value="@AnuragDubey"
-                className="w-full h-10 px-3 border rounded-md text-sm"
-                readOnly
-              />
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+              </div>
             </div>
           </div>
-          <div className="grid gap-1 text-center">
-            <a
-              href="/editAccountDetails"
-              className="bg-black text-white w-1/3 px-4 py-2 rounded-md mt-4 text-sm hover:bg-gray-800"
-              // style={{ width: 'auto' }}
-            >
-              Edit Details
-            </a>
+        </div>
+      </div>
+
+      {/* Profile Header */}
+      <div className="bg-gradient-to-b from-orange-500 to-orange-400 dark:from-orange-600 dark:to-orange-500 pt-12 pb-24 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="inline-block bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg mb-4">
+            <NewAvatar
+              name={accountDetails.name}
+              size={100}
+              round
+              className="border-4 border-white dark:border-gray-800"
+            />
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-2">
+            {accountDetails.name}
+          </h1>
+          <p className="text-orange-100 dark:text-orange-200">
+            Account Settings
+          </p>
+        </div>
+      </div>
+
+      {/* Content Cards - Negative margin to overlap with header */}
+      <div className="max-w-3xl mx-auto px-4 -mt-16 space-y-6 pb-12">
+        {/* Contact Info Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <Mail className="h-5 w-5 text-orange-500 mr-2" />
+                <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                  Contact Info
+                </h3>
+              </div>
+              <a
+                href="/editAccountDetails"
+                className="flex items-center text-orange-500 hover:text-orange-600 text-sm font-medium"
+              >
+                <Edit className="h-4 w-4 mr-1" />
+                Edit
+              </a>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid gap-1">
+                <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Email
+                </label>
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-md px-3 py-2">
+                  <Mail className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2" />
+                  <span className="text-gray-800 dark:text-gray-200">
+                    {accountDetails.email}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid gap-1">
+                <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  WhatsApp Number
+                </label>
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-md px-3 py-2">
+                  <Phone className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2" />
+                  <span className="text-gray-800 dark:text-gray-200">
+                    {accountDetails.phone}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid gap-1">
+                <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Telegram Username
+                </label>
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-md px-3 py-2">
+                  <MessageSquare className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2" />
+                  <span className="text-gray-800 dark:text-gray-200">
+                    @AnuragDubey
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Security Section */}
-        <div className="bg-white rounded-lg p-6">
-          <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-5 w-5 text-muted-foreground mr-2"
-            >
-              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <h3 className="text-lg font-medium text-gray-800">Security</h3>
-          </div>
-          <div className="space-y-4 mt-4">
-            <div className="grid gap-1">
-              <label
-                htmlFor="password"
-                className="text-sm font-medium text-gray-600"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value="***********"
-                className="w-full h-10 px-3 border rounded-md text-sm"
-                readOnly
-              />
-            </div>
-            <div className="grid gap-1 text-center">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <Lock className="h-5 w-5 text-orange-500 mr-2" />
+                <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                  Security
+                </h3>
+              </div>
               <a
                 href="/changePassword"
-                className="bg-black text-white w-1/3 px-4 py-2 rounded-md mt-4 text-sm hover:bg-gray-800"
-                // style={{ width: 'auto' }}
+                className="flex items-center text-orange-500 hover:text-orange-600 text-sm font-medium"
               >
-                Change Password
+                <Edit className="h-4 w-4 mr-1" />
+                Change
               </a>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid gap-1">
+                <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Password
+                </label>
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-md px-3 py-2">
+                  <Lock className="h-4 w-4 text-gray-500 dark:text-gray-400 mr-2" />
+                  <span className="text-gray-800 dark:text-gray-200">
+                    ••••••••••
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

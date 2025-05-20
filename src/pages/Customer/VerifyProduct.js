@@ -1,215 +1,239 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-
-import { getAmazonData } from "../../middleware/getAmazonData";
-import Loading from "../../components/Loading";
-
 import "react-toastify/dist/ReactToastify.css";
+import {
+  ArrowLeft,
+  AlertCircle,
+  Check,
+  DollarSign,
+  Target,
+} from "lucide-react";
+import Avatar from "react-avatar";
+
+import Loading from "../../components/Loading";
+import PriceInput from "../../components/PriceInput";
+import ProductDetails from "../../components/ProductDetails";
+
+import { extractProductID } from "../../utils/productUtils";
+import { fetchProductData, saveProductTracking } from "../../api/productAPI";
 
 function VerifyProduct() {
-  // Get Product Link
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const productLink = queryParams.get("productLink");
 
   const [productData, setProductData] = useState(null);
-  const [hitPrice, setHitPrice] = useState(""); // State to store the user's input for hit price
+  const [hitPrice, setHitPrice] = useState("");
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    function extractProductID(url) {
-      const match = url.match(/\/dp\/([A-Z0-9]+)/);
-      return match ? match[1] : null;
-    }
-
-    const fetchProductData = async () => {
-      if (productLink) {
-        // const productId = productLink.split("/")[4];
-        const productId = extractProductID(productLink);
-        const data = await getAmazonData(productId);
-        if (data) {
-          setProductData(data);
-        } else {
-          setError("Failed to fetch product data.");
-        }
+    const getProductData = async () => {
+      if (!productLink) {
+        setError("No product link provided");
+        setLoading(false);
+        return;
       }
+
+      const productId = extractProductID(productLink);
+
+      if (!productId) {
+        setError("Invalid product link format");
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await fetchProductData(productId);
+
+      if (error) {
+        setError(error);
+      } else {
+        setProductData(data);
+      }
+
+      setLoading(false);
     };
-    fetchProductData();
+
+    getProductData();
   }, [productLink]);
 
   const handleTrackProduct = async () => {
     if (!hitPrice) {
-      alert("Please enter a target price.");
+      toast.error("Please enter a target price");
       return;
     }
 
-    const token = localStorage.getItem("token"); // Assuming you're storing JWT in localStorage
+    if (parseFloat(hitPrice) >= parseFloat(productData.deal_price)) {
+      toast.warning("Target price should be lower than the current price");
+      return;
+    }
 
-    const requestBody = {
-      productTitle: productData.title,
-      productLink: productLink,
-      currentPrice: productData.discount_price,
-      hitPrice: hitPrice,
-    };
+    const { success, error } = await saveProductTracking(productData, hitPrice);
 
-    try {
-      const baseEndpoint = process.env.REACT_APP_CC_API;
-      const trackProductEndpoint = baseEndpoint + "/trackProduct";
+    if (success) {
+      toast.success("Product tracking successful!");
 
-      const response = await fetch(trackProductEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Pass JWT token
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        // Show toast on success
-        toast.success("Product Tracking Successful", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "light",
-        });
-        // Delay navigation to give time for the toast to show
-        setTimeout(() => {
-          navigate("/trackinglist"); // Navigate to tracking list after a delay
-        }, 2000); // 2-second delay before navigating
-      } else {
-        setError(result.message || "Error tracking product.");
-      }
-    } catch (err) {
-      toast.error("Product Tracking Failed", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-      console.error("Error tracking product:", err);
-      setError("Failed to track product.");
+      setTimeout(() => {
+        navigate("/trackinglist");
+      }, 2000);
+    } else {
+      toast.error(error || "Failed to track product");
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   if (error) {
     return (
-      <div className="flex justify-center items-center font-inter">
-        {/* Render a single ToastContainer */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <p className="font-xl">
-          So, this happened while fetching information about your Product:{" "}
-          <b>{error}</b>
-        </p>
-        <Link
-          to={"/addProduct"}
-          className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Try again
-        </Link>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Link to="/addProduct" className="mr-4">
+                  <ArrowLeft className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 focus:outline-none" />
+                </Link>
+                <h1 className="text-2xl font-bold">Verify Product</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center mb-4 text-red-500 dark:text-red-400">
+                <AlertCircle className="h-6 w-6 mr-2" />
+                <h2 className="text-xl font-semibold">Error Occurred</h2>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 mb-6">{error}</p>
+              <button
+                onClick={() => navigate("/addProduct")}
+                className="w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
-
-  if (!productData) {
-    return (
-      <div className="flex flex-col items-center text-center">
-        <div>
-          <Loading />
-        </div>
-      </div>
-    );
-  }
-
-  const {
-    title,
-    discount_price: currentPrice,
-    price: originalPrice,
-    discount: currentDiscount,
-  } = productData;
 
   return (
-    <div className="font-inter flex flex-col items-center text-center">
-      {/* Render a single ToastContainer */}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <ToastContainer
         position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        autoClose={3000}
+        theme="colored"
+        toastClassName="dark:bg-gray-800 dark:text-white"
       />
 
-      <div>
-        <h1 className="text-4xl font-semibold">Verifying Product</h1>
-        <p className="font-fira">Product Link: {productLink}</p>
-        <p>Title: {title}</p>
-        <p>Current Price: ₹{currentPrice}</p>
-        <p>Original Price: ₹{originalPrice}</p>
-        <p>Discount: {currentDiscount}%</p>
-      </div>
-      <br />
-      <div>
-        <h1>
-          If we displayed correct details above, please provide your hit price
-          and click on <span className="font-semibold">Track</span>
-        </h1>
-      </div>
-
-      <div>
-        <form>
-          <p>When the product hits this price or lower, we will notify you.</p>
-          <div className="mt-8 flex gap-4">
-            <label
-              htmlFor="hit-price"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Product Target Price:
-            </label>
-            <input
-              type="number"
-              id="hit-price"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-20 p-2.5"
-              placeholder="₹"
-              value={hitPrice}
-              onChange={(e) => setHitPrice(e.target.value)} // Capture hit price input
-            />
-            <button
-              type="button"
-              onClick={handleTrackProduct} // Call the function to save tracking
-              className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Track
-            </button>
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Link to="/addProduct" className="mr-4">
+                <ArrowLeft className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 focus:outline-none" />
+              </Link>
+              <h1 className="text-2xl font-bold">Verify Product</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 mb-6">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+              <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500 mr-3">
+                <Check className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">Product Details</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Verify the product information before tracking
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <ProductDetails productData={productData} />
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+              <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-500 mr-3">
+                <Target className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">Set Target Price</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  We'll notify you when the price drops to your target
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+                <label
+                  htmlFor="hit-price"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-[120px]"
+                >
+                  Target Price :
+                </label>
+                <div className="relative flex-1">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <DollarSign className="h-5 w-5 text-gray-400 dark:text-gray-400" />
+                  </div>
+                  <PriceInput
+                    value={hitPrice}
+                    onChange={setHitPrice}
+                    className="pl-10 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  onClick={handleTrackProduct}
+                  className="w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
+                >
+                  <Target className="h-5 w-5 mr-2" />
+                  Track This Product
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 dark:bg-gray-600 p-4 rounded-b-lg border-t border-gray-200 dark:border-gray-700">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                <span className="font-medium">Note:</span> Target price must be
+                lower than the current price. You'll receive notifications when
+                the price drops to or below your target.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

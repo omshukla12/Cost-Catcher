@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -33,21 +36,15 @@ const Signup = () => {
       console.log(response);
 
       if (response.token) {
-        // Store the token in local storage
-        localStorage.setItem("token", response.token);
+        // localStorage.setItem("token", response.token);
 
-        alert("Success");
-
-        // Navigate to home page
+        login(data.token);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/dashboard");
         }, 2000);
       } else {
-        // Handle the error if token is not present (signup failed)
         console.error("Signup failed:", response.message);
-
         alert("fail: ", response.message);
-        // Display error message to the user (you can use a toast or similar UI feedback)
       }
     } catch (error) {
       console.error("Error during signup:", error);
@@ -104,7 +101,7 @@ const Signup = () => {
               <div className="grid gap-2">
                 <label
                   className="text-sm font-medium leading-none"
-                  htmlFor="email"
+                  htmlFor="phone"
                 >
                   Whatsapp Number
                 </label>
@@ -141,7 +138,7 @@ const Signup = () => {
             <div className="flex items-center py-2 px-6">
               <button
                 type="submit"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-black text-white hover:bg-black/90 h-10 px-4 py-2 w-full"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-black text-white h-10 px-4 py-2 w-full disabled:opacity-50 transition-colors duration-200 hover:bg-gray-800 active:bg-gray-900"
               >
                 Sign Up
               </button>
@@ -154,7 +151,7 @@ const Signup = () => {
                 to="/signin"
                 className="hover:underline font-semibold hover:text-orange-500"
               >
-                Signin
+                Sign in
               </Link>
             </p>
           </div>

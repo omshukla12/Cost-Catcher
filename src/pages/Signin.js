@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState(null); // For displaying error messages
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -12,6 +15,8 @@ const Signin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErrorMessage(null);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_CC_API}/signin`, {
@@ -21,19 +26,21 @@ const Signin = () => {
       });
 
       const data = await response.json();
-
-      // Log the response for debugging purposes
       console.log("API Response:", data);
 
       if (response.ok && data.token) {
-        localStorage.setItem("token", data.token); // Store token in local storage
-        navigate("/home"); // Redirect to the home page
+        // localStorage.setItem("token", data.token);
+
+        login(data.token);
+        navigate("/dashboard");
       } else {
         setErrorMessage(data.message || "Invalid credentials");
       }
     } catch (err) {
       console.error("Error during sign-in:", err);
       setErrorMessage("An error occurred during sign-in. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,6 +71,7 @@ const Signin = () => {
                   type="email"
                   onChange={handleChange}
                   value={formData.email}
+                  disabled={loading}
                 />
               </div>
               <div className="grid gap-2">
@@ -81,15 +89,44 @@ const Signin = () => {
                   placeholder="********"
                   onChange={handleChange}
                   value={formData.password}
+                  disabled={loading}
                 />
               </div>
             </div>
             <div className="flex items-center py-2 px-6">
-              <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-black text-white h-10 px-4 py-2 w-full">
-                Sign In
+              <button
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-black text-white h-10 px-4 py-2 w-full disabled:opacity-50 transition-colors duration-200 hover:bg-gray-800 active:bg-gray-900"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="animate-spin h-5 w-5 mr-2 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    Signing In...
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </div>
-            {/* Display error message */}
             {errorMessage && (
               <div className="text-red-500 text-sm pl-8">{errorMessage}</div>
             )}
@@ -101,7 +138,7 @@ const Signin = () => {
                 to="/signup"
                 className="hover:underline font-semibold hover:text-orange-500"
               >
-                Signup
+                Sign up
               </Link>
             </p>
           </div>
