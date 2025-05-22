@@ -61,12 +61,12 @@ function VerifyProduct() {
 
   const handleTrackProduct = async () => {
     if (!hitPrice) {
-      toast.error("Please enter a target price");
+      toast.error("Please enter a target price.");
       return;
     }
 
     if (parseFloat(hitPrice) >= parseFloat(productData.deal_price)) {
-      toast.warning("Target price should be lower than the current price");
+      toast.warning("Target price should be lower than the current price.");
       return;
     }
 
@@ -76,7 +76,7 @@ function VerifyProduct() {
       toast.success("Product tracking successful!");
 
       setTimeout(() => {
-        navigate("/trackinglist");
+        navigate("/allproducts");
       }, 2000);
     } else {
       toast.error(error || "Failed to track product");
