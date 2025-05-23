@@ -1,51 +1,40 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
-  Bell,
-  Search,
-  Home,
-  BarChart2,
-  Heart,
-  Settings,
-  Menu,
-  Plus,
-  ArrowRight,
-  Zap,
-  DollarSign,
-  ShoppingCart,
   X,
-  Calendar,
-  Clock,
-  TrendingUp,
-  Target,
-  Gift,
+  Zap,
   Tag,
-  AlertTriangle,
-  CheckCircle,
-  ChevronRight,
-  Filter,
+  Home,
+  Plus,
+  Heart,
+  Clock,
+  Search,
+  Settings,
+  Calendar,
+  BarChart2,
   RefreshCw,
-  Award,
-  Bookmark,
-  Eye,
+  TrendingUp,
+  DollarSign,
+  ChevronRight,
+  ShoppingCart,
+  AlertTriangle,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
   Pie,
   Cell,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  BarChart,
+  PieChart,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
 } from "recharts";
+import clsx from "clsx";
 
 import Loading from "../../components/Loading";
 import ProductCard from "../../components/ui/ProductCard";
@@ -53,9 +42,6 @@ import {
   getUserFromToken,
   fetchTrackingList,
 } from "../../services/authService";
-
-import { useNavigate } from "react-router-dom";
-// import { jwtDecode } from "jwt-decode";
 
 // Sample data for charts
 const priceHistoryData = [
@@ -88,44 +74,6 @@ const categoryData = [
 
 const COLORS = ["#FF6B6B", "#FFB4B4", "#4ECDC4", "#556FB5", "#9D8DF1"];
 
-const recentAlerts = [
-  {
-    id: 1,
-    product: "Sony WH-1000XM4",
-    message: "Price dropped by 15%",
-    time: "1 hour ago",
-    type: "drop",
-  },
-  {
-    id: 2,
-    product: "MacBook Air M1",
-    message: "Back in stock",
-    time: "3 hours ago",
-    type: "stock",
-  },
-  {
-    id: 3,
-    product: "PlayStation 5",
-    message: "Price increased by 5%",
-    time: "1 day ago",
-    type: "increase",
-  },
-  {
-    id: 4,
-    product: "Nintendo Switch OLED",
-    message: "Price dropped by 10%",
-    time: "2 days ago",
-    type: "drop",
-  },
-  {
-    id: 5,
-    product: 'iPad Pro 12.9"',
-    message: "Price match found",
-    time: "3 days ago",
-    type: "match",
-  },
-];
-
 const topSavings = [
   {
     id: 1,
@@ -157,7 +105,6 @@ const stats = [
   { label: "Total Savings", value: "₹15,000", icon: DollarSign },
   { label: "Active Tracks", value: "42", icon: Zap },
   { label: "Avg. Discount", value: "18.5%", icon: BarChart2 },
-  { label: "Purchases", value: "7", icon: ShoppingCart },
 ];
 
 const trendingProducts = [
@@ -598,7 +545,7 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {stats.map((stat, index) => (
                 <div
                   key={index}
@@ -697,7 +644,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Recent Alerts */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+                  {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                       <h3 className="text-lg font-semibold">Recent Alerts</h3>
                       <Link to="/recentalerts">
@@ -734,7 +681,7 @@ export default function Dashboard() {
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Sidebar */}

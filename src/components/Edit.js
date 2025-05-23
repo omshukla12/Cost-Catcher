@@ -1,35 +1,31 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Save } from "lucide-react";
 
-// import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
-// import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
-
-import "../styles/Modal.css"; // Import external CSS for styling
-import edit from "../components/assets/edit.svg";
-
-const Edit = ({ productId, currentHitPrice, onEdit }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [newHitPrice, setNewHitPrice] = useState(currentHitPrice);
+const Edit = ({ productId, currentHitPrice, onEdit, onClose }) => {
+  const [newHitPrice, setNewHitPrice] = useState(currentHitPrice || "");
+  const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState(null);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    setError(null); // Reset error when toggling modal
-  };
+  const { token } = useContext(AuthContext);
 
-  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem("token"); // Get JWT token if needed
 
+    if (!newHitPrice || newHitPrice <= 0) {
+      setError("Please enter a valid price");
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
       const response = await fetch(
         `${process.env.REACT_APP_CC_API}/trackinglist/${productId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Add the token if required by your backend
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ newHitPrice }),
         }
@@ -38,70 +34,68 @@ const Edit = ({ productId, currentHitPrice, onEdit }) => {
       const result = await response.json();
 
       if (response.ok) {
-        onEdit(productId, newHitPrice); // Update the parent component with new hitPrice
-        // toast.success("Target price updated successfully!"); // Show success toaster immediately after successful update
-        // setTimeout(() => toggleModal(), 100); // Delay closing modal slightly to ensure toast is visible
-        alert("Price Updated Successfully");
-
-        // Refresh the page after a short delay to ensure toast is visible
-        setTimeout(() => {
-          navigate("/home");
-        }, 2000);
+        if (onEdit) {
+          onEdit(productId, newHitPrice);
+        }
+        // Automatically close modal and refresh page
+        if (onClose) onClose();
+        window.location.reload();
       } else {
         setError(result.message || "Failed to update target price");
-        alert("Failed: ", result.message);
       }
     } catch (err) {
       console.error("Error updating price:", err);
-      setError("Error updating target price.");
+      setError("Error updating target price");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   return (
-    <div className="App font-inter">
-      <button
-        onClick={toggleModal}
-        className="flex items-center bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded"
-      >
-        <img src={edit} alt="Edit" className="w-5 h-5 mr-2 filter-white" />
-        <a href="#">Edit Target Price</a>
-      </button>
-
-      {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2 className="m-2 font-semibold text-xl">Edit Target Price</h2>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              <div className="my-4">
-                <label className="mx-2">New Target Price:</label>
-                <input
-                  type="number"
-                  name="newPrice"
-                  value={newHitPrice} // Bind input value to state
-                  onChange={(e) => setNewHitPrice(e.target.value)} // Update state on input change
-                  className="p-2 border border-gray-700 rounded w-24"
-                  placeholder="₹"
-                />
-              </div>
-              {error && <p className="text-red-500">{error}</p>}
-              <button
-                type="submit"
-                className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded"
-              >
-                Update
-              </button>
-              <button
-                type="button"
-                onClick={toggleModal}
-                className="text-black font-semibold py-2 px-4 mx-2 border rounded"
-              >
-                Cancel
-              </button>
-            </form>
+    <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label
+            htmlFor="newHitPrice"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            New Target Price
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500 dark:text-gray-400">₹</span>
+            </div>
+            <input
+              id="newHitPrice"
+              type="number"
+              value={newHitPrice}
+              onChange={(e) => setNewHitPrice(e.target.value)}
+              className="pl-8 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] focus:border-transparent"
+              placeholder="Enter target price"
+              min="1"
+              required
+            />
           </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            You'll be notified when the price drops to or below this amount
+          </p>
         </div>
-      )}
+
+        {error && (
+          <div className="bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-md text-sm">
+            {error}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isUpdating}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Save className="h-4 w-4 mr-2" />
+          {isUpdating ? "Updating..." : "Update Target Price"}
+        </button>
+      </form>
     </div>
   );
 };
