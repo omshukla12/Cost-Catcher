@@ -2,7 +2,6 @@
 
 **CostCatcher** is a web application that helps users track product prices, receive smart notifications, and save money by finding the best deals across multiple online shopping platforms.
 
----
 
 ## 🚀 Features
 
@@ -16,7 +15,6 @@
 - **Responsive Design:** Works beautifully on desktop and mobile.
 - **Dark Mode:** Enjoy a visually appealing experience in any lighting.
 
----
 
 ## 🖥️ Tech Stack
 
@@ -25,7 +23,6 @@
 - **Authentication:** JWT-based, managed via Context
 - **Deployment:** Deployed using **Vercel**
 
----
 
 ## 📝 Project Structure
 
@@ -39,7 +36,6 @@ src/
   index.js            # Entry point
 ```
 
----
 
 ## 🔒 Authentication
 
@@ -47,14 +43,12 @@ src/
 - **JWT tokens** are stored in `localStorage` and accessed via context for API requests.
 - **Protected** routes redirect unauthenticated users to the sign-in page.
 
----
 
 ## 🎨 Theming
 
 - **Tailwind CSS** utility classes ensure a consistent and modern UI.
 - **Light** and **Dark** modes are supported throughout the web application.
 
----
 
 ## 🙏 Acknowledgements
 
@@ -62,6 +56,3 @@ src/
 [![React](https://img.shields.io/badge/Reactjs-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)&nbsp;
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)&nbsp;
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)&nbsp;
-
----
-
