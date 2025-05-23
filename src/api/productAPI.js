@@ -23,6 +23,7 @@ export const saveProductTracking = async (productData, hitPrice) => {
       currentPrice: productData.deal_price,
       hitPrice: hitPrice,
       category: productData.category,
+      imageLink: productData.imageLink,
     };
 
     const response = await fetch(

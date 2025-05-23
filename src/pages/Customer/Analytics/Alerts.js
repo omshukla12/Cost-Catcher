@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Bell,
   Search,
-  Filter,
   ArrowUpDown,
   Eye,
   ExternalLink,
   Plus,
   Trash2,
-  AlertTriangle,
   CheckCircle,
   Settings,
-  Calendar,
   Clock,
-  TrendingDown,
-  TrendingUp,
+  ArrowLeft,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
@@ -260,19 +256,14 @@ export default function Alerts() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
             <h1 className="text-2xl font-bold">Price Alerts</h1>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
-                <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-              </button>
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>
@@ -284,7 +275,7 @@ export default function Alerts() {
             <input
               type="text"
               placeholder="Search alerts..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -292,7 +283,7 @@ export default function Alerts() {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -304,7 +295,7 @@ export default function Alerts() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -317,7 +308,7 @@ export default function Alerts() {
               ))}
             </select>
 
-            <button className="px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252] flex items-center">
+            <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252] flex items-center">
               <Plus className="h-4 w-4 mr-2" />
               Create Alert
             </button>
@@ -329,7 +320,7 @@ export default function Alerts() {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                 checked={
                   selectedAlerts.length === currentAlerts.length &&
                   currentAlerts.length > 0
@@ -343,46 +334,46 @@ export default function Alerts() {
 
             <div className="flex items-center space-x-2">
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("product")}
               >
                 Product
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "product",
+                    "text-orange-500": sortBy === "product",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("price")}
               >
                 Current Price
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "price",
+                    "text-orange-500": sortBy === "price",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("target")}
               >
                 Target Price
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "target",
+                    "text-orange-500": sortBy === "target",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("date")}
               >
                 Created
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "date",
+                    "text-orange-500": sortBy === "date",
                   })}
                 />
               </button>
@@ -390,7 +381,7 @@ export default function Alerts() {
           </div>
 
           {selectedAlerts.length > 0 && (
-            <div className="bg-gray-50 dark:bg-gray-750 p-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div className="bg-gray-100 dark:bg-gray-900 p-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <span className="text-sm">
                 {selectedAlerts.length} alerts selected
               </span>
@@ -414,7 +405,7 @@ export default function Alerts() {
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Try adjusting your search or filter criteria
               </p>
-              <button className="inline-flex items-center px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252]">
+              <button className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252]">
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Alert
               </button>
@@ -424,12 +415,12 @@ export default function Alerts() {
               {currentAlerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className="p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-150"
+                  className="p-4 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors duration-150"
                 >
                   <div className="flex items-center gap-4">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                      className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                       checked={selectedAlerts.includes(alert.id)}
                       onChange={() => toggleAlertSelection(alert.id)}
                     />
@@ -465,7 +456,7 @@ export default function Alerts() {
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             Target:
                           </span>
-                          <span className="ml-1 text-sm font-bold text-[#FF6B6B]">
+                          <span className="ml-1 text-sm font-bold text-orange-500">
                             ₹{alert.targetPrice}
                           </span>
                         </div>
@@ -486,10 +477,10 @@ export default function Alerts() {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-[#FF6B6B]">
+                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-orange-500">
                         <Settings className="h-5 w-5" />
                       </button>
-                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-[#FF6B6B]">
+                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-orange-500">
                         <Eye className="h-5 w-5" />
                       </button>
                       <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-red-500">
@@ -497,7 +488,7 @@ export default function Alerts() {
                       </button>
                       <Link
                         to={`/product/${alert.id}`}
-                        className="p-2 rounded-md bg-[#FF6B6B] text-white hover:bg-[#FF5252]"
+                        className="p-2 rounded-md bg-orange-500 text-white hover:bg-[#FF5252]"
                       >
                         <ExternalLink className="h-5 w-5" />
                       </Link>
@@ -518,7 +509,7 @@ export default function Alerts() {
               </div>
               <div className="flex space-x-1">
                 <button
-                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(currentPage - 1)}
                 >
@@ -529,8 +520,8 @@ export default function Alerts() {
                     <button
                       key={page}
                       className={clsx("px-3 py-1 rounded-md", {
-                        "bg-[#FF6B6B] text-white": currentPage === page,
-                        "border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600":
+                        "bg-orange-500 text-white": currentPage === page,
+                        "border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600":
                           currentPage !== page,
                       })}
                       onClick={() => setCurrentPage(page)}
@@ -540,7 +531,7 @@ export default function Alerts() {
                   )
                 )}
                 <button
-                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(currentPage + 1)}
                 >

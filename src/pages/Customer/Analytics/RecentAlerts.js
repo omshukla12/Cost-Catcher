@@ -1,24 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
+  Tag,
   Bell,
   Search,
-  Filter,
-  ArrowUpDown,
-  Eye,
-  ExternalLink,
-  Calendar,
-  Clock,
-  TrendingDown,
+  ArrowLeft,
   TrendingUp,
-  ChevronDown,
-  CheckCircle,
-  AlertTriangle,
+  ArrowUpDown,
   ShoppingCart,
-  Tag,
-  Settings,
+  ExternalLink,
+  TrendingDown,
+  AlertTriangle,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Avatar from "react-avatar";
 import clsx from "clsx";
 
 // Sample data for recent alerts
@@ -302,20 +296,14 @@ export default function RecentAlerts() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
             <h1 className="text-2xl font-bold">Recent Alerts</h1>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative">
-                <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-[#FF6B6B]"></span>
-              </button>
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>
@@ -327,7 +315,7 @@ export default function RecentAlerts() {
             <input
               type="text"
               placeholder="Search alerts..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -335,7 +323,7 @@ export default function RecentAlerts() {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
             >
@@ -347,7 +335,7 @@ export default function RecentAlerts() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterTimeframe}
               onChange={(e) => setFilterTimeframe(e.target.value)}
             >
@@ -359,7 +347,7 @@ export default function RecentAlerts() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterRead}
               onChange={(e) => setFilterRead(e.target.value)}
             >
@@ -384,7 +372,7 @@ export default function RecentAlerts() {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                 checked={
                   selectedAlerts.length === currentAlerts.length &&
                   currentAlerts.length > 0
@@ -398,35 +386,35 @@ export default function RecentAlerts() {
 
             <div className="flex items-center space-x-2">
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("time")}
               >
                 Time
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "time",
+                    "text-orange-500": sortBy === "time",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("product")}
               >
                 Product
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "product",
+                    "text-orange-500": sortBy === "product",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("type")}
               >
                 Type
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "type",
+                    "text-orange-500": sortBy === "type",
                   })}
                 />
               </button>
@@ -434,7 +422,7 @@ export default function RecentAlerts() {
           </div>
 
           {selectedAlerts.length > 0 && (
-            <div className="bg-gray-50 dark:bg-gray-750 p-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div className="bg-gray-100 dark:bg-gray-900 p-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <span className="text-sm">
                 {selectedAlerts.length} alerts selected
               </span>
@@ -468,16 +456,16 @@ export default function RecentAlerts() {
                 <div
                   key={alert.id}
                   className={clsx(
-                    "p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-150",
+                    "p-4 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors duration-150",
                     {
-                      "bg-gray-50 dark:bg-gray-750": !alert.read,
+                      "bg-gray-100 dark:bg-gray-900": !alert.read,
                     }
                   )}
                 >
                   <div className="flex items-center gap-4">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                      className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                       checked={selectedAlerts.includes(alert.id)}
                       onChange={() => toggleAlertSelection(alert.id)}
                     />
@@ -500,7 +488,7 @@ export default function RecentAlerts() {
                           {alert.product}
                         </h3>
                         {!alert.read && (
-                          <span className="ml-2 px-2 py-0.5 text-xs bg-[#FF6B6B] text-white rounded-full">
+                          <span className="ml-2 px-2 py-0.5 text-xs bg-orange-500 text-white rounded-full">
                             New
                           </span>
                         )}
@@ -540,7 +528,7 @@ export default function RecentAlerts() {
                       )}
                       <Link
                         to={alert.link}
-                        className="p-2 rounded-md bg-[#FF6B6B] text-white hover:bg-[#FF5252]"
+                        className="p-2 rounded-md bg-orange-500 text-white hover:bg-[#FF5252]"
                       >
                         <ExternalLink className="h-5 w-5" />
                       </Link>
@@ -561,7 +549,7 @@ export default function RecentAlerts() {
               </div>
               <div className="flex space-x-1">
                 <button
-                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(currentPage - 1)}
                 >
@@ -572,8 +560,8 @@ export default function RecentAlerts() {
                     <button
                       key={page}
                       className={clsx("px-3 py-1 rounded-md", {
-                        "bg-[#FF6B6B] text-white": currentPage === page,
-                        "border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600":
+                        "bg-orange-500 text-white": currentPage === page,
+                        "border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600":
                           currentPage !== page,
                       })}
                       onClick={() => setCurrentPage(page)}
@@ -583,7 +571,7 @@ export default function RecentAlerts() {
                   )
                 )}
                 <button
-                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(currentPage + 1)}
                 >

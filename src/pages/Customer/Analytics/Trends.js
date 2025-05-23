@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  Search,
   Filter,
   Calendar,
   ChevronDown,
   TrendingDown,
   TrendingUp,
   ArrowRight,
-  ExternalLink,
+  ArrowLeft,
   Info,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -171,16 +170,14 @@ export default function Trends() {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
             <h1 className="text-2xl font-bold">Price Trends</h1>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>
@@ -272,7 +269,7 @@ export default function Trends() {
             </div>
             <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
               <p>
-                <span className="inline-block w-3 h-3 bg-[#FF6B6B] rounded-full mr-1"></span>
+                <span className="inline-block w-3 h-3 bg-orange-500 rounded-full mr-1"></span>
                 Electronics:{" "}
                 <span className="font-medium text-red-500">-15%</span> since
                 January
@@ -425,7 +422,7 @@ export default function Trends() {
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span className="inline-block w-3 h-3 bg-[#FF6B6B] rounded-full mr-1"></span>
+                    <span className="inline-block w-3 h-3 bg-orange-500 rounded-full mr-1"></span>
                     <span className="text-gray-600 dark:text-gray-400">
                       Price Increase
                     </span>
@@ -445,7 +442,7 @@ export default function Trends() {
             {productTrendsData.map((category) => (
               <div
                 key={category.id}
-                className="p-4 hover:bg-gray-50 dark:hover:bg-gray-750"
+                className="p-4 hover:bg-gray-100 dark:hover:bg-gray-900"
               >
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex-1">
@@ -528,7 +525,7 @@ export default function Trends() {
         </div>
 
         {/* Buying Recommendations */}
-        <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg shadow text-white p-6">
+        <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg shadow text-white p-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div>
               <h3 className="text-xl font-semibold mb-2">
@@ -541,7 +538,7 @@ export default function Trends() {
               </p>
               <Link
                 to="/best-deals"
-                className="inline-flex items-center px-4 py-2 bg-white text-[#FF6B6B] rounded-md hover:bg-gray-100 focus:outline-none"
+                className="inline-flex items-center px-4 py-2 bg-white text-orange-500 rounded-md hover:bg-gray-100 focus:outline-none"
               >
                 View Best Deals
                 <ArrowRight className="ml-2 h-4 w-4" />

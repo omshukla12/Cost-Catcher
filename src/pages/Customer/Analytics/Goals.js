@@ -327,7 +327,7 @@ export default function Goals() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -357,7 +357,7 @@ export default function Goals() {
 
           <div className="flex items-center space-x-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -369,7 +369,7 @@ export default function Goals() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -381,7 +381,7 @@ export default function Goals() {
             </select>
 
             <button
-              className="px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252] flex items-center"
+              className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252] flex items-center"
               onClick={() => setShowNewGoalForm(true)}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -410,7 +410,7 @@ export default function Goals() {
                     Try adjusting your filters or create a new goal
                   </p>
                   <button
-                    className="inline-flex items-center px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252]"
+                    className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252]"
                     onClick={() => setShowNewGoalForm(true)}
                   >
                     <Plus className="h-4 w-4 mr-2" />
@@ -423,9 +423,9 @@ export default function Goals() {
                     <div
                       key={goal.id}
                       className={clsx(
-                        "p-4 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer",
+                        "p-4 hover:bg-gray-100 dark:hover:bg-gray-900 cursor-pointer",
                         {
-                          "bg-gray-50 dark:bg-gray-750":
+                          "bg-gray-100 dark:bg-gray-900":
                             selectedGoal?.id === goal.id,
                         }
                       )}
@@ -469,7 +469,7 @@ export default function Goals() {
                         </div>
 
                         <div className="flex items-center space-x-2">
-                          <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-[#FF6B6B]">
+                          <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-orange-500">
                             <Edit className="h-5 w-5" />
                           </button>
                           <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-red-500">
@@ -544,7 +544,7 @@ export default function Goals() {
                           <p className="text-sm text-gray-500 dark:text-gray-400">
                             Current
                           </p>
-                          <p className="font-medium text-[#FF6B6B]">
+                          <p className="font-medium text-orange-500">
                             {selectedGoal.type === "savings"
                               ? `₹${selectedGoal.current.toLocaleString()}`
                               : selectedGoal.current}
@@ -604,7 +604,7 @@ export default function Goals() {
 
           <div className="space-y-6">
             {/* Overall Progress */}
-            <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg shadow text-white">
+            <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg shadow text-white">
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <Award className="h-6 w-6 mr-2" />
@@ -705,14 +705,14 @@ export default function Goals() {
                   {goalSuggestions.map((suggestion) => (
                     <div
                       key={suggestion.id}
-                      className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-[#FF6B6B] hover:shadow-sm transition-all duration-200"
+                      className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-orange-500 hover:shadow-sm transition-all duration-200"
                     >
                       <h4 className="font-medium">{suggestion.name}</h4>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {suggestion.description}
                       </p>
                       <button
-                        className="mt-2 text-sm text-[#FF6B6B] hover:underline flex items-center"
+                        className="mt-2 text-sm text-orange-500 hover:underline flex items-center"
                         onClick={() => {
                           setNewGoalName(suggestion.name);
                           setNewGoalType(suggestion.type);
@@ -758,7 +758,7 @@ export default function Goals() {
                     id="goalName"
                     type="text"
                     placeholder="e.g. Save ₹10,000 this year"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                     value={newGoalName}
                     onChange={(e) => setNewGoalName(e.target.value)}
                     required
@@ -774,7 +774,7 @@ export default function Goals() {
                   </label>
                   <select
                     id="goalType"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                     value={newGoalType}
                     onChange={(e) => setNewGoalType(e.target.value)}
                     required
@@ -803,7 +803,7 @@ export default function Goals() {
                         newGoalType === "savings" ? "e.g. 10000" : "e.g. 50"
                       }
                       className={clsx(
-                        "w-full border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]",
+                        "w-full border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500",
                         {
                           "pl-10 pr-4 py-2": newGoalType === "savings",
                           "px-4 py-2": newGoalType !== "savings",
@@ -826,7 +826,7 @@ export default function Goals() {
                   </label>
                   <select
                     id="goalCategory"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                     value={newGoalCategory}
                     onChange={(e) => setNewGoalCategory(e.target.value)}
                   >
@@ -852,7 +852,7 @@ export default function Goals() {
                     <input
                       id="goalEndDate"
                       type="date"
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                       value={newGoalEndDate}
                       onChange={(e) => setNewGoalEndDate(e.target.value)}
                       required
@@ -864,14 +864,14 @@ export default function Goals() {
               <div className="flex justify-end mt-6 space-x-2">
                 <button
                   type="button"
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-650 focus:outline-none"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-650 focus:outline-none"
                   onClick={() => setShowNewGoalForm(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252] focus:outline-none"
+                  className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252] focus:outline-none"
                 >
                   Create Goal
                 </button>

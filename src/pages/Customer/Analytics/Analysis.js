@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Calendar,
   Download,
   Filter,
   ChevronDown,
   BarChart2,
-  PieChartIcon,
+  // PieChartIcon,
   LineChartIcon,
   TrendingDown,
   ArrowLeft,
-  TrendingUp,
+  // TrendingUp,
   DollarSign,
   ShoppingBag,
   Tag,
@@ -123,21 +123,14 @@ export default function Analysis() {
   const purchasesMade = 7;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/dashboard" className="mr-4">
-                <ArrowLeft className="h-5 w-5 text-gray-200 hover:text-orange-500 focus:outline-none" />
-              </Link>
-              <h1 className="text-2xl font-bold">Analytics</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
+            <h1 className="text-2xl font-bold">Analytics</h1>
           </div>
         </div>
       </header>
@@ -174,7 +167,7 @@ export default function Analysis() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-[#FF6B6B]">
+              <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-orange-500">
                 <DollarSign className="h-6 w-6" />
               </div>
               <div className="ml-4">
@@ -238,7 +231,7 @@ export default function Analysis() {
             <div className="flex items-center space-x-2">
               <button
                 className={clsx("px-3 py-1.5 rounded-md text-sm", {
-                  "bg-[#FF6B6B] text-white": chartType === "savings",
+                  "bg-orange-500 text-white": chartType === "savings",
                   "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600":
                     chartType !== "savings",
                 })}
@@ -249,7 +242,7 @@ export default function Analysis() {
               </button>
               <button
                 className={clsx("px-3 py-1.5 rounded-md text-sm", {
-                  "bg-[#FF6B6B] text-white": chartType === "tracked",
+                  "bg-orange-500 text-white": chartType === "tracked",
                   "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600":
                     chartType !== "tracked",
                 })}
@@ -260,7 +253,7 @@ export default function Analysis() {
               </button>
               <button
                 className={clsx("px-3 py-1.5 rounded-md text-sm", {
-                  "bg-[#FF6B6B] text-white": chartType === "price",
+                  "bg-orange-500 text-white": chartType === "price",
                   "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600":
                     chartType !== "price",
                 })}
@@ -484,7 +477,7 @@ export default function Analysis() {
                   {topSavingsProducts.map((product, index) => (
                     <tr
                       key={product.id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-750"
+                      className="hover:bg-gray-100 dark:hover:bg-gray-900"
                     >
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -501,7 +494,7 @@ export default function Analysis() {
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-[#FF6B6B]">
+                        <div className="text-sm font-medium text-orange-500">
                           ₹{product.savings}
                         </div>
                       </td>
@@ -514,7 +507,7 @@ export default function Analysis() {
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         <Link
                           to={`/product/${product.id}`}
-                          className="text-[#FF6B6B] hover:underline"
+                          className="text-orange-500 hover:underline"
                         >
                           View Details
                         </Link>

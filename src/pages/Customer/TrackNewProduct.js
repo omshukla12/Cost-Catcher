@@ -45,7 +45,7 @@ const TrackNewProduct = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -104,7 +104,7 @@ const TrackNewProduct = () => {
                         isValidUrl
                           ? "border-gray-300 dark:border-gray-600"
                           : "border-red-500 dark:border-red-500"
-                      } rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] focus:border-transparent`}
+                      } rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent`}
                       required
                     />
                   </div>
@@ -119,7 +119,7 @@ const TrackNewProduct = () => {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
+                    className="w-full bg-orange-500 hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
                   >
                     <ShoppingBag className="h-5 w-5 mr-2" />
                     Track This Product
@@ -128,7 +128,7 @@ const TrackNewProduct = () => {
               </form>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-600 p-4 rounded-b-lg border-t border-gray-200 dark:border-gray-700">
+            <div className="bg-gray-100 dark:bg-gray-600 p-4 rounded-b-lg border-t border-gray-200 dark:border-gray-700">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Supported Websites
               </h4>

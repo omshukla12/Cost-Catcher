@@ -175,21 +175,14 @@ export default function Favorites() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/dashboard" className="mr-4">
-                <ArrowLeft className="h-5 w-5 text-gray-200 hover:text-orange-500 focus:outline-none" />
-              </Link>
-              <h1 className="text-2xl font-bold">Favorites</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
+            <h1 className="text-2xl font-bold">Favorites</h1>
           </div>
         </div>
       </header>
@@ -201,7 +194,7 @@ export default function Favorites() {
             <input
               type="text"
               placeholder="Search favorites..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -209,7 +202,7 @@ export default function Favorites() {
 
           <div className="flex items-center space-x-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -234,46 +227,46 @@ export default function Favorites() {
             </h2>
             <div className="flex items-center space-x-2">
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("name")}
               >
                 Name
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "name",
+                    "text-orange-500": sortBy === "name",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("price")}
               >
                 Price
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "price",
+                    "text-orange-500": sortBy === "price",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("discount")}
               >
                 Discount
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "discount",
+                    "text-orange-500": sortBy === "discount",
                   })}
                 />
               </button>
               <button
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                 onClick={() => toggleSort("date")}
               >
                 Date Added
                 <ArrowUpDown
                   className={clsx("h-4 w-4 ml-1", {
-                    "text-[#FF6B6B]": sortBy === "date",
+                    "text-orange-500": sortBy === "date",
                   })}
                 />
               </button>
@@ -291,7 +284,7 @@ export default function Favorites() {
               </p>
               <Link
                 to="/products"
-                className="inline-flex items-center px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252]"
+                className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252]"
               >
                 Browse Products
               </Link>
@@ -301,7 +294,7 @@ export default function Favorites() {
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-150"
+                  className="p-4 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors duration-150"
                 >
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
                     <div className="flex items-center space-x-4 flex-1">
@@ -320,7 +313,7 @@ export default function Favorites() {
                           <span>Added {product.dateAdded}</span>
                         </div>
                         <div className="flex items-center mt-1">
-                          <span className="text-lg font-bold text-[#FF6B6B]">
+                          <span className="text-lg font-bold text-orange-500">
                             ₹{product.price}
                           </span>
                           <span className="text-sm text-gray-500 line-through ml-2">
@@ -363,10 +356,10 @@ export default function Favorites() {
                     </div>
 
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-[#FF6B6B]">
+                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-orange-500">
                         <Bell className="h-5 w-5" />
                       </button>
-                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-[#FF6B6B]">
+                      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-orange-500">
                         <Eye className="h-5 w-5" />
                       </button>
                       <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-red-500">
@@ -374,7 +367,7 @@ export default function Favorites() {
                       </button>
                       <Link
                         to={`/product/${product.id}`}
-                        className="p-2 rounded-md bg-[#FF6B6B] text-white hover:bg-[#FF5252]"
+                        className="p-2 rounded-md bg-orange-500 text-white hover:bg-[#FF5252]"
                       >
                         <ExternalLink className="h-5 w-5" />
                       </Link>

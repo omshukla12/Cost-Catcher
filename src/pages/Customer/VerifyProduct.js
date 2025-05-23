@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+
 import {
   ArrowLeft,
   AlertCircle,
@@ -13,7 +14,7 @@ import Avatar from "react-avatar";
 
 import Loading from "../../components/Loading";
 import PriceInput from "../../components/PriceInput";
-import ProductDetails from "../../components/ProductDetails";
+import ProductCard from "../../components/ProductCard";
 
 import { extractProductID } from "../../utils/productUtils";
 import { fetchProductData, saveProductTracking } from "../../api/productAPI";
@@ -85,7 +86,7 @@ function VerifyProduct() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center">
         <Loading />
       </div>
     );
@@ -93,7 +94,7 @@ function VerifyProduct() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
         <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
@@ -122,7 +123,7 @@ function VerifyProduct() {
               <p className="text-gray-700 dark:text-gray-300 mb-6">{error}</p>
               <button
                 onClick={() => navigate("/addProduct")}
-                className="w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
+                className="w-full bg-orange-500 hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
               >
                 Try Again
               </button>
@@ -134,7 +135,7 @@ function VerifyProduct() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -176,7 +177,7 @@ function VerifyProduct() {
             </div>
 
             <div className="p-6">
-              <ProductDetails productData={productData} />
+              <ProductCard productData={productData} />
             </div>
           </div>
 
@@ -208,7 +209,7 @@ function VerifyProduct() {
                   <PriceInput
                     value={hitPrice}
                     onChange={setHitPrice}
-                    className="pl-10 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] focus:border-transparent"
+                    className="pl-10 w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -216,7 +217,7 @@ function VerifyProduct() {
               <div className="pt-4">
                 <button
                   onClick={handleTrackProduct}
-                  className="w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
+                  className="w-full bg-orange-500 hover:bg-[#ff5252] text-white font-medium py-3 px-4 rounded-md transition duration-200 flex items-center justify-center"
                 >
                   <Target className="h-5 w-5 mr-2" />
                   Track This Product
@@ -224,7 +225,7 @@ function VerifyProduct() {
               </div>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-600 p-4 rounded-b-lg border-t border-gray-200 dark:border-gray-700">
+            <div className="bg-gray-100 dark:bg-gray-600 p-4 rounded-b-lg border-t border-gray-200 dark:border-gray-700">
               <p className="text-sm text-gray-700 dark:text-gray-300">
                 <span className="font-medium">Note:</span> Target price must be
                 lower than the current price. You'll receive notifications when
