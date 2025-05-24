@@ -1,24 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import {
-  IndianRupee,
-  Menu,
-  X,
-  Moon,
-  Sun,
-  Mail,
-  CreditCard,
-  Settings,
-  HelpCircle,
-  LogOut,
-  User,
-  ChevronRight,
-  Bell,
-  Home,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import {
+  X,
+  Sun,
+  Bell,
+  Menu,
+  Moon,
+  Mail,
+  User,
+  LogOut,
+  HelpCircle,
+  IndianRupee,
+} from "lucide-react";
 import Avatar from "react-avatar";
-// import clsx from "clsx";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { getUserFromToken } from "../services/authService";
 import { ThemeContext } from "../context/ThemeContext";
@@ -27,6 +23,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Button } from "./ui/Button";
 import { Switch } from "./ui/Switch";
 
+/*
 const recentAlerts = [
   {
     id: 1,
@@ -64,23 +61,26 @@ const recentAlerts = [
     type: "match",
   },
 ];
+*/
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  // Contexts
+  const { isAuthenticated, logout, user } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // User menu
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const menuRef = useRef(null);
   const initialRenderDone = useRef(false);
+  const menuRef = useRef(null);
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const navigate = useNavigate();
 
-  // Handle opening/closing user menu
+  // Handle opening/closing of user menu
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -97,6 +97,7 @@ export default function Navbar() {
     };
   }, [userMenuOpen]);
 
+  // Closing the user menu on first render
   useEffect(() => {
     if (!initialRenderDone.current) {
       initialRenderDone.current = true;
@@ -104,8 +105,8 @@ export default function Navbar() {
     }
   }, []);
 
+  // Keep menu closed on auth changes
   useEffect(() => {
-    // Keep menu closed on auth changes
     setUserMenuOpen(false);
   }, [isAuthenticated]);
 
@@ -113,6 +114,7 @@ export default function Navbar() {
     setUserMenuOpen((prev) => !prev);
   };
 
+  // Handling scrolling effects
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
@@ -121,7 +123,6 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos, visible]);
 
@@ -144,10 +145,7 @@ export default function Navbar() {
   };
 
   const links = isAuthenticated
-    ? [
-        { to: "/dashboard", label: "Dashboard" },
-        // { to: "/contact", label: "Contact" },
-      ]
+    ? [{ to: "/dashboard", label: "Dashboard" }]
     : [
         { to: "/about", label: "About" },
         { to: "/contact", label: "Contact" },
@@ -230,18 +228,33 @@ export default function Navbar() {
             </button>
           </motion.div>
 
-          {/* User */}
-
+          {/* User Menu */}
           {isAuthenticated && (
-            <div className="relative" ref={menuRef}>
+            <div className="relative flex items-center gap-2" ref={menuRef}>
+              {/* Notification Bell Button */}
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative transition-colors duration-200"
+                aria-label="Notifications"
+              >
+                <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-500"></span>
+              </button>
+
+              {/* User Menu Toggle */}
               <button
                 onClick={toggleMenu}
-                className="relative h-8 w-8 rounded-full focus:outline-none"
+                className="relative h-8 w-8 rounded-full focus:outline-none flex items-center justify-center ml-1"
+                aria-label="User Menu"
               >
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
+                <Avatar
+                  name={user?.name || "User"}
+                  size="32"
+                  round={true}
+                  color="#FF6B6B"
+                />
               </button>
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
+                <div className="absolute right-0 mt-[270px] w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700">
                     {(() => {
                       const { name, email } = getUserFromToken() || {};
@@ -267,13 +280,6 @@ export default function Navbar() {
                       <User className="inline-block w-4 h-4 mr-2" />
                       Profile
                     </Link>
-                    {/* <Link
-                      to="/dashboard"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <Home className="inline-block w-4 h-4 mr-2" />
-                      Dashboard
-                    </Link> */}
                     <Link
                       to="/contact"
                       className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -304,67 +310,6 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* {isAuthenticated && (
-            <div className="relative" ref={menuRef}>
-              <button
-                onClick={toggleMenu}
-                className="relative h-8 w-8 rounded-full focus:outline-none"
-              >
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </button>
-              {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
-                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-                    <p className="text-sm font-medium">{ }</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Free Plan
-                    </p>
-                  </div>
-                  <div className="py-1">
-                    <Link
-                      to="/account"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <User className="inline-block w-4 h-4 mr-2" />
-                      Profile
-                    </Link>
-                    <Link
-                      to="/home"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <Home className="inline-block w-4 h-4 mr-2" />
-                      Dashboard
-                    </Link>
-                    <Link
-                      to="/pricing"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <CreditCard className="inline-block w-4 h-4 mr-2" />
-                      Billing
-                    </Link>
-                    <Link
-                      to="/help"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <HelpCircle className="inline-block w-4 h-4 mr-2" />
-                      Help Center
-                    </Link>
-                  </div>
-                  <div className="py-1 border-t border-gray-200 dark:border-gray-700">
-                    <Link
-                      onClick={handleSignout}
-                      className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <LogOut className="inline-block w-4 h-4 mr-2" />
-                      Log out
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div> */}
-
         {/* Mobile Menu Button */}
         <Button
           variant="ghost"
@@ -385,7 +330,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="w-3/4 fixed top-0 right-0 z-30 bg-gray-50 dark:bg-gray-700 md:hidden"
+            className="w-3/4 fixed top-0 right-0 z-30 bg-gray-100 dark:bg-gray-700 md:hidden"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}

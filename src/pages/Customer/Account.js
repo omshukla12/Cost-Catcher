@@ -7,9 +7,7 @@ import {
   Lock,
   Edit,
   ArrowLeft,
-  ChevronLeft,
 } from "lucide-react";
-import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -85,28 +83,20 @@ const Account = () => {
   }
 
   return (
-    <div className="font-inter min-h-screen bg-gray-50 dark:bg-gray-900 text-foreground transition-colors duration-300">
-      {/* Header (<-) */}
-      <div className="transform transition-transform duration-300 sticky top-0 z-10  dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 bg-white">
+    <div className="font-inter min-h-screen bg-gray-100 dark:bg-gray-900 text-foreground transition-colors duration-300">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/dashboard" className="mr-4">
-                <ArrowLeft className="h-5 w-5 text-gray-200 hover:text-orange-500 focus:outline-none" />
-              </Link>
-              <h1 className="text-2xl font-bold">Settings</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
+            <h1 className="text-2xl font-bold">Settings</h1>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Profile Header */}
-      <div className="bg-gradient-to-b from-orange-500 to-orange-400 dark:from-orange-600 dark:to-orange-500 pt-12 pb-24 px-4">
+      <div className="bg-gradient-to-b from-orange-500 to-orange-400 dark:from-blue-700 dark:to-blue-500 pt-12 pb-24 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-block bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg mb-4">
             <NewAvatar
@@ -125,7 +115,7 @@ const Account = () => {
         </div>
       </div>
 
-      {/* Content Cards - Negative margin to overlap with header */}
+      {/* Content Cards */}
       <div className="max-w-3xl mx-auto px-4 -mt-16 space-y-6 pb-12">
         {/* Contact Info Section */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">

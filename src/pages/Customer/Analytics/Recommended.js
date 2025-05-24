@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import {
-  Search,
-  Filter,
-  ChevronDown,
+  Zap,
   Star,
+  Clock,
+  Search,
   StarOff,
+  ThumbsUp,
+  BarChart2,
+  ArrowLeft,
+  ArrowRight,
+  ThumbsDown,
   ExternalLink,
   ShoppingCart,
-  Tag,
-  Clock,
-  Zap,
-  ArrowRight,
-  ThumbsUp,
-  ThumbsDown,
-  BarChart2,
-  Heart,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
@@ -365,16 +362,14 @@ export default function Recommended() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
             <h1 className="text-2xl font-bold">Recommended For You</h1>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>
@@ -386,7 +381,7 @@ export default function Recommended() {
             <input
               type="text"
               placeholder="Search recommendations..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -394,7 +389,7 @@ export default function Recommended() {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -406,7 +401,7 @@ export default function Recommended() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterStore}
               onChange={(e) => setFilterStore(e.target.value)}
             >
@@ -418,7 +413,7 @@ export default function Recommended() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterDealQuality}
               onChange={(e) => setFilterDealQuality(e.target.value)}
             >
@@ -430,7 +425,7 @@ export default function Recommended() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -443,7 +438,7 @@ export default function Recommended() {
 
             <button
               className={clsx("px-4 py-2 border rounded-md flex items-center", {
-                "border-[#FF6B6B] bg-[#FF6B6B]/10 text-[#FF6B6B]":
+                "border-orange-500 bg-orange-500/10 text-orange-500":
                   showTrackedOnly,
                 "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600":
                   !showTrackedOnly,
@@ -465,7 +460,7 @@ export default function Recommended() {
                   Personalized Recommendations ({filteredProducts.length})
                 </h2>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Based on your preferences and browsing history
+                  Based on your preferences
                 </div>
               </div>
 
@@ -485,9 +480,9 @@ export default function Recommended() {
                     <div
                       key={product.id}
                       className={clsx(
-                        "p-4 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition-colors duration-150",
+                        "p-4 hover:bg-gray-100 dark:hover:bg-gray-900 cursor-pointer transition-colors duration-150",
                         {
-                          "bg-gray-50 dark:bg-gray-750":
+                          "bg-gray-100 dark:bg-gray-900":
                             selectedProduct?.id === product.id,
                         }
                       )}
@@ -571,9 +566,9 @@ export default function Recommended() {
 
                           <button
                             className={clsx("p-2 rounded-full", {
-                              "text-[#FF6B6B] bg-red-100 dark:bg-red-900/20":
+                              "text-orange-500 bg-red-100 dark:bg-red-900/20":
                                 product.isTracked,
-                              "text-gray-400 hover:text-[#FF6B6B] hover:bg-red-100 dark:hover:bg-red-900/20":
+                              "text-gray-400 hover:text-orange-500 hover:bg-red-100 dark:hover:bg-red-900/20":
                                 !product.isTracked,
                             })}
                             onClick={(e) => {
@@ -591,7 +586,7 @@ export default function Recommended() {
 
                         <Link
                           to={`/product/${product.id}`}
-                          className="p-2 rounded-md bg-[#FF6B6B] text-white hover:bg-[#FF5252]"
+                          className="p-2 rounded-md bg-orange-500 text-white hover:bg-[#FF5252]"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <ExternalLink className="h-5 w-5" />
@@ -753,7 +748,7 @@ export default function Recommended() {
                       <div className="mt-4 flex justify-between">
                         <Link
                           to={`/product/${selectedProduct.id}`}
-                          className="text-sm text-[#FF6B6B] hover:underline flex items-center"
+                          className="text-sm text-orange-500 hover:underline flex items-center"
                         >
                           View Details
                           <ArrowRight className="h-3 w-3 ml-1" />
@@ -762,7 +757,7 @@ export default function Recommended() {
                           className={clsx(
                             "text-sm hover:underline flex items-center",
                             {
-                              "text-[#FF6B6B]": !selectedProduct.isTracked,
+                              "text-orange-500": !selectedProduct.isTracked,
                               "text-gray-500 dark:text-gray-400":
                                 selectedProduct.isTracked,
                             }
@@ -799,7 +794,7 @@ export default function Recommended() {
                 {recommendedProducts.slice(0, 3).map((product) => (
                   <div
                     key={product.id}
-                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:border-[#FF6B6B] hover:shadow-sm transition-all duration-200"
+                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:border-orange-500 hover:shadow-sm transition-all duration-200"
                   >
                     <div className="flex items-center mb-2">
                       <img
@@ -829,7 +824,7 @@ export default function Recommended() {
                       </div>
                       <Link
                         to={`/product/${product.id}`}
-                        className="text-xs text-[#FF6B6B] hover:underline flex items-center"
+                        className="text-xs text-orange-500 hover:underline flex items-center"
                       >
                         View
                         <ArrowRight className="h-3 w-3 ml-1" />
@@ -862,7 +857,7 @@ export default function Recommended() {
                         <div className="flex items-center">
                           <div className="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-[#FF6B6B]"
+                              className="h-full bg-orange-500"
                               style={{ width: `${category.weight}%` }}
                             ></div>
                           </div>
@@ -935,7 +930,7 @@ export default function Recommended() {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                        className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                         checked
                       />
                       <span className="ml-2 text-sm">Show price drops</span>
@@ -945,7 +940,7 @@ export default function Recommended() {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                        className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                         checked
                       />
                       <span className="ml-2 text-sm">
@@ -957,7 +952,7 @@ export default function Recommended() {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                        className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                         checked
                       />
                       <span className="ml-2 text-sm">
@@ -969,7 +964,7 @@ export default function Recommended() {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 text-[#FF6B6B] rounded border-gray-300 focus:ring-[#FF6B6B]"
+                        className="h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
                       />
                       <span className="ml-2 text-sm">
                         Show popular in my area
@@ -978,14 +973,14 @@ export default function Recommended() {
                   </div>
                 </div>
 
-                <button className="mt-4 w-full px-4 py-2 bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252] focus:outline-none">
+                <button className="mt-4 w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-[#FF5252] focus:outline-none">
                   Update Preferences
                 </button>
               </div>
             </div>
 
             {/* Special Deals */}
-            <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg shadow text-white">
+            <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg shadow text-white">
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <Zap className="h-6 w-6 mr-2" />
@@ -999,7 +994,7 @@ export default function Recommended() {
                 </p>
                 <Link
                   to="/best-deals"
-                  className="inline-flex items-center px-4 py-2 bg-white text-[#FF6B6B] rounded-md hover:bg-gray-100 focus:outline-none"
+                  className="inline-flex items-center px-4 py-2 bg-white text-orange-500 rounded-md hover:bg-gray-100 focus:outline-none"
                 >
                   View Special Deals
                   <ArrowRight className="ml-2 h-4 w-4" />

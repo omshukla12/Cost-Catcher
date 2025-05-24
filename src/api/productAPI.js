@@ -23,16 +23,20 @@ export const saveProductTracking = async (productData, hitPrice) => {
       currentPrice: productData.deal_price,
       hitPrice: hitPrice,
       category: productData.category,
+      imageLink: productData.imageLink,
     };
 
-    const response = await fetch(`process.env.REACT_APP_CC_API`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_CC_API}/trackProduct`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     const result = await response.json();
 

@@ -1,8 +1,6 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IndianRupee, Users, Zap, Globe, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
 
 import TeamMember from "../../components/TeamMember";
 import FeatureCard from "../../components/FeatureCard";
@@ -37,34 +35,34 @@ export default function About() {
 
   const teamMembers = [
     {
-      name: "Om Shukla",
-      role: "CEO & Co-founder",
-      image: "https://avatars.githubusercontent.com/u/121335245?v=4",
-      profileLink: "https://github.com/omshukla12",
-    },
-    {
       name: "Anurag Dubey",
-      role: "CTO & Co-founder",
+      role: "Backend Developer",
       image: "https://avatars.githubusercontent.com/u/71247280?v=4",
       profileLink: "https://github.com/Anuragd275",
     },
     {
-      name: "Nirmit Mishra",
-      role: "Head of Product",
-      image: "https://avatars.githubusercontent.com/u/93557744?v=4",
-      profileLink: "https://github.com/nirmit27",
-    },
-    {
       name: "Akash Raj Nigam",
-      role: "Head of Marketing",
+      role: "QA Analyst",
       image: "https://avatars.githubusercontent.com/u/99388525?v=4",
       profileLink: "https://github.com/AkasHRaJNigaM",
     },
     {
       name: "Rohit Pal",
-      role: "Head of Customer Success",
+      role: "UI/UX Designer",
       image: "https://avatars.githubusercontent.com/u/176647458?v=4",
       profileLink: "https://github.com/RohitPal8542",
+    },
+    {
+      name: "Om Shukla",
+      role: "Frontend Developer",
+      image: "https://avatars.githubusercontent.com/u/121335245?v=4",
+      profileLink: "https://github.com/omshukla12",
+    },
+    {
+      name: "Nirmit Mishra",
+      role: "Frontend Developer",
+      image: "https://avatars.githubusercontent.com/u/93557744?v=4",
+      profileLink: "https://github.com/nirmit27",
     },
   ];
 
@@ -115,7 +113,7 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-gray-200">
             Meet Our Team
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {teamMembers.map((member, index) => (
               <div
                 key={index}
@@ -128,6 +126,22 @@ export default function About() {
                 <TeamMember {...member} />
               </div>
             ))}
+          </div> */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
+            {/* First row */}
+            {teamMembers.slice(0, 3).map((member, index) => (
+              <div key={index} className="flex justify-center">
+                <TeamMember {...member} />
+              </div>
+            ))}
+            {/* Second row */}
+            <div className="col-span-1 sm:col-span-2 md:col-span-3 flex flex-col sm:flex-row justify-center items-center md:gap-64 gap-12">
+              {teamMembers.slice(3).map((member, index) => (
+                <div key={index} className="flex justify-center">
+                  <TeamMember {...member} />
+                </div>
+              ))}
+            </div>
           </div>
         </motion.section>
 

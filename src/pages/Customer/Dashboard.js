@@ -1,51 +1,40 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
-  Bell,
-  Search,
-  Home,
-  BarChart2,
-  Heart,
-  Settings,
-  Menu,
-  Plus,
-  ArrowRight,
-  Zap,
-  DollarSign,
-  ShoppingCart,
   X,
-  Calendar,
-  Clock,
-  TrendingUp,
-  Target,
-  Gift,
+  Zap,
   Tag,
-  AlertTriangle,
-  CheckCircle,
-  ChevronRight,
-  Filter,
+  Home,
+  Plus,
+  Heart,
+  Clock,
+  Search,
+  Settings,
+  Calendar,
+  BarChart2,
   RefreshCw,
-  Award,
-  Bookmark,
-  Eye,
+  TrendingUp,
+  DollarSign,
+  ChevronRight,
+  ShoppingCart,
+  AlertTriangle,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
   Pie,
   Cell,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  BarChart,
+  PieChart,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
 } from "recharts";
+import clsx from "clsx";
 
 import Loading from "../../components/Loading";
 import ProductCard from "../../components/ui/ProductCard";
@@ -53,9 +42,6 @@ import {
   getUserFromToken,
   fetchTrackingList,
 } from "../../services/authService";
-
-import { useNavigate } from "react-router-dom";
-// import { jwtDecode } from "jwt-decode";
 
 // Sample data for charts
 const priceHistoryData = [
@@ -88,44 +74,6 @@ const categoryData = [
 
 const COLORS = ["#FF6B6B", "#FFB4B4", "#4ECDC4", "#556FB5", "#9D8DF1"];
 
-const recentAlerts = [
-  {
-    id: 1,
-    product: "Sony WH-1000XM4",
-    message: "Price dropped by 15%",
-    time: "1 hour ago",
-    type: "drop",
-  },
-  {
-    id: 2,
-    product: "MacBook Air M1",
-    message: "Back in stock",
-    time: "3 hours ago",
-    type: "stock",
-  },
-  {
-    id: 3,
-    product: "PlayStation 5",
-    message: "Price increased by 5%",
-    time: "1 day ago",
-    type: "increase",
-  },
-  {
-    id: 4,
-    product: "Nintendo Switch OLED",
-    message: "Price dropped by 10%",
-    time: "2 days ago",
-    type: "drop",
-  },
-  {
-    id: 5,
-    product: 'iPad Pro 12.9"',
-    message: "Price match found",
-    time: "3 days ago",
-    type: "match",
-  },
-];
-
 const topSavings = [
   {
     id: 1,
@@ -157,7 +105,6 @@ const stats = [
   { label: "Total Savings", value: "₹15,000", icon: DollarSign },
   { label: "Active Tracks", value: "42", icon: Zap },
   { label: "Avg. Discount", value: "18.5%", icon: BarChart2 },
-  { label: "Purchases", value: "7", icon: ShoppingCart },
 ];
 
 const trendingProducts = [
@@ -362,13 +309,13 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 md:hidden">
           <div className="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg">
             <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-              <h1 className="text-xl font-bold text-[#FF6B6B]">CostCatcher</h1>
+              <h1 className="text-xl font-bold text-orange-500">CostCatcher</h1>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
@@ -382,7 +329,7 @@ export default function Dashboard() {
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -426,12 +373,12 @@ export default function Dashboard() {
                 </li>
               </ul>
               {/* <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg p-4 text-white">
+                <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg p-4 text-white">
                   <h3 className="font-medium mb-2">Upgrade to Pro</h3>
                   <p className="text-sm mb-3 text-white/90">
                     Get more features and save even more!
                   </p>
-                  <button className="w-full px-3 py-1.5 bg-white text-[#FF6B6B] rounded-md text-sm hover:bg-gray-100 focus:outline-none">
+                  <button className="w-full px-3 py-1.5 bg-white text-orange-500 rounded-md text-sm hover:bg-gray-100 focus:outline-none">
                     Learn More
                   </button>
                 </div>
@@ -506,13 +453,13 @@ export default function Dashboard() {
             </div>
 
             {/* <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg p-4 text-white">
+              <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg p-4 text-white">
                 <h3 className="font-medium mb-2">Upgrade to Pro</h3>
                 <p className="text-sm mb-3 text-white/90">
                   Get more features and save even more!
                 </p>
                 <Link to="/pricing">
-                  <button className="w-full px-3 py-1.5 bg-white text-[#FF6B6B] rounded-md text-sm hover:bg-gray-100 focus:outline-none flex items-center justify-center">
+                  <button className="w-full px-3 py-1.5 bg-white text-orange-500 rounded-md text-sm hover:bg-gray-100 focus:outline-none flex items-center justify-center">
                     Upgrade Now
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </button>
@@ -531,7 +478,7 @@ export default function Dashboard() {
                   Welcome back, {user.name}!
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Here's what's happening with your tracked products
+                  Here's what's happening with your tracked products ...
                 </p>
               </div>
               <div className="flex space-x-2 mt-4 md:mt-0">
@@ -542,7 +489,7 @@ export default function Dashboard() {
                   </button>
                 </Link>
                 <Link to="/allproducts">
-                  <button className="px-4 py-2 text-sm bg-[#FF6B6B] text-white rounded-md hover:bg-[#FF5252] focus:outline-none">
+                  <button className="px-4 py-2 text-sm bg-orange-500 text-white rounded-md hover:bg-[#FF5252] focus:outline-none">
                     View All Products
                   </button>
                 </Link>
@@ -557,7 +504,7 @@ export default function Dashboard() {
                   className={clsx(
                     "pb-4 text-sm font-medium border-b-2 transition-colors duration-200",
                     {
-                      "border-[#FF6B6B] text-[#FF6B6B]":
+                      "border-orange-500 text-orange-500":
                         activeTab === "overview",
                       "border-transparent hover:border-gray-300 dark:hover:border-gray-600":
                         activeTab !== "overview",
@@ -571,7 +518,7 @@ export default function Dashboard() {
                   className={clsx(
                     "pb-4 text-sm font-medium border-b-2 transition-colors duration-200",
                     {
-                      "border-[#FF6B6B] text-[#FF6B6B]":
+                      "border-orange-500 text-orange-500":
                         activeTab === "analytics",
                       "border-transparent hover:border-gray-300 dark:hover:border-gray-600":
                         activeTab !== "analytics",
@@ -585,7 +532,7 @@ export default function Dashboard() {
                   className={clsx(
                     "pb-4 text-sm font-medium border-b-2 transition-colors duration-200",
                     {
-                      "border-[#FF6B6B] text-[#FF6B6B]":
+                      "border-orange-500 text-orange-500":
                         activeTab === "activity",
                       "border-transparent hover:border-gray-300 dark:hover:border-gray-600":
                         activeTab !== "activity",
@@ -598,14 +545,14 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {stats.map((stat, index) => (
                 <div
                   key={index}
                   className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200"
                 >
                   <div className="flex flex-col items-center justify-center">
-                    <stat.icon className="h-8 w-8 text-[#FF6B6B] mb-2" />
+                    <stat.icon className="h-8 w-8 text-orange-500 mb-2" />
                     <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                       {stat.label}
                     </p>
@@ -682,7 +629,7 @@ export default function Dashboard() {
                         Trending Products
                       </h3>
                       <Link to="/trendingProducts">
-                        <button className="text-sm text-[#FF6B6B] hover:underline flex items-center">
+                        <button className="text-sm text-orange-500 hover:underline flex items-center">
                           View All <ChevronRight className="h-4 w-4" />
                         </button>
                       </Link>
@@ -697,11 +644,11 @@ export default function Dashboard() {
                   </div>
 
                   {/* Recent Alerts */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+                  {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                       <h3 className="text-lg font-semibold">Recent Alerts</h3>
                       <Link to="/recentalerts">
-                        <button className="text-sm text-[#FF6B6B] hover:underline flex items-center">
+                        <button className="text-sm text-orange-500 hover:underline flex items-center">
                           View All <ChevronRight className="h-4 w-4" />
                         </button>
                       </Link>
@@ -734,7 +681,7 @@ export default function Dashboard() {
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Sidebar */}
@@ -747,7 +694,7 @@ export default function Dashboard() {
                       <input
                         type="text"
                         placeholder="Search products..."
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                       />
                     </div>
                   </div>
@@ -758,7 +705,7 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold">Your Goals</h3>
                       <Link
                         to="/goals"
-                        className="text-sm text-[#FF6B6B] hover:underline flex items-center"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
                       >
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
@@ -775,7 +722,7 @@ export default function Dashboard() {
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                               <div
-                                className="bg-[#FF6B6B] h-2 rounded-full"
+                                className="bg-orange-500 h-2 rounded-full"
                                 style={{ width: `${goal.progress}%` }}
                               ></div>
                             </div>
@@ -791,7 +738,7 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold">Top Savings</h3>
                       <Link
                         to="/topsavings"
-                        className="text-sm text-[#FF6B6B] hover:underline flex items-center"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
                       >
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
@@ -810,7 +757,7 @@ export default function Dashboard() {
                             />
                             <div className="flex-1">
                               <p className="font-medium">{item.product}</p>
-                              <p className="text-sm text-[#FF6B6B]">
+                              <p className="text-sm text-orange-500">
                                 Saved ₹{item.savings}
                               </p>
                             </div>
@@ -829,7 +776,7 @@ export default function Dashboard() {
                       <h3 className="text-lg font-semibold">Upcoming Deals</h3>
                       <Link
                         to="/deals"
-                        className="text-sm text-[#FF6B6B] hover:underline flex items-center"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
                       >
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
@@ -841,7 +788,7 @@ export default function Dashboard() {
                             key={deal.id}
                             className="flex items-start space-x-4"
                           >
-                            <Calendar className="h-5 w-5 text-[#FF6B6B] mt-1" />
+                            <Calendar className="h-5 w-5 text-orange-500 mt-1" />
                             <div>
                               <p className="font-medium">{deal.name}</p>
                               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -865,7 +812,7 @@ export default function Dashboard() {
                       </h3>
                       <Link
                         to="/recommended"
-                        className="text-sm text-[#FF6B6B] hover:underline flex items-center"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
                       >
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
@@ -875,7 +822,7 @@ export default function Dashboard() {
                         {recommendations.map((item) => (
                           <div
                             key={item.id}
-                            className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4"
+                            className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4"
                           >
                             <div className="flex items-center space-x-3 mb-2">
                               <img
@@ -887,7 +834,7 @@ export default function Dashboard() {
                                 <h4 className="font-medium text-sm">
                                   {item.name}
                                 </h4>
-                                <p className="text-[#FF6B6B] text-sm">
+                                <p className="text-orange-500 text-sm">
                                   ₹{item.price}
                                 </p>
                               </div>
@@ -895,7 +842,7 @@ export default function Dashboard() {
                             <p className="text-xs text-gray-500 dark:text-gray-400">
                               {item.reason}
                             </p>
-                            <button className="mt-2 w-full px-3 py-1.5 text-xs bg-gray-200 dark:bg-gray-600 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500">
+                            <button className="mt-2 w-full px-3 py-1.5 text-xs bg-gray-200 dark:bg-gray-600 rounded-md hover:bg-gray-300 dark:hover:bg-gray-1000">
                               Track Price
                             </button>
                           </div>

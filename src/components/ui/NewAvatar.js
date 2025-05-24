@@ -1,4 +1,21 @@
-import React from "react";
+const COLORS = [
+  "#FF6B6B", // Vibrant Red
+  "#4ECDC4", // Aqua
+  "#556FB5", // Blue
+  "#FFD166", // Yellow
+  "#6B46C1", // Purple
+  "#43AA8B", // Green
+  "#FF8C42", // Orange
+];
+
+// Hash-based color picker for user by name
+const getColorFromName = (name) => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return COLORS[Math.abs(hash) % COLORS.length];
+};
 
 const NewAvatar = ({ name, size, round, color }) => {
   const initials = name
@@ -15,10 +32,10 @@ const NewAvatar = ({ name, size, round, color }) => {
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        backgroundColor: color || "#6B46C1",
+        backgroundColor: color || getColorFromName(name),
       }}
     >
-      <span className="text-sm font-medium">{initials}</span>
+      <span className="text-3xl font-medium">{initials}</span>
     </div>
   );
 };

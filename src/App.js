@@ -47,6 +47,8 @@ import EditAccountDetails from "./pages/Customer/EditAccountDetails";
 
 // Analytics Routes
 // import Goals from "./pages/Customer/Analytics/Goals";
+// import RecentAlerts from "./pages/Customer/Analytics/RecentAlerts";
+
 import Trends from "./pages/Customer/Analytics/Trends";
 import Alerts from "./pages/Customer/Analytics/Alerts";
 import Analysis from "./pages/Customer/Analytics/Analysis";
@@ -55,7 +57,6 @@ import Favorites from "./pages/Customer/Analytics/Favorites";
 import TopSavings from "./pages/Customer/Analytics/TopSavings";
 import Recommended from "./pages/Customer/Analytics/Recommended";
 import AllProducts from "./pages/Customer/Analytics/AllProducts";
-import RecentAlerts from "./pages/Customer/Analytics/RecentAlerts";
 import TrendingProducts from "./pages/Customer/Analytics/TrendingProducts";
 
 const AppLayout = () => {
@@ -296,14 +297,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/recentalerts",
-        element: (
-          <ProtectedRoute>
-            <RecentAlerts />
-          </ProtectedRoute>
-        ),
-      },
+      // {
+      //   path: "/recentalerts",
+      //   element: (
+      //     <ProtectedRoute>
+      //       <RecentAlerts />
+      //     </ProtectedRoute>
+      //   ),
+      // },
       {
         path: "/trendingProducts",
         element: (

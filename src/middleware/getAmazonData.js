@@ -1,6 +1,6 @@
 export async function getAmazonData(productId) {
   try {
-    const url = `${process.env.REACT_APP_PA_API}?id=${productId}`;
+    const url = `${process.env.REACT_APP_ALT_API}/${productId}`;
     const resp = await fetch(url);
 
     if (resp.status !== 200) {

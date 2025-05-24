@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
-  Search,
-  Filter,
-  ArrowUpDown,
-  Star,
-  StarOff,
-  ExternalLink,
-  Calendar,
-  DollarSign,
-  ShoppingCart,
   Tag,
+  Star,
   Award,
+  Search,
+  StarOff,
+  DollarSign,
+  ArrowUpDown,
+  ExternalLink,
+  ShoppingCart,
   TrendingDown,
   ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Avatar from "react-avatar";
-import clsx from "clsx";
+
 import {
   PieChart,
   Pie,
@@ -29,6 +28,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import clsx from "clsx";
 
 // Sample data for top savings
 const topSavingsData = [
@@ -271,16 +271,14 @@ export default function TopSavings() {
       : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/dashboard" className="mr-4">
+              <ArrowLeft className="h-5 w-5 text-gray-500 hover:text-orange-500 focus:outline-none" />
+            </Link>
             <h1 className="text-2xl font-bold">Top Savings</h1>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>
@@ -292,7 +290,7 @@ export default function TopSavings() {
             <input
               type="text"
               placeholder="Search savings..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -300,7 +298,7 @@ export default function TopSavings() {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -312,7 +310,7 @@ export default function TopSavings() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterStore}
               onChange={(e) => setFilterStore(e.target.value)}
             >
@@ -324,7 +322,7 @@ export default function TopSavings() {
             </select>
 
             <select
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={filterTimeframe}
               onChange={(e) => setFilterTimeframe(e.target.value)}
             >
@@ -337,7 +335,7 @@ export default function TopSavings() {
 
             <button
               className={clsx("px-4 py-2 border rounded-md flex items-center", {
-                "border-[#FF6B6B] bg-[#FF6B6B]/10 text-[#FF6B6B]":
+                "border-orange-500 bg-orange-500/10 text-orange-500":
                   showFavoritesOnly,
                 "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600":
                   !showFavoritesOnly,
@@ -356,7 +354,7 @@ export default function TopSavings() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-[#FF6B6B]">
+                  <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-orange-500">
                     <DollarSign className="h-6 w-6" />
                   </div>
                   <div className="ml-4">
@@ -421,35 +419,35 @@ export default function TopSavings() {
                 </h2>
                 <div className="flex items-center space-x-2">
                   <button
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                     onClick={() => toggleSort("savings")}
                   >
                     Savings
                     <ArrowUpDown
                       className={clsx("h-4 w-4 ml-1", {
-                        "text-[#FF6B6B]": sortBy === "savings",
+                        "text-orange-500": sortBy === "savings",
                       })}
                     />
                   </button>
                   <button
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                     onClick={() => toggleSort("percentage")}
                   >
                     Percentage
                     <ArrowUpDown
                       className={clsx("h-4 w-4 ml-1", {
-                        "text-[#FF6B6B]": sortBy === "percentage",
+                        "text-orange-500": sortBy === "percentage",
                       })}
                     />
                   </button>
                   <button
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FF6B6B] dark:hover:text-[#FF6B6B] flex items-center"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 flex items-center"
                     onClick={() => toggleSort("date")}
                   >
                     Date
                     <ArrowUpDown
                       className={clsx("h-4 w-4 ml-1", {
-                        "text-[#FF6B6B]": sortBy === "date",
+                        "text-orange-500": sortBy === "date",
                       })}
                     />
                   </button>
@@ -471,7 +469,7 @@ export default function TopSavings() {
                   {filteredSavings.map((item, index) => (
                     <div
                       key={item.id}
-                      className="p-4 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-150"
+                      className="p-4 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors duration-150"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex items-center justify-center w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 font-medium">
@@ -523,14 +521,14 @@ export default function TopSavings() {
                           <div className="text-sm text-gray-500 dark:text-gray-400">
                             Saved
                           </div>
-                          <div className="text-lg font-bold text-[#FF6B6B]">
+                          <div className="text-lg font-bold text-orange-500">
                             ₹{item.savings}
                           </div>
                         </div>
 
                         <Link
                           to={`/product/${item.id}`}
-                          className="p-2 rounded-md bg-[#FF6B6B] text-white hover:bg-[#FF5252]"
+                          className="p-2 rounded-md bg-orange-500 text-white hover:bg-[#FF5252]"
                         >
                           <ExternalLink className="h-5 w-5" />
                         </Link>
@@ -654,7 +652,7 @@ export default function TopSavings() {
                         <span>{store.name}</span>
                       </div>
                       <div className="flex items-center">
-                        <span className="font-medium text-[#FF6B6B]">
+                        <span className="font-medium text-orange-500">
                           ₹{store.value}
                         </span>
                         <ChevronRight className="h-4 w-4 ml-1 text-gray-400" />
@@ -666,7 +664,7 @@ export default function TopSavings() {
             </div>
 
             {/* Savings Tips */}
-            <div className="bg-gradient-to-r from-[#FF6B6B] to-[#FFB4B4] rounded-lg shadow text-white">
+            <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg shadow text-white">
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <Award className="h-6 w-6 mr-2" />
@@ -674,7 +672,7 @@ export default function TopSavings() {
                 </div>
                 <ul className="space-y-3">
                   <li className="flex items-start">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#FF6B6B] font-medium text-xs mr-2 mt-0.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-orange-500 font-medium text-xs mr-2 mt-0.5">
                       1
                     </span>
                     <p className="text-sm">
@@ -683,7 +681,7 @@ export default function TopSavings() {
                     </p>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#FF6B6B] font-medium text-xs mr-2 mt-0.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-orange-500 font-medium text-xs mr-2 mt-0.5">
                       2
                     </span>
                     <p className="text-sm">
@@ -692,7 +690,7 @@ export default function TopSavings() {
                     </p>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#FF6B6B] font-medium text-xs mr-2 mt-0.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-orange-500 font-medium text-xs mr-2 mt-0.5">
                       3
                     </span>
                     <p className="text-sm">
@@ -701,7 +699,7 @@ export default function TopSavings() {
                     </p>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#FF6B6B] font-medium text-xs mr-2 mt-0.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-orange-500 font-medium text-xs mr-2 mt-0.5">
                       4
                     </span>
                     <p className="text-sm">

@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => (
             {product.store}
           </p>
           <div className="flex items-center mt-1">
-            <span className="text-lg font-bold text-[#FF6B6B]">
+            <span className="text-lg font-bold text-orange-500">
               ₹{product.price}
             </span>
             <span className="text-sm text-gray-500 line-through ml-2">
@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => (
         </div>
       </div>
       <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-between">
-        <button className="text-xs text-[#FF6B6B] hover:underline flex items-center">
+        <button className="text-xs text-orange-500 hover:underline flex items-center">
           <Eye className="h-3 w-3 mr-1" /> View Details
         </button>
         <button className="text-xs text-gray-600 dark:text-gray-400 hover:underline flex items-center">

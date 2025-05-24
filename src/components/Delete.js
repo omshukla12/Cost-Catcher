@@ -1,23 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Trash2, AlertTriangle } from "lucide-react";
 
-import trash from "../components/assets/trash.svg";
-import "../styles/Modal.css"; // Import external CSS for styling
-
-const Delete = ({ productId, productTitle, onDelete }) => {
-  // console.log(productId, productTitle)
-
-  const [isOpen, setIsOpen] = useState(false);
+const Delete = ({ productId, productTitle, onClose, onDelete }) => {
   const [error, setError] = useState(null);
-
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       const token = localStorage.getItem("token");
 
@@ -35,158 +26,56 @@ const Delete = ({ productId, productTitle, onDelete }) => {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Product Deleted Successfully");
-        toggleModal(); // Close modal after deletion
-        onDelete(productId); // Notify parent component of the deletion
+        if (onDelete) {
+          onDelete(productId);
+        }
+        if (onClose) onClose();
         setTimeout(() => {
-          navigate("/trackinglist"); // Navigate to tracking list after a delay
-        }, 2000); // 2-second delay before navigating
+          navigate("/allproducts");
+        }, 500);
       } else {
         setError(result.message || "Deletion failed");
       }
     } catch (error) {
-      console.log("Error", error);
+      console.error("Error", error);
       setError("Error while deleting the product");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   return (
-    <div className="App font-inter">
-      <button
-        className="flex items-center justify-center bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded"
-        onClick={toggleModal}
-      >
-        <img src={trash} alt="Delete" className="w-5 h-5 mr-2 filter-white" />
-        <a href="#">Delete This Product</a>
-      </button>
+    <div className="space-y-4">
+      <div className="flex items-center justify-center text-center">
+        <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-full">
+          <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
+        </div>
+      </div>
 
-      {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2 className="font-semibold text-xl my-2">Delete a Product</h2>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              <div className="my-4">
-                <label>
-                  <b>Title:</b> <span>{productTitle}</span>
-                </label>
-              </div>
+      <p className="text-center text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete{" "}
+        <span className="font-semibold">{productTitle}</span>? This action
+        cannot be undone.
+      </p>
 
-              {error && <p className="text-red-500">{error}</p>}
-
-              <button
-                className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded"
-                type="submit"
-              >
-                Delete
-              </button>
-              <button
-                type="button"
-                onClick={toggleModal}
-                className="text-black font-semibold py-2 px-4 mx-2 border rounded"
-              >
-                Cancel
-              </button>
-            </form>
-          </div>
+      {error && (
+        <div className="bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-md text-sm">
+          {error}
         </div>
       )}
+
+      <div className="flex flex-col space-y-2">
+        <button
+          onClick={handleDelete}
+          disabled={isDeleting}
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Trash2 className="h-4 w-4 mr-2" />
+          {isDeleting ? "Deleting..." : "Delete Product"}
+        </button>
+      </div>
     </div>
   );
 };
 
 export default Delete;
-
-/*
-
-
-import React, { useState } from "react";
-import "./Modal.css"; // Import external CSS for styling
-import trash from './assets/trash.svg';
-import { useNavigate } from "react-router-dom";
-
-const Delete = ({ productId, productTitle, onDelete }) => {
-
-    // console.log(productId, productTitle)
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [error, setError] = useState(null);
-
-    const navigate = useNavigate();
-
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const token = localStorage.getItem("token");
-
-            const response = await fetch(`http://localhost:5000/api/trackinglist/delete/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                alert("Product Deleted Successfully");
-                toggleModal(); // Close modal after deletion
-                onDelete(productId); // Notify parent component of the deletion
-                setTimeout(() => {
-                    navigate("/trackinglist"); // Navigate to tracking list after a delay
-                }, 2000); // 2-second delay before navigating
-            } else {
-                setError(result.message || "Deletion failed");
-            }
-        } catch (error) {
-            console.log("Error", error);
-            setError("Error while deleting the product");
-        }
-    };
-
-    return (
-        <div className="App font-inter">
-            <button className='flex items-center justify-center bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded'
-                onClick={toggleModal}>
-                <img src={trash} alt="Delete" className='w-5 h-5 mr-2 filter-white' />
-                <a href='#'>Delete This Product</a>
-            </button>
-
-            {isOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2 className="font-semibold text-xl my-2">Delete a Product</h2>
-                        <hr />
-                        <form onSubmit={handleSubmit}>
-                            <div className="my-4">
-                                <label>
-                                    <b>Title:</b> <span>{productTitle}</span>
-                                </label>
-                            </div>
-
-                            {error && <p className="text-red-500">{error}</p>}
-
-                            <button className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded" type="submit">
-                                Delete
-                            </button>
-                            <button type="button" onClick={toggleModal} className="text-black font-semibold py-2 px-4 mx-2 border rounded">
-                                Cancel
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-};
-
-export default Delete;
-
-
-
-*/
