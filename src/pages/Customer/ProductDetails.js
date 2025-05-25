@@ -1,25 +1,35 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-
 import {
-  ArrowLeft,
+  Tag,
   Pencil,
   Trash2,
-  ExternalLink,
-  ShoppingBag,
-  Tag,
-  TrendingDown,
-  TrendingUp,
   Calendar,
+  ArrowLeft,
+  TrendingUp,
+  ShoppingBag,
+  ExternalLink,
+  TrendingDown,
   AlertCircle,
+  BarChart3,
+  RefreshCw,
 } from "lucide-react";
-import placeholder from "../../components/assets/placeholder.svg";
+import {
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 
 import Edit from "../../components/Edit";
 import Delete from "../../components/Delete";
 import Loading from "../../components/Loading";
 
 import { AuthContext } from "../../context/AuthContext";
+import placeholder from "../../components/assets/placeholder.svg";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -31,6 +41,8 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [priceHistory, setPriceHistory] = useState([]);
+  const [priceHistoryLoading, setPriceHistoryLoading] = useState(true);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -42,23 +54,45 @@ const ProductDetails = () => {
 
         if (response.ok) {
           setProduct(data);
+          const priceData = data["priceHistory"];
+
+          if (
+            response.ok &&
+            priceData &&
+            Array.isArray(priceData) &&
+            priceData.length > 0
+          ) {
+            const transformedData = priceData.map((item, index) => ({
+              date: new Date(item.time).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              }),
+              dealPrice: Number.parseFloat(item.deal_price),
+              originalPrice: Number.parseFloat(item.original_price),
+              discount: Number.parseFloat(item.discount),
+              timestamp: item.time,
+            }));
+            setPriceHistory(transformedData);
+          }
         } else {
-          setError(data.message || "Failed to fetch product details");
+          setPriceHistory([]);
+          setError(data.message || "Failed to fetch product details.");
         }
       } catch (err) {
-        setError("Error fetching product details");
+        setError("Error fetching product details.");
       } finally {
         setLoading(false);
+        setPriceHistoryLoading(false);
       }
     };
 
     fetchProductDetails();
-  }, [id]);
+  }, [id, token]);
 
   const handleEdit = async (productId, newHitPrice) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_CC_API}/tracklist/${productId}`,
+        `${process.env.REACT_APP_CC_API}/trackinglist/${productId}`,
         {
           method: "PUT",
           headers: {
@@ -108,6 +142,41 @@ const ProductDetails = () => {
     }
   };
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+          <p className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+            {label}
+          </p>
+          {payload.map((entry, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {entry.dataKey === "dealPrice"
+                  ? "Deal Price"
+                  : "Original Price"}
+                :
+              </span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                ₹{entry.value?.toLocaleString()}
+              </span>
+            </div>
+          ))}
+          {payload[0]?.payload?.discount && (
+            <div className="mt-1 text-xs text-green-600 dark:text-green-400">
+              {payload[0].payload.discount}% off
+            </div>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -139,7 +208,7 @@ const ProductDetails = () => {
   if (!product) return null;
   const imageUrl = product.imageLink || placeholder;
 
-  // Product statistics ...
+  // Product statistics
   const priceDifference = product.currentPrice - product.hitPrice;
   const isPriceHigher = priceDifference > 0;
   const pricePercentage = Math.round(
@@ -281,21 +350,170 @@ const ProductDetails = () => {
 
         {/* Price History Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold">Price History</h3>
-          </div>
-          <div className="p-6">
-            <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <div className="text-center">
-                <Calendar className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-3" />
-                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Price history coming soon
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  We're tracking price changes for this product
-                </p>
-              </div>
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-orange-500" />
+              <h3 className="text-lg font-semibold">Price History</h3>
             </div>
+          </div>
+
+          <div className="p-6">
+            {priceHistoryLoading ? (
+              <div className="h-64 flex items-center justify-center">
+                <Loading />
+              </div>
+            ) : priceHistory.length > 0 ? (
+              <div className="space-y-4">
+                {/* Chart Statistics */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="text-sm text-green-700 dark:text-green-300 mb-1">
+                      Lowest Price
+                    </div>
+                    <div className="text-xl font-bold text-green-800 dark:text-green-200">
+                      ₹
+                      {Math.min(
+                        ...priceHistory.map((p) => p.dealPrice)
+                      ).toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <div className="text-sm text-blue-700 dark:text-blue-300 mb-1">
+                      Average Price
+                    </div>
+                    <div className="text-xl font-bold text-blue-800 dark:text-blue-200">
+                      ₹
+                      {Math.round(
+                        priceHistory.reduce((sum, p) => sum + p.dealPrice, 0) /
+                          priceHistory.length
+                      ).toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                    <div className="text-sm text-purple-700 dark:text-purple-300 mb-1">
+                      Best Discount
+                    </div>
+                    <div className="text-xl font-bold text-purple-800 dark:text-purple-200">
+                      {Math.max(...priceHistory.map((p) => p.discount))}%
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price Chart */}
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart
+                      data={priceHistory}
+                      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient
+                          id="dealPriceGradient"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#FF6B6B"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#FF6B6B"
+                            stopOpacity={0.1}
+                          />
+                        </linearGradient>
+                        <linearGradient
+                          id="originalPriceGradient"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#94A3B8"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#94A3B8"
+                            stopOpacity={0.1}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                      <XAxis
+                        dataKey="date"
+                        stroke="#6B7280"
+                        fontSize={12}
+                        tickLine={false}
+                        axisLine={false}
+                      />
+                      <YAxis
+                        stroke="#6B7280"
+                        fontSize={12}
+                        tickLine={false}
+                        axisLine={false}
+                        tickFormatter={(value) => `₹${value}`}
+                      />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Area
+                        type="monotone"
+                        dataKey="originalPrice"
+                        stroke="#94A3B8"
+                        strokeWidth={2}
+                        fill="url(#originalPriceGradient)"
+                        strokeDasharray="5 5"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="dealPrice"
+                        stroke="#FF6B6B"
+                        strokeWidth={3}
+                        fill="url(#dealPriceGradient)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Legend */}
+                <div className="flex justify-center gap-6 pt-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-0.5 bg-[#FF6B6B] rounded"></div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Deal Price
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-4 h-0.5 bg-[#94A3B8] rounded"
+                      style={{
+                        backgroundImage:
+                          "repeating-linear-gradient(to right, #94A3B8 0, #94A3B8 3px, transparent 3px, transparent 6px)",
+                      }}
+                    ></div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Original Price
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                <div className="text-center">
+                  <Calendar className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-3" />
+                  <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Price history coming soon ...
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    We're tracking price changes for this product.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

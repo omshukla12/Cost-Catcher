@@ -1,26 +1,23 @@
 import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
-  ArrowLeft,
-  Calendar,
-  Download,
-  Filter,
-  ChevronDown,
-  Pencil,
-  Trash2,
-  ShoppingBag,
-  Plus,
-  DollarSign,
   Tag,
+  Plus,
+  Trash2,
+  Pencil,
+  ArrowLeft,
+  DollarSign,
+  ShoppingBag,
   ExternalLink,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import Avatar from "react-avatar";
 
 import Loading from "../../../components/Loading";
 import Delete from "../../../components/Delete";
 import Edit from "../../../components/Edit";
 
 import { AuthContext } from "../../../context/AuthContext";
+import { fetchTrackingList } from "../../../services/authService";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -34,7 +31,11 @@ const Home = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [timeRange, setTimeRange] = useState("All Time");
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalSavings: 0,
+    avgDiscount: 0,
+  });
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
@@ -46,38 +47,45 @@ const Home = () => {
     }
   }, [navigate, isAuthenticated]);
 
+  // Fetching tracking list data and compute stats ...
   useEffect(() => {
-    const fetchTrackingList = async () => {
+    const getTrackingList = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          `${process.env.REACT_APP_CC_API}/trackinglist`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const list = await fetchTrackingList();
+
+        // Calcuate stats for cards ...
+        const totalProducts = list.length;
+        const totalSavings = list.reduce((sum, item) => {
+          const saving = item.currentPrice - item.hitPrice;
+          return sum + (saving > 0 ? saving : 0);
+        }, 0);
+        const avgDiscount =
+          totalProducts > 0
+            ? Math.round(
+                (totalSavings /
+                  list.reduce((sum, item) => sum + item.currentPrice, 0)) *
+                  100
+              )
+            : 0;
+
+        const sortedList = list.sort(
+          (a, b) => b.currentPrice - b.hitPrice - (a.currentPrice - a.hitPrice)
         );
 
-        const result = await response.json();
-
-        if (response.ok) {
-          setTrackingItems(result.trackinglist);
-        } else {
-          setError(result.message || "Failed to fetch tracking list.");
-        }
+        setTrackingItems(sortedList);
+        setStats({ totalProducts, totalSavings, avgDiscount });
       } catch (err) {
-        console.error("Error fetching tracking list:", err);
-        setError("Error fetching tracking list.");
+        setError(err.message || "Failed to fetch tracking list.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTrackingList();
+    getTrackingList();
   }, []);
+
+  // Calculated stats ...
+  const { totalProducts, totalSavings, avgDiscount } = stats;
 
   const handleEditProduct = async (productId, newHitPrice) => {
     try {
@@ -87,11 +95,10 @@ const Home = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Include JWT token in the headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-
       const result = await response.json();
 
       if (response.ok) {
@@ -100,14 +107,21 @@ const Home = () => {
             item._id === productId ? { ...item, hitPrice: newHitPrice } : item
           )
         );
+
+        navigate("/allproducts");
         setShowEditModal(false);
       } else {
         setError(result.message || "Failed to edit product.");
       }
     } catch (err) {
       console.error("Error editing product:", err);
-      setError("Error editing product.");
+      setError("Error editing product: ", err);
     }
+  };
+
+  const handleDeleteProduct = () => {
+    navigate("/allproducts");
+    setShowDeleteModal(false);
   };
 
   const handleEditClick = (productId) => {
@@ -125,20 +139,13 @@ const Home = () => {
     setShowDeleteModal(false);
   };
 
-  // Calculate stats
-  const totalProducts = trackingItems.length;
-  const totalSavings = trackingItems.reduce((sum, item) => {
-    const saving = item.currentPrice - item.hitPrice;
-    return sum + (saving > 0 ? saving : 0);
-  }, 0);
-  const avgDiscount =
-    totalProducts > 0
-      ? Math.round(
-          (totalSavings /
-            trackingItems.reduce((sum, item) => sum + item.currentPrice, 0)) *
-            100
-        )
-      : 0;
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        Error: {error}
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -172,24 +179,6 @@ const Home = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Track all of your products and monitor price changes.
             </p>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center">
-              <Calendar className="h-4 w-4 mr-2" />
-              {timeRange}
-              <ChevronDown className="h-4 w-4 ml-2" />
-            </button>
-
-            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Filter
-            </button>
-
-            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </button>
           </div>
         </div>
 
@@ -353,10 +342,10 @@ const Home = () => {
             <div className="text-center py-12">
               <ShoppingBag className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-500 mb-3" />
               <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-1">
-                No products tracked yet
+                No products tracked yet.
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                Start tracking products to see price changes
+                Start tracking products to see price changes.
               </p>
               <Link
                 to="/addProduct"
@@ -383,7 +372,9 @@ const Home = () => {
             <Edit
               productId={currentProduct}
               onEdit={handleEditProduct}
-              onClose={handleCloseModal}
+              onClose={() => {
+                setShowEditModal(false);
+              }}
             />
             <button
               onClick={handleCloseModal}
@@ -408,7 +399,7 @@ const Home = () => {
             <Delete
               productId={currentProduct.id}
               productTitle={currentProduct.title}
-              onClose={handleCloseModal}
+              onClose={handleDeleteProduct}
             />
             <button
               onClick={handleCloseModal}

@@ -1,14 +1,16 @@
 import { createContext, useState, useEffect } from "react";
-import { getUserFromToken } from "../services/authService";
+
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+
+import { getUserFromToken } from "../services/authService";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
 
   // Method to check token expiration and handle logout
   const checkTokenExpiration = () => {
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }) => {
           theme: "colored",
           toastId: "session-expired",
         });
-        
+
         logout();
         return true;
       }
@@ -67,19 +69,20 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    setUser(null);
     setToken(null);
     setIsAuthenticated(false);
-    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
+        user,
+        setUser,
+        token,
         login,
         logout,
-        token,
-        user,
+        isAuthenticated,
         checkTokenExpiration,
       }}
     >

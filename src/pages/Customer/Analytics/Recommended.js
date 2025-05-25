@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   Zap,
   Star,
@@ -13,9 +15,8 @@ import {
   ExternalLink,
   ShoppingCart,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Avatar from "react-avatar";
 import clsx from "clsx";
+
 import {
   LineChart,
   Line,
