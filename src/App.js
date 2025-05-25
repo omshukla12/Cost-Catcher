@@ -21,7 +21,6 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 
 // Product Pages
-// import Pricing from "./pages/Product/Pricing";
 import Features from "./pages/Product/Features";
 
 // Company Pages
@@ -46,11 +45,6 @@ import TrackNewProduct from "./pages/Customer/TrackNewProduct";
 import EditAccountDetails from "./pages/Customer/EditAccountDetails";
 
 // Analytics Routes
-// import Goals from "./pages/Customer/Analytics/Goals";
-// import Favorites from "./pages/Customer/Analytics/Favorites";
-// import Recommended from "./pages/Customer/Analytics/Recommended";
-// import RecentAlerts from "./pages/Customer/Analytics/RecentAlerts";
-
 import Trends from "./pages/Customer/Analytics/Trends";
 import Alerts from "./pages/Customer/Analytics/Alerts";
 import Analysis from "./pages/Customer/Analytics/Analysis";
@@ -106,7 +100,6 @@ const router = createBrowserRouter([
       },
 
       // Product
-      // { path: "/pricing", element: <Pricing /> },
       { path: "/features", element: <Features /> },
 
       // Company
@@ -233,14 +226,6 @@ const router = createBrowserRouter([
       },
 
       // Analytics
-      // {
-      //   path: "/favorites",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Favorites />
-      //     </ProtectedRoute>
-      //   ),
-      // },
       {
         path: "/allproducts",
         element: (
@@ -281,14 +266,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/goals",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Goals />
-      //     </ProtectedRoute>
-      //   ),
-      // },
       {
         path: "/topsavings",
         element: (
@@ -297,14 +274,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/recentalerts",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <RecentAlerts />
-      //     </ProtectedRoute>
-      //   ),
-      // },
       {
         path: "/trendingProducts",
         element: (
@@ -313,14 +282,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/recommended",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Recommended />
-      //     </ProtectedRoute>
-      //   ),
-      // },
       { path: "*", element: <NotFound /> },
     ],
   },

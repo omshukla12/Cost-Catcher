@@ -139,3 +139,33 @@ export const fetchPriceHistory = async (pid) => {
     throw error;
   }
 };
+
+// Fetch trending products ...
+export const fetchTrendingProducts = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found. Please sign in.");
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_CC_API}/trendingProducts`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+
+    if (data.Status === "Successful") {
+      return data.payload;
+    } else {
+      throw new Error("Failed to fetch trending products.");
+    }
+  } catch (err) {
+    throw new Error("Error fetching trending products : ", err);
+  }
+};

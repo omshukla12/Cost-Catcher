@@ -36,13 +36,13 @@ import {
 import clsx from "clsx";
 
 import Loading from "../../components/Loading";
-import ProductCard from "../../components/ui/ProductCard";
 
 import {
   getUserFromToken,
   fetchTrackingList,
   fetchActivityData,
   fetchUpcomingSales,
+  fetchTrendingProducts,
 } from "../../services/authService";
 
 import { getStartDate, getEndDate } from "../../utils/productUtils";
@@ -78,36 +78,6 @@ const categoryData = [
 
 const COLORS = ["#FF6B6B", "#FFB4B4", "#4ECDC4", "#556FB5", "#9D8DF1"];
 
-const trendingProducts = [
-  {
-    id: 1,
-    name: "Sony WH-1000XM4",
-    price: 279,
-    oldPrice: 349,
-    image: "/placeholder.svg?height=80&width=80",
-    store: "Amazon",
-    discount: 20,
-  },
-  {
-    id: 2,
-    name: "Apple Watch Series 7",
-    price: 399,
-    oldPrice: 429,
-    image: "/placeholder.svg?height=80&width=80",
-    store: "Apple Store",
-    discount: 7,
-  },
-  {
-    id: 3,
-    name: 'Samsung 55" QLED TV',
-    price: 799,
-    oldPrice: 999,
-    image: "/placeholder.svg?height=80&width=80",
-    store: "Best Buy",
-    discount: 20,
-  },
-];
-
 export default function Dashboard() {
   const navigate = useNavigate();
 
@@ -134,6 +104,11 @@ export default function Dashboard() {
   const [salesData, setSalesData] = useState([]);
   const [errorSales, setErrorSales] = useState(null);
   const [loadingSales, setLoadingSales] = useState(true);
+
+  // Trending products
+  const [errorTrending, setErrorTrending] = useState(null);
+  const [loadingTrending, setLoadingTrending] = useState(true);
+  const [trendingProducts, setTrendingProducts] = useState([]);
 
   // Fetching user activity data ...
   useEffect(() => {
@@ -229,6 +204,25 @@ export default function Dashboard() {
     getUpcomingSales();
   }, []);
 
+  // Fetching trending products ...
+  useEffect(() => {
+    const fetchTrending = async () => {
+      setLoadingTrending(true);
+      try {
+        const trending = await fetchTrendingProducts();
+        setTrendingProducts(trending);
+        setErrorTrending(null);
+      } catch (err) {
+        console.error("Error fetching trending products:", err);
+        setErrorTrending("Failed to fetch trending products.");
+      } finally {
+        setLoadingTrending(false);
+      }
+    };
+
+    fetchTrending();
+  }, []);
+
   // Calculated stats ...
   const { totalProducts, totalSavings, avgDiscount } = stats;
 
@@ -305,15 +299,7 @@ export default function Dashboard() {
                     Analytics
                   </Link>
                 </li>
-                <li>
-                  {/* <Link
-                    to="/favorites"
-                    className="flex items-center px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <Heart className="mr-3 h-4 w-4" />
-                    Favorites
-                  </Link> */}
-                </li>
+                <li></li>
                 <li>
                   <Link
                     to="/settings"
@@ -324,17 +310,6 @@ export default function Dashboard() {
                   </Link>
                 </li>
               </ul>
-              {/* <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg p-4 text-white">
-                  <h3 className="font-medium mb-2">Upgrade to Pro</h3>
-                  <p className="text-sm mb-3 text-white/90">
-                    Get more features and save even more!
-                  </p>
-                  <button className="w-full px-3 py-1.5 bg-white text-orange-500 rounded-md text-sm hover:bg-gray-100 focus:outline-none">
-                    Learn More
-                  </button>
-                </div>
-              </div> */}
             </nav>
           </div>
         </div>
@@ -362,13 +337,6 @@ export default function Dashboard() {
                 <BarChart2 className="mr-3 h-4 w-4" />
                 Analytics
               </Link>
-              {/* <Link
-                to="/favorites"
-                className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <Heart className="mr-3 h-4 w-4" />
-                Favorites
-              </Link> */}
               <Link
                 to="/account"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -406,21 +374,6 @@ export default function Dashboard() {
                 </Link>
               </nav>
             </div>
-
-            {/* <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <div className="bg-gradient-to-r from-orange-500 to-[#FFB4B4] rounded-lg p-4 text-white">
-                <h3 className="font-medium mb-2">Upgrade to Pro</h3>
-                <p className="text-sm mb-3 text-white/90">
-                  Get more features and save even more!
-                </p>
-                <Link to="/pricing">
-                  <button className="w-full px-3 py-1.5 bg-white text-orange-500 rounded-md text-sm hover:bg-gray-100 focus:outline-none flex items-center justify-center">
-                    Upgrade Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </button>
-                </Link>
-              </div>
-            </div> */}
           </div>
         </aside>
 
@@ -619,53 +572,28 @@ export default function Dashboard() {
                       </Link>
                     </div>
                     <div className="p-4">
-                      <div className="space-y-4">
-                        {trendingProducts.map((product) => (
-                          <ProductCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Recent Alerts */}
-                  {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                      <h3 className="text-lg font-semibold">Recent Alerts</h3>
-                      <Link to="/recentalerts">
-                        <button className="text-sm text-orange-500 hover:underline flex items-center">
-                          View All <ChevronRight className="h-4 w-4" />
-                        </button>
-                      </Link>
-                    </div>
-                    <div className="p-4">
-                      <ul className="space-y-4">
-                        {recentAlerts.map((alert) => (
+                      <ul className="space-y-[1.35rem]">
+                        {trendingProducts.slice(0, 5).map((product, index) => (
                           <li
-                            key={alert.id}
-                            className="flex items-start space-x-4"
+                            key={product._id}
+                            className="flex items-center space-x-4"
                           >
-                            <Bell
-                              className={clsx("h-5 w-5 mt-1", {
-                                "text-green-500": alert.type === "drop",
-                                "text-red-500": alert.type === "increase",
-                                "text-blue-500": alert.type === "stock",
-                                "text-purple-500": alert.type === "match",
-                              })}
-                            />
-                            <div>
-                              <p className="font-medium">{alert.product}</p>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                {alert.message}
+                            <div className="flex-1">
+                              <p className="font-medium">
+                                {product.name.split("|")[0].trim()}
                               </p>
-                              <p className="text-xs text-gray-500">
-                                {alert.time}
+                              <p className="text-sm text-orange-500">
+                                Deal Price ₹{product.deal_price}
                               </p>
                             </div>
+                            <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded">
+                              #{index + 1}
+                            </span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
 
                 {/* Sidebar */}

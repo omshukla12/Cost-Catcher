@@ -21,7 +21,7 @@ export const getStartDate = (duration) => {
   return new Date(0);
 };
 
-// Parsing ending dates sales ...
+// Parsing ending dates of sales ...
 export const getEndDate = (duration) => {
   if (!duration) return new Date(0);
 

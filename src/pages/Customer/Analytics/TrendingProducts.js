@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 
 export default function TrendingProducts() {
   const { token } = useContext(AuthContext);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [trendingProducts, setTrendingProducts] = useState([]);
@@ -81,6 +82,7 @@ export default function TrendingProducts() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
           {trendingProducts.map((product) => (
             <li
               key={product._id}
