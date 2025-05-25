@@ -1,16 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
+  Info,
   Filter,
   Calendar,
+  ArrowLeft,
+  ArrowRight,
+  TrendingUp,
   ChevronDown,
   TrendingDown,
-  TrendingUp,
-  ArrowRight,
-  ArrowLeft,
-  Info,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Avatar from "react-avatar";
 import clsx from "clsx";
 import {
   LineChart,

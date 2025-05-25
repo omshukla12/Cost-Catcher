@@ -1,13 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
   X,
-  Zap,
   Tag,
   Home,
   Plus,
-  Heart,
   Clock,
   Search,
   Settings,
@@ -16,8 +14,9 @@ import {
   RefreshCw,
   TrendingUp,
   DollarSign,
+  ShoppingBag,
+  AlertCircle,
   ChevronRight,
-  ShoppingCart,
   AlertTriangle,
 } from "lucide-react";
 import {
@@ -38,12 +37,17 @@ import clsx from "clsx";
 
 import Loading from "../../components/Loading";
 import ProductCard from "../../components/ui/ProductCard";
+
 import {
   getUserFromToken,
   fetchTrackingList,
+  fetchActivityData,
+  fetchUpcomingSales,
 } from "../../services/authService";
 
-// Sample data for charts
+import { getStartDate, getEndDate } from "../../utils/productUtils";
+
+// Sample data for charts ...
 const priceHistoryData = [
   { name: "Jan", price: 400 },
   { name: "Feb", price: 380 },
@@ -73,39 +77,6 @@ const categoryData = [
 ];
 
 const COLORS = ["#FF6B6B", "#FFB4B4", "#4ECDC4", "#556FB5", "#9D8DF1"];
-
-const topSavings = [
-  {
-    id: 1,
-    product: "LG C1 OLED TV",
-    savings: 150,
-    image: "/placeholder.svg?height=50&width=50",
-  },
-  {
-    id: 2,
-    product: "Dyson V11 Absolute",
-    savings: 100,
-    image: "/placeholder.svg?height=50&width=50",
-  },
-  {
-    id: 3,
-    product: "iPhone 13 Pro",
-    savings: 80,
-    image: "/placeholder.svg?height=50&width=50",
-  },
-  {
-    id: 4,
-    product: "Samsung Galaxy S22",
-    savings: 75,
-    image: "/placeholder.svg?height=50&width=50",
-  },
-];
-
-const stats = [
-  { label: "Total Savings", value: "₹15,000", icon: DollarSign },
-  { label: "Active Tracks", value: "42", icon: Zap },
-  { label: "Avg. Discount", value: "18.5%", icon: BarChart2 },
-];
 
 const trendingProducts = [
   {
@@ -137,125 +108,50 @@ const trendingProducts = [
   },
 ];
 
-const upcomingDeals = [
-  {
-    id: 1,
-    name: "Amazon Prime Day",
-    date: "July 12-13",
-    description: "Annual sales event with deep discounts",
-  },
-  {
-    id: 2,
-    name: "Black Friday",
-    date: "November 26",
-    description: "Biggest shopping day of the year",
-  },
-  {
-    id: 3,
-    name: "Cyber Monday",
-    date: "November 29",
-    description: "Online-focused deals after Black Friday",
-  },
-];
-
-const recommendations = [
-  {
-    id: 1,
-    name: "Kindle Paperwhite",
-    price: 139,
-    image: "/placeholder.svg?height=60&width=60",
-    reason: "Based on your interest in electronics",
-  },
-  {
-    id: 2,
-    name: "Instant Pot Duo",
-    price: 99,
-    image: "/placeholder.svg?height=60&width=60",
-    reason: "Popular in your area",
-  },
-  {
-    id: 3,
-    name: "Fitbit Charge 5",
-    price: 149,
-    image: "/placeholder.svg?height=60&width=60",
-    reason: "Similar to items you track",
-  },
-];
-
-const userGoals = [
-  {
-    id: 1,
-    name: "Save ₹20,000 this year",
-    progress: 75,
-    target: "₹20,000",
-    current: "₹15,000",
-  },
-  {
-    id: 2,
-    name: "Track 50 products",
-    progress: 84,
-    target: "50",
-    current: "42",
-  },
-  {
-    id: 3,
-    name: "Complete profile",
-    progress: 60,
-    target: "100%",
-    current: "60%",
-  },
-];
-
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
-  const [loading, setLoading] = useState(true);
 
   const [trackingItems, setTrackingItems] = useState([]);
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalSavings: 0,
+    avgDiscount: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
   // Activity section
   const [activityData, setActivityData] = useState([]);
-  const [loadingActivity, setLoadingActivity] = useState(true);
   const [errorActivity, setErrorActivity] = useState(null);
+  const [loadingActivity, setLoadingActivity] = useState(true);
 
-  // Fetching user activity data
+  // Upcomimg sales
+  const [salesData, setSalesData] = useState([]);
+  const [errorSales, setErrorSales] = useState(null);
+  const [loadingSales, setLoadingSales] = useState(true);
+
+  // Fetching user activity data ...
   useEffect(() => {
-    const fetchActivityData = async () => {
+    const getActivity = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        const response = await fetch(
-          `${process.env.REACT_APP_CC_API}/activity`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Include JWT token in the headers
-            },
-          }
-        );
-        const data = await response.json();
-
-        if (data.status === "Success") {
-          setActivityData(data.payload);
-        } else {
-          setErrorActivity("Failed to fetch activity data.");
-        }
-      } catch (error) {
-        console.error("Error fetching activity data:", error);
-        setErrorActivity("Error fetching activity data.");
+        const data = await fetchActivityData();
+        setActivityData(data);
+      } catch (err) {
+        setErrorActivity(err.message || "Failed to fetch activity data.");
       } finally {
         setLoadingActivity(false);
       }
     };
 
-    fetchActivityData();
+    getActivity();
   }, []);
 
+  // Checking user auth status ...
   useEffect(() => {
     const user = getUserFromToken();
 
@@ -266,44 +162,100 @@ export default function Dashboard() {
     }
   }, [navigate]);
 
+  // Fetching tracking list data and compute stats ...
   useEffect(() => {
-    const fetchTrackingList = async () => {
+    const getTrackingList = async () => {
       try {
-        const token = localStorage.getItem("token"); // Assuming JWT token is stored in localStorage
+        const list = await fetchTrackingList();
 
-        const response = await fetch(
-          `${process.env.REACT_APP_CC_API}/trackinglist`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Include JWT token in the headers
-            },
-          }
+        // Calculate stats ...
+        const totalProducts = list.length;
+        const totalSavings = list.reduce((sum, item) => {
+          const saving = item.currentPrice - item.hitPrice;
+          return sum + (saving > 0 ? saving : 0);
+        }, 0);
+        const avgDiscount =
+          totalProducts > 0
+            ? Math.round(
+                (totalSavings /
+                  list.reduce((sum, item) => sum + item.currentPrice, 0)) *
+                  100
+              )
+            : 0;
+
+        // Sorted list by savings ...
+        const sortedList = list.sort(
+          (a, b) => b.currentPrice - b.hitPrice - (a.currentPrice - a.hitPrice)
         );
 
-        const result = await response.json();
-
-        if (response.ok) {
-          setTrackingItems(result.trackinglist); // Assuming the tracklist is returned
-        } else {
-          setError(result.message || "Failed to fetch tracking list.");
-        }
+        setTrackingItems(sortedList);
+        setStats({ totalProducts, totalSavings, avgDiscount });
       } catch (err) {
-        console.error("Error fetching tracking list:", err);
-        setError("Error fetching tracking list.");
+        setError(err.message || "Failed to fetch tracking list.");
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
-    fetchTrackingList();
+    getTrackingList();
   }, []);
+
+  // Fetching upcoming sales data ...
+  useEffect(() => {
+    const getUpcomingSales = async () => {
+      try {
+        const sales = await fetchUpcomingSales();
+
+        const filteredSales = sales
+          .filter((sale) => {
+            const endDate = getEndDate(sale.duration);
+            const today = new Date();
+
+            today.setHours(0, 0, 0, 0);
+            return endDate >= today;
+          })
+          .sort((a, b) => {
+            return getStartDate(a.duration) - getStartDate(b.duration);
+          });
+
+        setSalesData(filteredSales);
+      } catch (err) {
+        setErrorSales(err.message || "Failed to fetch upcoming sales.");
+      } finally {
+        setLoadingSales(false);
+      }
+    };
+
+    getUpcomingSales();
+  }, []);
+
+  // Calculated stats ...
+  const { totalProducts, totalSavings, avgDiscount } = stats;
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
+      <div className="flex justify-center items-center min-h-screen">
         <Loading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex items-center justify-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 max-w-md w-full">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-center mb-2">Error</h2>
+          <p className="text-center text-gray-600 dark:text-gray-400">
+            Oops! Something went wrong.
+          </p>
+          <button
+            onClick={() => navigate("/")}
+            className="mt-6 w-full bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium py-2 px-4 rounded-md"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -341,7 +293,7 @@ export default function Dashboard() {
                     className="flex items-center px-4 py-2 text-sm rounded-md bg-gray-100 dark:bg-gray-700"
                   >
                     <Home className="mr-3 h-4 w-4" />
-                    Dashboard
+                    Home
                   </Link>
                 </li>
                 <li>
@@ -354,13 +306,13 @@ export default function Dashboard() {
                   </Link>
                 </li>
                 <li>
-                  <Link
+                  {/* <Link
                     to="/favorites"
                     className="flex items-center px-4 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <Heart className="mr-3 h-4 w-4" />
                     Favorites
-                  </Link>
+                  </Link> */}
                 </li>
                 <li>
                   <Link
@@ -392,13 +344,16 @@ export default function Dashboard() {
         {/* Sidebar - Desktop Only */}
         <aside className="hidden md:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen sticky top-0 overflow-y-auto">
           <div className="p-6">
-            <nav className="space-y-1">
+            <h3 className="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Navigation
+            </h3>
+            <nav className="mt-2 space-y-1 pb-4 border-b border-gray-200 dark:border-gray-700">
               <Link
                 to="/dashboard"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md bg-gray-100 dark:bg-gray-700"
               >
                 <Home className="mr-3 h-4 w-4" />
-                Dashboard
+                Home
               </Link>
               <Link
                 to="/analysis"
@@ -407,13 +362,13 @@ export default function Dashboard() {
                 <BarChart2 className="mr-3 h-4 w-4" />
                 Analytics
               </Link>
-              <Link
+              {/* <Link
                 to="/favorites"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <Heart className="mr-3 h-4 w-4" />
                 Favorites
-              </Link>
+              </Link> */}
               <Link
                 to="/account"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -423,7 +378,7 @@ export default function Dashboard() {
               </Link>
             </nav>
 
-            <div className="mt-8 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="mt-6 pb-4 border-b border-gray-200 dark:border-gray-700">
               <h3 className="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Insights
               </h3>
@@ -545,21 +500,50 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <stat.icon className="h-8 w-8 text-orange-500 mb-2" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-orange-500">
+                    <DollarSign className="h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      {stat.label}
+                      Potential Savings
                     </p>
-                    <h3 className="text-2xl font-bold">{stat.value}</h3>
+                    <h3 className="text-2xl font-bold">
+                      ₹{totalSavings.toLocaleString()}
+                    </h3>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500">
+                    <Tag className="h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                      Avg. Discount
+                    </p>
+                    <h3 className="text-2xl font-bold">{avgDiscount}%</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-500">
+                    <ShoppingBag className="h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                      Products Tracked
+                    </p>
+                    <h3 className="text-2xl font-bold">{totalProducts}</h3>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {activeTab === "overview" && (
@@ -737,28 +721,26 @@ export default function Dashboard() {
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700  flex justify-between items-center">
                       <h3 className="text-lg font-semibold">Top Savings</h3>
                       <Link
-                        to="/topsavings"
+                        to="/allproducts"
                         className="text-sm text-orange-500 hover:underline flex items-center"
                       >
                         View Details <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
                     </div>
                     <div className="p-4">
-                      <ul className="space-y-4">
-                        {topSavings.map((item, index) => (
+                      <ul className="space-y-[1.35rem]">
+                        {trackingItems.slice(0, 5).map((item, index) => (
                           <li
-                            key={item.id}
+                            key={item._id}
                             className="flex items-center space-x-4"
                           >
-                            <img
-                              src={item.image || "/placeholder.svg"}
-                              alt={item.product}
-                              className="w-12 h-12 rounded-md object-cover"
-                            />
                             <div className="flex-1">
-                              <p className="font-medium">{item.product}</p>
+                              <p className="font-medium">
+                                {item.productTitle.split("|")[0].trim()}
+                              </p>
                               <p className="text-sm text-orange-500">
-                                Saved ₹{item.savings}
+                                Saved ₹
+                                {Math.max(item.currentPrice - item.hitPrice, 0)}
                               </p>
                             </div>
                             <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded">
@@ -778,34 +760,48 @@ export default function Dashboard() {
                         to="/deals"
                         className="text-sm text-orange-500 hover:underline flex items-center"
                       >
-                        View Details <ChevronRight className="h-4 w-4 ml-1" />
+                        View All <ChevronRight className="h-4 w-4 ml-1" />
                       </Link>
                     </div>
                     <div className="p-4">
-                      <ul className="space-y-4">
-                        {upcomingDeals.map((deal) => (
-                          <li
-                            key={deal.id}
-                            className="flex items-start space-x-4"
-                          >
-                            <Calendar className="h-5 w-5 text-orange-500 mt-1" />
-                            <div>
-                              <p className="font-medium">{deal.name}</p>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                {deal.date}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {deal.description}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
+                      {loadingSales ? (
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          Loading deals...
+                        </div>
+                      ) : errorSales ? (
+                        <div className="text-sm text-red-500">{errorSales}</div>
+                      ) : salesData.length > 0 ? (
+                        <ul className="space-y-4">
+                          {salesData.slice(0, 5).map((deal) => (
+                            <li
+                              key={deal._id || deal.id}
+                              className="flex items-start space-x-4"
+                            >
+                              <Calendar className="h-5 w-5 text-orange-500 mt-1" />
+                              <div>
+                                <p className="font-medium">
+                                  {deal.title || deal.name}
+                                </p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  {deal.duration || deal.date}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {deal.description}
+                                </p>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          No upcoming deals found.
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Recommendations */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 md:col-span-1">
+                  {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 md:col-span-1">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                       <h3 className="text-lg font-semibold">
                         Recommended For You
@@ -849,7 +845,7 @@ export default function Dashboard() {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             )}
@@ -972,153 +968,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-/*
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading";
-import { jwtDecode } from "jwt-decode";
-
-// SVGs
-import edit from "../../components/assets/edit.svg";
-import trash from "../../components/assets/trash.svg";
-
-const Home = () => {
-  const [user, setUser] = useState(null);
-  const [trackingItems, setTrackingItems] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); // For loading state
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/signin");
-    } else {
-      const decoded = jwtDecode(token); // Decode token and get the user's name
-      setUser(decoded); // Now, user will contain both name and email
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-    const fetchTrackingList = async () => {
-      try {
-        const token = localStorage.getItem("token"); // Assuming JWT token is stored in localStorage
-
-        const response = await fetch(
-          `${process.env.REACT_APP_CC_API}/trackinglist`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Include JWT token in the headers
-            },
-          }
-        );
-
-        const result = await response.json();
-
-        if (response.ok) {
-          setTrackingItems(result.trackinglist); // Assuming the tracklist is returned
-        } else {
-          setError(result.message || "Failed to fetch tracking list.");
-        }
-      } catch (err) {
-        console.error("Error fetching tracking list:", err);
-        setError("Error fetching tracking list.");
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
-      }
-    };
-
-    fetchTrackingList();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <Loading />
-      </div>
-    );
-  }
-
-  return (
-    <div className="font-inter">
-      {user ? (
-        <div className="flex flex-col items-center gap-4 py-12 bg-foreground">
-          <h1 className="text-3xl">
-            Hello <b>{user.name}</b>, welcome to your dashboard!
-          </h1>
-          <div>
-            <p>Your current Tracking List</p>
-          </div>
-          {error && <div className="text-red-500">{error}</div>}
-          <div className="flex flex-col items-center text-center p-4 border border-gray-500 h-auto w-auto rounded">
-            {trackingItems.length > 0 ? (
-              <ul className="space-y-4">
-                {trackingItems.map((item, index) => (
-                  <li key={index} className="border p-4 rounded-md shadow">
-                    <div>
-                      <h2 className="text-lg">
-                        Product Title: {item.productTitle}
-                      </h2>
-                      <h2 className="text-lg">
-                        Product Link: {item.productLink}
-                      </h2>
-                      <h3 className="font-semibold">
-                        Current Price: ₹{item.currentPrice}
-                      </h3>
-                      <h4 className="font-semibold">
-                        Target Price: ₹{item.hitPrice}
-                      </h4>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between mt-2">
-                      <button className="flex items-center bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded">
-                        <img
-                          src={edit}
-                          alt="Edit"
-                          className="w-5 h-5 mr-2 filter-white"
-                        />
-                        <a href="/edit">Edit Target Price</a>
-                      </button>
-                      <button className="flex items-center bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded">
-                        <img
-                          src={trash}
-                          alt="Delete"
-                          className="w-5 h-5 mr-2 filter-white"
-                        />
-                        <a href="/delete">Delete This Product</a>
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="text-center text-gray-500">
-                <h2 className="text-xl font-semibold mt-4">Wow, such empty</h2>
-              </div>
-            )}
-          </div>
-          <div className="flex mt-6">
-            <p className="p-2">Want to track another product?</p>
-            <a
-              href="/addProduct"
-              className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Track a new Product
-            </a>
-          </div>
-        </div>
-      ) : (
-        <p>
-          <Loading />
-        </p>
-      )}
-    </div>
-  );
-};
-
-export default Home;
-*/

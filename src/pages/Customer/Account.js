@@ -127,13 +127,13 @@ const Account = () => {
                   Contact Info
                 </h3>
               </div>
-              <a
-                href="/editAccountDetails"
+              <Link
+                to="/editAccountDetails"
                 className="flex items-center text-orange-500 hover:text-orange-600 text-sm font-medium"
               >
                 <Edit className="h-4 w-4 mr-1" />
                 Edit
-              </a>
+              </Link>
             </div>
 
             <div className="space-y-4">
@@ -186,13 +186,13 @@ const Account = () => {
                   Security
                 </h3>
               </div>
-              <a
-                href="/changePassword"
+              <Link
+                to="/changePassword"
                 className="flex items-center text-orange-500 hover:text-orange-600 text-sm font-medium"
               >
                 <Edit className="h-4 w-4 mr-1" />
                 Change
-              </a>
+              </Link>
             </div>
 
             <div className="space-y-4">

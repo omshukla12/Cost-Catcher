@@ -47,15 +47,15 @@ import EditAccountDetails from "./pages/Customer/EditAccountDetails";
 
 // Analytics Routes
 // import Goals from "./pages/Customer/Analytics/Goals";
+// import Favorites from "./pages/Customer/Analytics/Favorites";
+// import Recommended from "./pages/Customer/Analytics/Recommended";
 // import RecentAlerts from "./pages/Customer/Analytics/RecentAlerts";
 
 import Trends from "./pages/Customer/Analytics/Trends";
 import Alerts from "./pages/Customer/Analytics/Alerts";
 import Analysis from "./pages/Customer/Analytics/Analysis";
 import BestDeals from "./pages/Customer/Analytics/BestDeals";
-import Favorites from "./pages/Customer/Analytics/Favorites";
 import TopSavings from "./pages/Customer/Analytics/TopSavings";
-import Recommended from "./pages/Customer/Analytics/Recommended";
 import AllProducts from "./pages/Customer/Analytics/AllProducts";
 import TrendingProducts from "./pages/Customer/Analytics/TrendingProducts";
 
@@ -233,14 +233,14 @@ const router = createBrowserRouter([
       },
 
       // Analytics
-      {
-        path: "/favorites",
-        element: (
-          <ProtectedRoute>
-            <Favorites />
-          </ProtectedRoute>
-        ),
-      },
+      // {
+      //   path: "/favorites",
+      //   element: (
+      //     <ProtectedRoute>
+      //       <Favorites />
+      //     </ProtectedRoute>
+      //   ),
+      // },
       {
         path: "/allproducts",
         element: (
@@ -313,14 +313,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/recommended",
-        element: (
-          <ProtectedRoute>
-            <Recommended />
-          </ProtectedRoute>
-        ),
-      },
+      // {
+      //   path: "/recommended",
+      //   element: (
+      //     <ProtectedRoute>
+      //       <Recommended />
+      //     </ProtectedRoute>
+      //   ),
+      // },
       { path: "*", element: <NotFound /> },
     ],
   },

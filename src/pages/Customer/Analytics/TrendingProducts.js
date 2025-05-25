@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { ArrowLeft } from "lucide-react";
 import Loading from "../../../components/Loading";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function TrendingProducts() {
-  const [trendingProducts, setTrendingProducts] = useState([]);
+  const { token } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [trendingProducts, setTrendingProducts] = useState([]);
 
   useEffect(() => {
     const fetchTrendingProducts = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await fetch(
           `${process.env.REACT_APP_CC_API}/trendingProducts`,
           {

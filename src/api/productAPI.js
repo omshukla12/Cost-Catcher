@@ -23,7 +23,7 @@ export const saveProductTracking = async (productData, hitPrice) => {
       currentPrice: productData.deal_price,
       hitPrice: hitPrice,
       category: productData.category,
-      imageLink: productData.imageLink,
+      imageLink: productData.image_url || productData.imageLink,
     };
 
     const response = await fetch(
@@ -37,13 +37,11 @@ export const saveProductTracking = async (productData, hitPrice) => {
         body: JSON.stringify(requestBody),
       }
     );
-
     const result = await response.json();
 
     if (!response.ok) {
       throw new Error(result.message || "Error tracking product.");
     }
-
     return { success: true, result };
   } catch (error) {
     console.error("Error tracking product:", error);

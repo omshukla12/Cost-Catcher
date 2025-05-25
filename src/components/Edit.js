@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+
 import { Save } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 
 const Edit = ({ productId, currentHitPrice, onEdit, onClose }) => {
   const [newHitPrice, setNewHitPrice] = useState(currentHitPrice || "");
@@ -30,22 +31,19 @@ const Edit = ({ productId, currentHitPrice, onEdit, onClose }) => {
           body: JSON.stringify({ newHitPrice }),
         }
       );
-
       const result = await response.json();
 
       if (response.ok) {
         if (onEdit) {
           onEdit(productId, newHitPrice);
         }
-        // Automatically close modal and refresh page
         if (onClose) onClose();
-        window.location.reload();
       } else {
-        setError(result.message || "Failed to update target price");
+        setError(result.message || "Failed to update target price.");
       }
     } catch (err) {
-      console.error("Error updating price:", err);
-      setError("Error updating target price");
+      console.error("Error updating price : ", err);
+      setError("Error updating target price.");
     } finally {
       setIsUpdating(false);
     }
@@ -77,7 +75,7 @@ const Edit = ({ productId, currentHitPrice, onEdit, onClose }) => {
             />
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            You'll be notified when the price drops to or below this amount
+            You'll be notified when the price drops to or below this amount.
           </p>
         </div>
 

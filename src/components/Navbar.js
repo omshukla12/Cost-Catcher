@@ -64,8 +64,10 @@ const recentAlerts = [
 */
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
   // Contexts
-  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const { isAuthenticated, logout, user, token } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -76,9 +78,68 @@ export default function Navbar() {
   const initialRenderDone = useRef(false);
   const menuRef = useRef(null);
 
+  // Scrolling effect
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  const navigate = useNavigate();
+
+  // Notification menu
+  const notifMenuRef = useRef(null);
+  const [notifMenuOpen, setNotifMenuOpen] = useState(false);
+
+  const [activityData, setActivityData] = useState([]);
+  const [errorActivity, setErrorActivity] = useState(null);
+  const [loadingActivity, setLoadingActivity] = useState(true);
+
+  // Fetch notifications/activity
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const fetchActivityData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_CC_API}/activity`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+
+        if (data.status === "Success") {
+          setActivityData(data.payload);
+        } else {
+          setErrorActivity("Failed to fetch activity data.");
+        }
+      } catch (error) {
+        console.error("Error fetching activity data:", error);
+        setErrorActivity("Error fetching activity data.");
+      } finally {
+        setLoadingActivity(false);
+      }
+    };
+
+    fetchActivityData();
+  }, [isAuthenticated, token]);
+
+  // Handle opening/closing of notification menu
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        notifMenuRef.current &&
+        !notifMenuRef.current.contains(event.target)
+      ) {
+        setNotifMenuOpen(false);
+      }
+    }
+    if (notifMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notifMenuOpen]);
 
   // Handle opening/closing of user menu
   useEffect(() => {
@@ -145,7 +206,7 @@ export default function Navbar() {
   };
 
   const links = isAuthenticated
-    ? [{ to: "/dashboard", label: "Dashboard" }]
+    ? [{ to: "/dashboard", label: "Home" }]
     : [
         { to: "/about", label: "About" },
         { to: "/contact", label: "Contact" },
@@ -232,18 +293,101 @@ export default function Navbar() {
           {isAuthenticated && (
             <div className="relative flex items-center gap-2" ref={menuRef}>
               {/* Notification Bell Button */}
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative transition-colors duration-200"
-                aria-label="Notifications"
-              >
-                <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-500"></span>
-              </button>
+              <div ref={notifMenuRef} className="relative">
+                <button
+                  className={`p-2 rounded-full focus:outline-none relative transition-colors duration-200
+      hover:bg-gray-100 dark:hover:bg-gray-700
+      ${
+        notifMenuOpen
+          ? "ring-2 ring-orange-400 bg-orange-50 dark:bg-orange-900"
+          : ""
+      }
+    `}
+                  aria-label="Notifications"
+                  onClick={() => {
+                    setNotifMenuOpen((prev) => !prev);
+                    if (!notifMenuOpen) setUserMenuOpen(false);
+                  }}
+                >
+                  <Bell
+                    className={`h-5 w-5 ${
+                      notifMenuOpen
+                        ? "text-orange-500"
+                        : "text-gray-600 dark:text-gray-300"
+                    }`}
+                  />
+                  {activityData && activityData.length > 0 && (
+                    <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-500"></span>
+                  )}
+                </button>
+
+                {/* Notification Popup */}
+                {notifMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-20">
+                    <div className="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-800 dark:text-gray-200">
+                      Notifications
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {loadingActivity ? (
+                        <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                          Loading...
+                        </div>
+                      ) : errorActivity ? (
+                        <div className="p-4 text-center text-red-500">
+                          {errorActivity}
+                        </div>
+                      ) : activityData && activityData.length > 0 ? (
+                        activityData
+                          .filter(
+                            (activity) =>
+                              !(
+                                activity.activity &&
+                                activity.activity.includes("Recent Login")
+                              )
+                          )
+                          .sort(
+                            (a, b) =>
+                              new Date(b.timestamp).getTime() -
+                              new Date(a.timestamp).getTime()
+                          )
+                          .map((activity, idx) => (
+                            <div
+                              key={activity._id || idx}
+                              className="px-4 py-3 border-b last:border-b-0 border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                            >
+                              <div className="font-medium text-sm text-gray-800 dark:text-gray-100">
+                                {activity.activity || "Activity"}
+                              </div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400">
+                                {activity.message || activity.description}
+                              </div>
+                              <div className="text-[10px] text-gray-400 mt-1">
+                                {activity.time ||
+                                  activity.date ||
+                                  (activity.timestamp
+                                    ? new Date(
+                                        activity.timestamp
+                                      ).toLocaleString()
+                                    : "")}
+                              </div>
+                            </div>
+                          ))
+                      ) : (
+                        <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                          No notifications.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* User Menu Toggle */}
               <button
                 onClick={toggleMenu}
-                className="relative h-8 w-8 rounded-full focus:outline-none flex items-center justify-center ml-1"
+                className={`relative h-8 w-8 rounded-full focus:outline-none flex items-center justify-center ml-1
+    ${userMenuOpen ? "ring-2 ring-orange-400" : ""}
+  `}
                 aria-label="User Menu"
               >
                 <Avatar
@@ -253,21 +397,22 @@ export default function Navbar() {
                   color="#FF6B6B"
                 />
               </button>
+
+              {/* User Popup */}
               {userMenuOpen && (
                 <div className="absolute right-0 mt-[270px] w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700">
                     {(() => {
-                      const { name, email } = getUserFromToken() || {};
-                      return name && email ? (
+                      return user.name && user.email ? (
                         <>
-                          <p className="text-sm font-medium">{name}</p>
+                          <p className="text-sm font-medium">{user.name}</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {email}
+                            {user.email}
                           </p>
                         </>
                       ) : (
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          User details not available
+                          User details not available.
                         </p>
                       );
                     })()}

@@ -33,12 +33,9 @@ const Signup = () => {
       });
 
       const response = await data.json();
-      console.log(response);
-
       if (response.token) {
-        // localStorage.setItem("token", response.token);
-
         login(data.token);
+        
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
