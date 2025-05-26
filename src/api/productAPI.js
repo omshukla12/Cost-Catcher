@@ -1,11 +1,12 @@
 import { getAmazonData } from "../middleware/getAmazonData";
 
+// Fetch product information ...
 export const fetchProductData = async (productId) => {
   try {
     const data = await getAmazonData(productId);
     return { data, error: null };
   } catch (error) {
-    console.error("Error fetching product data:", error);
+    console.error("Error fetching product data : ", error);
     return {
       data: null,
       error: error.message || "Failed to fetch product data.",
@@ -13,6 +14,7 @@ export const fetchProductData = async (productId) => {
   }
 };
 
+// Save a new product to be tracked ...
 export const saveProductTracking = async (productData, hitPrice) => {
   try {
     const token = localStorage.getItem("token");

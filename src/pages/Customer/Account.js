@@ -201,7 +201,7 @@ const Account = () => {
                     Enable Telegram Notifications
                   </h3>
                   <p className="text-blue-100 text-sm">
-                    Get instant updates and alerts directly on Telegram
+                    Get instant updates and price alerts on Telegram.
                   </p>
                 </div>
               </div>

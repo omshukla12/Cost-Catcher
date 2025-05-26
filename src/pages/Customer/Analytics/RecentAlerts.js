@@ -150,15 +150,18 @@ const recentAlerts = [
 ];
 
 export default function RecentAlerts() {
+  const alertsPerPage = 5;
   const [searchTerm, setSearchTerm] = useState("");
+
   const [filterType, setFilterType] = useState("All");
-  const [filterTimeframe, setFilterTimeframe] = useState("All");
   const [filterRead, setFilterRead] = useState("All");
+  const [filterTimeframe, setFilterTimeframe] = useState("All");
+
   const [sortBy, setSortBy] = useState("time");
   const [sortOrder, setSortOrder] = useState("desc");
+
   const [selectedAlerts, setSelectedAlerts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const alertsPerPage = 5;
 
   // Filter and sort alerts
   const filteredAlerts = recentAlerts

@@ -113,20 +113,6 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-gray-200">
             Meet Our Team
           </h2>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  "flex justify-center",
-                  index === teamMembers.length - 1 &&
-                    "md:col-span-2 md:justify-center lg:col-span-1"
-                )}
-              >
-                <TeamMember {...member} />
-              </div>
-            ))}
-          </div> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
             {/* First row */}
             {teamMembers.slice(0, 3).map((member, index) => (

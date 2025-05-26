@@ -1,14 +1,13 @@
-import React from "react";
 import { motion } from "framer-motion";
 import {
-  Search,
+  Zap,
   Bell,
+  Users,
+  Search,
+  BarChart,
   TrendingUp,
   ShieldCheck,
-  Zap,
-  Users,
   IndianRupee,
-  BarChart,
   ShoppingCart,
 } from "lucide-react";
 
