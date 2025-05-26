@@ -50,7 +50,7 @@ import Alerts from "./pages/Customer/Analytics/Alerts";
 import Analysis from "./pages/Customer/Analytics/Analysis";
 import BestDeals from "./pages/Customer/Analytics/BestDeals";
 import TopSavings from "./pages/Customer/Analytics/TopSavings";
-import AllProducts from "./pages/Customer/Analytics/AllProducts";
+import TrackingList from "./pages/Customer/Analytics/TrackingList";
 import TrendingProducts from "./pages/Customer/Analytics/TrendingProducts";
 
 const AppLayout = () => {
@@ -196,7 +196,7 @@ const router = createBrowserRouter([
         path: "/tracking-list",
         element: (
           <ProtectedRoute>
-            <AllProducts />
+            <TrackingList />
           </ProtectedRoute>
         ),
       },
@@ -227,10 +227,10 @@ const router = createBrowserRouter([
 
       // Analytics
       {
-        path: "/allproducts",
+        path: "/trackinglist",
         element: (
           <ProtectedRoute>
-            <AllProducts />
+            <TrackingList />
           </ProtectedRoute>
         ),
       },

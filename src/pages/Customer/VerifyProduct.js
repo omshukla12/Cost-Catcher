@@ -10,7 +10,6 @@ import {
   DollarSign,
   Target,
 } from "lucide-react";
-import Avatar from "react-avatar";
 
 import Loading from "../../components/Loading";
 import PriceInput from "../../components/PriceInput";
@@ -77,7 +76,7 @@ function VerifyProduct() {
       toast.success("Product tracking successful!");
 
       setTimeout(() => {
-        navigate("/allproducts");
+        navigate("/trackinglist");
       }, 2000);
     } else {
       toast.error(error || "Failed to track product");
@@ -146,11 +145,6 @@ function VerifyProduct() {
                 <ArrowLeft className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 focus:outline-none" />
               </Link>
               <h1 className="text-2xl font-bold">Verify Product</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
             </div>
           </div>
         </div>

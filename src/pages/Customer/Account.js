@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Loading from "../../components/Loading";
+
 import {
   Mail,
   Phone,
@@ -7,68 +8,42 @@ import {
   Lock,
   Edit,
   ArrowLeft,
+  Bell,
+  ExternalLink,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 
+import Loading from "../../components/Loading";
 import NewAvatar from "../../components/ui/NewAvatar";
-
-const getUserIdFromToken = () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.userId;
-    } catch (error) {
-      console.error("Invalid token:", error);
-      return null;
-    }
-  }
-  return null;
-};
+import { getUserFromToken } from "../../services/authService";
 
 const Account = () => {
+  const { userId } = getUserFromToken();
+  const telegramBotUrl = process.env.REACT_APP_TELE_BOT_URL || "#";
+
   const [accountDetails, setAccountDetails] = useState(null);
   const [error, setError] = useState(null);
 
-  // State to track scroll direction
-  const [isScrollingUp, setIsScrollingUp] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  const accountId = getUserIdFromToken();
-
-  // Handle scroll events to determine direction
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrollingUp(currentScrollY < lastScrollY);
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
-  // Handle fetching of account details
+  // Fetching user account details ...
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_CC_API}/account/${accountId}`
+          `${process.env.REACT_APP_CC_API}/account/${userId}`
         );
         const data = await response.json();
+
         if (response.ok) {
           setAccountDetails(data.payload);
         } else {
-          setError(data.message || "Failed to fetch account details");
+          setError(data.message || "Failed to fetch account details.");
         }
       } catch (error) {
-        setError("Error fetching account details");
+        setError("Error fetching account details : ", error);
       }
     };
 
     fetchAccountDetails();
-  }, [accountId]);
+  }, [userId]);
 
   if (!accountDetails) {
     return (
@@ -79,7 +54,9 @@ const Account = () => {
   }
 
   if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
+    <div className="min-h-screen flex items-center justify-center text-red-500">
+      Error: {error}
+    </div>;
   }
 
   return (
@@ -207,6 +184,36 @@ const Account = () => {
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Telegram Notifications */}
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-xl shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="bg-white/20 p-2 rounded-lg mr-4">
+                  <Bell className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-1">
+                    Enable Telegram Notifications
+                  </h3>
+                  <p className="text-blue-100 text-sm">
+                    Get instant updates and alerts directly on Telegram
+                  </p>
+                </div>
+              </div>
+              <a
+                href={telegramBotUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center"
+              >
+                Set Up Now
+                <ExternalLink className="h-4 w-4 ml-2" />
+              </a>
             </div>
           </div>
         </div>

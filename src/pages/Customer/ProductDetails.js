@@ -221,7 +221,7 @@ const ProductDetails = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link to="/allproducts" className="mr-4">
+              <Link to="/trackinglist" className="mr-4">
                 <ArrowLeft className="h-5 w-5 text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-500 focus:outline-none" />
               </Link>
               <h1 className="text-2xl font-bold">Product Details</h1>

@@ -31,7 +31,7 @@ const Delete = ({ productId, productTitle, onClose, onDelete }) => {
         }
         if (onClose) onClose();
         setTimeout(() => {
-          navigate("/allproducts");
+          navigate("/trackinglist");
         }, 500);
       } else {
         setError(result.message || "Deletion failed");

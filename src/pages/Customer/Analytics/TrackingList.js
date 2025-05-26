@@ -19,7 +19,7 @@ import Edit from "../../../components/Edit";
 import { AuthContext } from "../../../context/AuthContext";
 import { fetchTrackingList } from "../../../services/authService";
 
-const Home = () => {
+const TracklingList = () => {
   const navigate = useNavigate();
   const { user, token, isAuthenticated } = useContext(AuthContext);
 
@@ -108,7 +108,7 @@ const Home = () => {
           )
         );
 
-        navigate("/allproducts");
+        navigate("/trackinglist");
         setShowEditModal(false);
       } else {
         setError(result.message || "Failed to edit product.");
@@ -120,7 +120,7 @@ const Home = () => {
   };
 
   const handleDeleteProduct = () => {
-    navigate("/allproducts");
+    navigate("/trackinglist");
     setShowDeleteModal(false);
   };
 
@@ -414,4 +414,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default TracklingList;
