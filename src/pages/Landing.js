@@ -1,16 +1,13 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight,
-  TrendingDown,
   Bell,
-  Search,
-  Star,
+  Users,
   BarChart,
-  Zap,
+  ArrowRight,
   IndianRupee,
   ShoppingCart,
-  Users,
+  TrendingDown,
 } from "lucide-react";
 
 import {
@@ -29,60 +26,45 @@ import {
 const features = [
   {
     title: "Real-Time Tracking",
-    description: "Monitor price changes across multiple retailers",
+    description: "Monitor price changes across multiple platforms.",
     icon: TrendingDown,
   },
   {
     title: "Smart Notifications",
-    description: "Get instant alerts when prices drop",
+    description: "Get instant alerts when prices drop.",
     icon: Bell,
   },
   {
     title: "Price History",
-    description: "Track past prices to spot the best deals",
+    description: "Track past prices to spot the best deals.",
     icon: BarChart,
-  },
-  {
-    title: "One-Click Comparison",
-    description: "Easily compare prices across stores",
-    icon: Search,
-  },
-  {
-    title: "Custom Watchlists",
-    description: "Save and manage items in personalized lists",
-    icon: Star,
-  },
-  {
-    title: "Flash Sale Alerts",
-    description: "Be the first to know about limited-time deals",
-    icon: Zap,
   },
 ];
 
 const stats = [
-  { title: "Active Users", value: "500K+", icon: Users },
-  { title: "Money Saved", value: "₹10Cr+", icon: IndianRupee },
-  { title: "Products Tracked", value: "5Cr+", icon: ShoppingCart },
+  { title: "Active Users", value: "15", icon: Users },
+  { title: "Money Saved", value: "₹50k+", icon: IndianRupee },
+  { title: "Products Tracked", value: "1k+", icon: ShoppingCart },
 ];
 
 const testimonials = [
   {
-    name: "Sarah L.",
-    role: "Savvy Shopper",
+    name: "Mohit D.",
+    role: "Software Engineer",
     content:
-      "CostCatcher has helped me track prices and grab the best deals effortlessly!",
+      "I was skeptical at first, but CostCatcher actually caught a ₹3,000 price drop on the laptop I'd been eyeing for months. Set it up once and forgot about it until I got the notification. Definitely worth it.",
   },
   {
-    name: "Mike R.",
-    role: "Tech Enthusiast",
+    name: "Rahul P.",
+    role: "College Student",
     content:
-      "I love how easy it is to compare prices in one place. Saves me a lot of time!",
+      "Being on a tight budget, every rupee counts. CostCatcher helped me save ₹1,200 on textbooks last semester. The alerts are spot-on and I don't have to constantly check multiple sites anymore.",
   },
   {
-    name: "Emily T.",
-    role: "Busy Mom",
+    name: "John D.",
+    role: "Working Parent",
     content:
-      "As a mom of three, CostCatcher makes it simple to find budget-friendly options.",
+      "Between work and kids, I barely have time to hunt for deals. CostCatcher does the heavy lifting for me. Saved ₹800 on my daughter's school supplies without lifting a finger. It's like having a personal shopping assistant.",
   },
 ];
 
@@ -95,12 +77,12 @@ const faqs = [
   {
     question: "Is CostCatcher free?",
     answer:
-      "Yes, we offer a free basic plan. Premium plans with additional features are available for power users.",
+      "Yes, we offer a free basic plan at the moment.",
   },
   {
     question: "Which stores are supported?",
     answer:
-      "We support major retailers like Amazon, Walmart, Best Buy, Target, eBay, and more. Our list is constantly expanding.",
+      "We support major retailers like Amazon, Flipkart, Myntra, and more. Our list is constantly expanding.",
   },
   {
     question: "How accurate is the price tracking?",
@@ -163,7 +145,7 @@ export default function Landing() {
         <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold mb-12 text-center">
-              How CostCatcher Works
+              How <span className="text-orange-500">CostCatcher</span> Works
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
@@ -228,7 +210,7 @@ export default function Landing() {
               Ready to Revolutionize Your Shopping?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Join the CostCatcher community and start saving today. It's free
+              Start saving today. It's free
               to get started!
             </p>
             <Link

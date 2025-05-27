@@ -42,8 +42,9 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            At Cost-Catcher, we are committed to protecting your privacy and
-            ensuring the security of your personal information.
+            At <span className="text-orange-500 font-bold">CostCatcher</span>, we are
+            committed to protecting your privacy and ensuring the security of
+            your personal information.
           </p>
         </motion.section>
 

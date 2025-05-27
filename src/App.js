@@ -45,11 +45,8 @@ import TrackNewProduct from "./pages/Customer/TrackNewProduct";
 import EditAccountDetails from "./pages/Customer/EditAccountDetails";
 
 // Analytics Routes
-// import Trends from "./pages/Customer/Analytics/Trends";
-// import Analysis from "./pages/Customer/Analytics/Analysis";
-
+import Analysis from "./pages/Customer/Analytics/Analysis";
 import BestDeals from "./pages/Customer/Analytics/BestDeals";
-import TopSavings from "./pages/Customer/Analytics/TopSavings";
 import TrackingList from "./pages/Customer/Analytics/TrackingList";
 import TrendingProducts from "./pages/Customer/Analytics/TrendingProducts";
 
@@ -234,35 +231,19 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/analysis",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Analysis />
-      //     </ProtectedRoute>
-      //   ),
-      // },
-      // {
-      //   path: "/trends",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Trends />
-      //     </ProtectedRoute>
-      //   ),
-      // },
+      {
+        path: "/analysis",
+        element: (
+          <ProtectedRoute>
+            <Analysis />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "/deals",
         element: (
           <ProtectedRoute>
             <BestDeals />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/topsavings",
-        element: (
-          <ProtectedRoute>
-            <TopSavings />
           </ProtectedRoute>
         ),
       },

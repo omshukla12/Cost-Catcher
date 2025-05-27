@@ -13,7 +13,7 @@ export const getUserFromToken = () => {
 
     return { name, email, userId };
   } catch (error) {
-    console.error("Invalid token:", error);
+    console.error("Invalid token : ", error);
     return null;
   }
 };
@@ -44,7 +44,7 @@ export const fetchTrackingList = async () => {
       throw new Error(result.message || "Failed to fetch tracking list.");
     }
   } catch (error) {
-    console.error("Error fetching tracking list:", error);
+    console.error("Error fetching tracking list : ", error);
     throw error;
   }
 };
@@ -72,7 +72,7 @@ export const fetchActivityData = async () => {
       throw new Error(data.message || "Failed to fetch activity data.");
     }
   } catch (error) {
-    console.error("Error fetching activity data:", error);
+    console.error("Error fetching activity data : ", error);
     throw error;
   }
 };
@@ -100,11 +100,11 @@ export const fetchUpcomingSales = async () => {
     if (response.ok) {
       return result.payload;
     } else {
-      console.error("Failed to fetch upcoming sales.:", result.message);
+      console.error("Failed to fetch upcoming sales : ", result.message);
       return result.message;
     }
   } catch (err) {
-    console.error("Failed to fetch upcoming sales.:", err);
+    console.error("Failed to fetch upcoming sales : ", err);
     throw err;
   }
 };
@@ -135,7 +135,7 @@ export const fetchPriceHistory = async (pid) => {
       throw new Error(result.message || "Failed to fetch price history.");
     }
   } catch (error) {
-    console.error("Error fetching price history :", error);
+    console.error("Error fetching price history : ", error);
     throw error;
   }
 };
@@ -167,5 +167,37 @@ export const fetchTrendingProducts = async () => {
     }
   } catch (err) {
     throw new Error("Error fetching trending products : ", err);
+  }
+};
+
+// Testing ...
+export const fetchCombinedTrackingPriceHistories = async () => {
+  try {
+    const histories = {};
+    const trackingList = await fetchTrackingList();
+    const productData = trackingList.map((item) => ({
+      _id: item._id,
+      category: item.category || "Uncategorised",
+    }));
+
+    for (const { _id, category } of productData) {
+      try {
+        const priceHistory = await fetchPriceHistory(_id);
+        histories[_id] = {
+          category,
+          priceHistory,
+        };
+      } catch (error) {
+        histories[_id] = {
+          category,
+          priceHistory: [],
+        };
+        console.error(`Failed to fetch price history for ${_id} : `, error);
+      }
+    }
+    return histories;
+  } catch (error) {
+    console.error("Error fetching combined price histories : ", error);
+    throw error;
   }
 };

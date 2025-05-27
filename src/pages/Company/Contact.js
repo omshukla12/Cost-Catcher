@@ -46,7 +46,7 @@ export default function Contact() {
     {
       question: "Can I track prices from any online store?",
       answer:
-        "Cost-Catcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
+        "CostCatcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
     },
     {
       question: "Is there a mobile app available?",

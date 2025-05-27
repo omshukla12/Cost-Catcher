@@ -11,30 +11,27 @@ import {
   Settings,
   Calendar,
   BarChart2,
-  RefreshCw,
-  TrendingUp,
   DollarSign,
   ShoppingBag,
   AlertCircle,
   ChevronRight,
-  AlertTriangle,
   Bell,
   ExternalLink,
 } from "lucide-react";
 import {
-  Bar,
   Pie,
   Cell,
-  Area,
+  Line,
   XAxis,
   YAxis,
+  Legend,
   Tooltip,
-  BarChart,
   PieChart,
-  AreaChart,
+  LineChart,
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+
 import clsx from "clsx";
 
 import {
@@ -43,55 +40,46 @@ import {
   fetchActivityData,
   fetchUpcomingSales,
   fetchTrendingProducts,
+  fetchCombinedTrackingPriceHistories
 } from "../../services/authService";
 
+import {
+  getEndDate,
+  getStartDate,
+  getCategoryData,
+  processAnalyticsData
+} from "../../utils/productUtils";
+
 import Loading from "../../components/Loading";
-import { getStartDate, getEndDate } from "../../utils/productUtils";
+import CustomLegend from "../../components/ui/CustomLegend";
+import CustomTooltip from "../../components/ui/CustomTooltip";
 
-// Sample data for charts ...
-const priceHistoryData = [
-  { name: "Jan", price: 400 },
-  { name: "Feb", price: 380 },
-  { name: "Mar", price: 390 },
-  { name: "Apr", price: 370 },
-  { name: "May", price: 350 },
-  { name: "Jun", price: 320 },
-  { name: "Jul", price: 310 },
+const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#A28EFF",
+  "#FF6699",
 ];
-
-const savingsData = [
-  { name: "Jan", savings: 50 },
-  { name: "Feb", savings: 80 },
-  { name: "Mar", savings: 120 },
-  { name: "Apr", savings: 150 },
-  { name: "May", savings: 200 },
-  { name: "Jun", savings: 220 },
-  { name: "Jul", savings: 280 },
-];
-
-const categoryData = [
-  { name: "Electronics", value: 40 },
-  { name: "Home", value: 25 },
-  { name: "Fashion", value: 15 },
-  { name: "Beauty", value: 10 },
-  { name: "Other", value: 10 },
-];
-
-const COLORS = ["#FF6B6B", "#FFB4B4", "#4ECDC4", "#556FB5", "#9D8DF1"];
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
+  // Menu toggle
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
+  // Tracked items
   const [trackingItems, setTrackingItems] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [stats, setStats] = useState({
     totalProducts: 0,
     totalSavings: 0,
     avgDiscount: 0,
   });
 
+  // Loading and user data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
@@ -110,6 +98,12 @@ export default function Dashboard() {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(false);
   const [trendingError, setTrendingError] = useState(null);
+
+  // Deal price trends
+  const [priceTrends, setPriceTrends] = useState([]);
+  const [loadingTrends, setLoadingTrends] = useState(true);
+
+  const [testData, setTestData] = useState({});
 
   // Fetching user activity data ...
   useEffect(() => {
@@ -130,7 +124,6 @@ export default function Dashboard() {
   // Checking user auth status ...
   useEffect(() => {
     const user = getUserFromToken();
-
     if (!user) {
       navigate("/signin");
     } else {
@@ -224,6 +217,40 @@ export default function Dashboard() {
 
     fetchTrending();
   }, []);
+
+  // TEST ...
+  useEffect(() => {
+    const fetchTestData = async () => {
+      setLoadingTrends(true);
+
+      try {
+        const data = await fetchCombinedTrackingPriceHistories();
+
+        if (data) setTestData(data);
+        else console.log(data);
+      } catch (err) {
+        setError(err.message || "Failed to fetch test data.");
+        console.error("Failed to fetch test data.");
+      } finally {
+        setLoadingTrends(false);
+      }
+    };
+
+    fetchTestData();
+  }, [trackingItems]);
+
+  // Fetch category-wise product data for PIE chart ...
+  useEffect(() => {
+    setCategoryData(getCategoryData(trackingItems));
+  }, [trackingItems]);
+
+  // Fetching data for price trends ...
+  useEffect(() => {
+    if (testData && Object.keys(testData).length > 0) {
+      const trendData = processAnalyticsData(testData);
+      setPriceTrends(trendData.priceTrends);
+    }
+  }, [testData]);
 
   // Calculated stats ...
   const { totalProducts, totalSavings, avgDiscount } = stats;
@@ -332,7 +359,6 @@ export default function Dashboard() {
                 <Home className="mr-3 h-4 w-4" />
                 Home
               </Link>
-              {/*
               <Link
                 to="/analysis"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -340,7 +366,6 @@ export default function Dashboard() {
                 <BarChart2 className="mr-3 h-4 w-4" />
                 Analytics
               </Link>
-              */}
               <Link
                 to="/deals"
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -462,53 +487,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-orange-500">
-                    <DollarSign className="h-6 w-6" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      Potential Savings
-                    </p>
-                    <h3 className="text-2xl font-bold">
-                      ₹{totalSavings.toLocaleString()}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500">
-                    <Tag className="h-6 w-6" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      Avg. Discount
-                    </p>
-                    <h3 className="text-2xl font-bold">{avgDiscount}%</h3>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-500">
-                    <ShoppingBag className="h-6 w-6" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      Products Tracked
-                    </p>
-                    <h3 className="text-2xl font-bold">{totalProducts}</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {activeTab === "overview" && (
               <div className="space-y-6">
                 {/* Search - Mobile Only */}
@@ -525,58 +503,89 @@ export default function Dashboard() {
 
                 {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Price History Chart */}
+                  {/* Deal Price Trend Over Time */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                      <h3 className="text-lg font-semibold">Price History</h3>
-                      <div className="flex items-center space-x-2">
-                        <select className="text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 px-2 py-1">
-                          <option>Last 7 days</option>
-                          <option>Last 30 days</option>
-                          <option>Last 90 days</option>
-                        </select>
-                        <button className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
-                          <RefreshCw className="h-4 w-4" />
-                        </button>
-                      </div>
+                      <h3 className="text-lg font-semibold">
+                        Deal Price Trends
+                      </h3>
+                      <Link
+                        to="/analysis"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
+                      >
+                        View Details <ChevronRight className="h-4 w-4 ml-1" />
+                      </Link>
                     </div>
                     <div className="p-4">
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={priceHistoryData}>
-                            <defs>
-                              <linearGradient
-                                id="colorPrice"
-                                x1="0"
-                                y1="0"
-                                x2="0"
-                                y2="1"
-                              >
-                                <stop
-                                  offset="5%"
-                                  stopColor="#FF6B6B"
-                                  stopOpacity={0.8}
-                                />
-                                <stop
-                                  offset="95%"
-                                  stopColor="#FF6B6B"
-                                  stopOpacity={0}
-                                />
-                              </linearGradient>
-                            </defs>
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Tooltip />
-                            <Area
-                              type="monotone"
-                              dataKey="price"
-                              stroke="#FF6B6B"
-                              fillOpacity={1}
-                              fill="url(#colorPrice)"
-                            />
-                          </AreaChart>
-                        </ResponsiveContainer>
+                      <div className="h-64 flex items-center justify-center">
+                        {loadingTrends ? (
+                          <Loading />
+                        ) : (
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={priceTrends}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="time" />
+                              <YAxis />
+                              <Tooltip content={CustomTooltip} />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="deal_price"
+                                stroke="#82ca9d"
+                                name="Deal Price"
+                                strokeWidth={2}
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="original_price"
+                                stroke="#ff6666"
+                                name="Original Price"
+                                strokeWidth={2}
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top Savings */}
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                      <h3 className="text-lg font-semibold">Top Savings</h3>
+                      <Link
+                        to="/trackinglist"
+                        className="text-sm text-orange-500 hover:underline flex items-center"
+                      >
+                        View Details <ChevronRight className="h-4 w-4 ml-1" />
+                      </Link>
+                    </div>
+                    <div className="p-4">
+                      <div className="h-64 overflow-y-auto">
+                        <ul className="space-y-[1.35rem]">
+                          {trackingItems.slice(0, 5).map((item, index) => (
+                            <li
+                              key={item._id}
+                              className="flex items-center space-x-3"
+                            >
+                              <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded">
+                                #{index + 1}
+                              </span>
+                              <div className="flex-1">
+                                <p className="font-medium">
+                                  {item.productTitle.split("|")[0].trim()}
+                                </p>
+                                <p className="text-sm text-orange-500">
+                                  Saved ₹
+                                  {Math.max(
+                                    item.currentPrice - item.hitPrice,
+                                    0
+                                  )}
+                                </p>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -631,47 +640,6 @@ export default function Dashboard() {
                             No trending products found.
                           </div>
                         )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Top Savings */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                      <h3 className="text-lg font-semibold">Top Savings</h3>
-                      <Link
-                        to="/trackinglist"
-                        className="text-sm text-orange-500 hover:underline flex items-center"
-                      >
-                        View Details <ChevronRight className="h-4 w-4 ml-1" />
-                      </Link>
-                    </div>
-                    <div className="p-4">
-                      <div className="h-64 overflow-y-auto">
-                        <ul className="space-y-[1.35rem]">
-                          {trackingItems.slice(0, 5).map((item, index) => (
-                            <li
-                              key={item._id}
-                              className="flex items-center space-x-3"
-                            >
-                              <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded">
-                                #{index + 1}
-                              </span>
-                              <div className="flex-1">
-                                <p className="font-medium">
-                                  {item.productTitle.split("|")[0].trim()}
-                                </p>
-                                <p className="text-sm text-orange-500">
-                                  Saved ₹
-                                  {Math.max(
-                                    item.currentPrice - item.hitPrice,
-                                    0
-                                  )}
-                                </p>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -733,63 +701,102 @@ export default function Dashboard() {
 
             {activeTab === "analytics" && (
               <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Savings Over Time */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                      <h3 className="text-lg font-semibold">
-                        Savings Over Time
-                      </h3>
+                <div className="grid md:grid-cols-2 gap-6 w-full">
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2 col-span-2">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 flex items-center">
+                      <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/20 text-orange-500 flex-shrink-0">
+                        <DollarSign className="h-6 w-6" />
+                      </div>
+                      <div className="ml-4 flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                          Potential Savings
+                        </p>
+                        <h3 className="text-2xl font-bold truncate">
+                          ₹{totalSavings.toLocaleString()}
+                        </h3>
+                      </div>
                     </div>
-                    <div className="p-4">
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={savingsData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="savings" fill="#FF6B6B" />
-                          </BarChart>
-                        </ResponsiveContainer>
+
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 flex items-center">
+                      <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500 flex-shrink-0">
+                        <Tag className="h-6 w-6" />
+                      </div>
+                      <div className="ml-4 flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                          Avg. Discount
+                        </p>
+                        <h3 className="text-2xl font-bold truncate">
+                          {avgDiscount}%
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 flex items-center">
+                      <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-500 flex-shrink-0">
+                        <ShoppingBag className="h-6 w-6" />
+                      </div>
+                      <div className="ml-4 flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                          Products Tracked
+                        </p>
+                        <h3 className="text-2xl font-bold truncate">
+                          {totalProducts}
+                        </h3>
                       </div>
                     </div>
                   </div>
 
-                  {/* Tracking by Category */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+                  {/* Category Distribution */}
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 col-span-2">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                       <h3 className="text-lg font-semibold">
                         Tracking by Category
                       </h3>
                     </div>
-                    <div className="p-4">
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                            <Pie
-                              data={categoryData}
-                              cx="50%"
-                              cy="50%"
-                              labelLine={false}
-                              outerRadius={80}
-                              fill="#8884d8"
-                              dataKey="value"
-                              label={({ name, percent }) =>
-                                `${name} ${(percent * 100).toFixed(0)}%`
-                              }
-                            >
-                              {categoryData.map((entry, index) => (
-                                <Cell
-                                  key={`cell-${index}`}
-                                  fill={COLORS[index % COLORS.length]}
-                                />
-                              ))}
-                            </Pie>
-                            <Tooltip />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </div>
+                    <div className="p-4 h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={categoryData}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label={({ name, percent }) => {
+                              const maxLen = 15;
+                              const displayName =
+                                name.length > maxLen
+                                  ? name.slice(0, maxLen).trim() + "…"
+                                  : name;
+
+                              return `${displayName.replace(
+                                /\w\S*/g,
+                                (text) =>
+                                  text.charAt(0).toUpperCase() +
+                                  text.substring(1).toLowerCase()
+                              )} ${(percent * 100).toFixed(0)}%`;
+                            }}
+                          >
+                            {categoryData.map((entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={COLORS[index % COLORS.length]}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip content={CustomTooltip} />
+                          <Legend
+                            verticalAlign="middle"
+                            align="right"
+                            layout="vertical"
+                            iconType="circle"
+                            content={CustomLegend}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
