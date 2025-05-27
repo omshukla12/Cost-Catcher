@@ -371,7 +371,7 @@ export default function Dashboard() {
                 className="flex items-center px-4 py-2.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <Tag className="mr-3 h-4 w-4" />
-                Best Deals
+                Deals
               </Link>
               <Link
                 to="/account"
