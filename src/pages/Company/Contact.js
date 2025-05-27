@@ -34,24 +34,33 @@ export default function Contact() {
 
   const faqs = [
     {
-      question: "How do I reset my password?",
+      question: "How does CostCatcher work?",
       answer:
-        "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email.",
+        "CostCatcher tracks prices across different online stores, notifying users of any changes.",
     },
     {
-      question: "How often are prices updated?",
-      answer:
-        "We update prices multiple times a day for most products. The exact frequency can vary depending on the product and retailer.",
+      question: "Is CostCatcher free?",
+      answer: "Yes, we offer a free basic plan at the moment.",
     },
     {
-      question: "Can I track prices from any online store?",
+      question: "Which stores are supported?",
       answer:
-        "CostCatcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
+        "We support major retailers like Amazon, Flipkart, Myntra, and more. Our list is constantly expanding.",
     },
     {
-      question: "Is there a mobile app available?",
+      question: "How accurate is the price tracking?",
       answer:
-        "Yes, we have mobile apps available for both iOS and Android devices. You can download them from the App Store or Google Play Store.",
+        "Our system continuously scans retailers for price changes to ensure accurate and up-to-date tracking.",
+    },
+    {
+      question: "Can I set custom alerts?",
+      answer:
+        "Yes, you can set price alerts for any tracked product and get notified when it reaches your desired price.",
+    },
+    {
+      question: "Is there a mobile app?",
+      answer:
+        "No, CostCatcher currently does not offer a mobile app for any platform, but we're working on it.",
     },
   ];
 

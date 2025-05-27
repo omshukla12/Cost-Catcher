@@ -38,13 +38,13 @@ export default function PrivacyPolicy() {
           transition={{ duration: 0.5 }}
           className="text-center mb-20"
         >
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 dark:from-orange-400 dark:to-pink-400">
+          <h1 className="text-5xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-pink-500 dark:from-orange-400 dark:to-pink-400">
             Privacy Policy
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            At <span className="text-orange-500 font-bold">CostCatcher</span>, we are
-            committed to protecting your privacy and ensuring the security of
-            your personal information.
+            At <span className="text-orange-500 font-bold">CostCatcher</span>,
+            we are committed to protecting your privacy and ensuring the
+            security of your personal information.
           </p>
         </motion.section>
 
