@@ -15,13 +15,13 @@ export default function HelpCenter() {
       icon: HelpCircle,
       title: "FAQs",
       description:
-        "Find answers to the most commonly asked questions about Cost-Catcher.",
+        "Find answers to the most commonly asked questions about CostCatcher.",
     },
     {
       icon: Book,
       title: "User Guides",
       description:
-        "Step-by-step guides to help you make the most of Cost-Catcher's features.",
+        "Step-by-step guides to help you make the most of CostCatcher's features.",
     },
     {
       icon: Tool,
@@ -33,7 +33,7 @@ export default function HelpCenter() {
       icon: MessageCircle,
       title: "Community Forum",
       description:
-        "Connect with other users, share tips, and get help from the Cost-Catcher community.",
+        "Connect with other users, share tips, and get help from the CostCatcher community.",
     },
   ];
 
@@ -51,7 +51,7 @@ export default function HelpCenter() {
     {
       question: "Can I track prices from any online store?",
       answer:
-        "Cost-Catcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
+        "CostCatcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
     },
     {
       question: "How often are prices updated?",
@@ -73,7 +73,7 @@ export default function HelpCenter() {
             Help Center
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            Find answers, get support, and make the most of your Cost-Catcher
+            Find answers, get support, and make the most of your CostCatcher
             experience.
           </p>
         </motion.section>

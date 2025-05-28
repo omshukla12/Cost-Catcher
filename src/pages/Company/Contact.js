@@ -1,7 +1,8 @@
-import React from "react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export default function Contact() {
   const contactMethods = [
@@ -33,29 +34,128 @@ export default function Contact() {
 
   const faqs = [
     {
-      question: "How do I reset my password?",
+      question: "How does CostCatcher work?",
       answer:
-        "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email.",
+        "CostCatcher tracks prices across different online stores, notifying users of any changes.",
     },
     {
-      question: "How often are prices updated?",
-      answer:
-        "We update prices multiple times a day for most products. The exact frequency can vary depending on the product and retailer.",
+      question: "Is CostCatcher free?",
+      answer: "Yes, we offer a free basic plan at the moment.",
     },
     {
-      question: "Can I track prices from any online store?",
+      question: "Which stores are supported?",
       answer:
-        "Cost-Catcher supports price tracking for most major online retailers. If you find a store that's not supported, please let us know, and we'll consider adding it to our system.",
+        "We support major retailers like Amazon, Flipkart, Myntra, and more. Our list is constantly expanding.",
     },
     {
-      question: "Is there a mobile app available?",
+      question: "How accurate is the price tracking?",
       answer:
-        "Yes, we have mobile apps available for both iOS and Android devices. You can download them from the App Store or Google Play Store.",
+        "Our system continuously scans retailers for price changes to ensure accurate and up-to-date tracking.",
+    },
+    {
+      question: "Can I set custom alerts?",
+      answer:
+        "Yes, you can set price alerts for any tracked product and get notified when it reaches your desired price.",
+    },
+    {
+      question: "Is there a mobile app?",
+      answer:
+        "No, CostCatcher currently does not offer a mobile app for any platform, but we're working on it.",
     },
   ];
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
+
+  // For toast menu ...
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast({ show: false, message: "", type: "" });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast.show]);
+
+  const scriptUrl = process.env.REACT_APP_GOOGLE_SCRIPT_URL || "";
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      if (scriptUrl.length === 0) throw Error("Missing script URL.");
+
+      const response = await fetch(scriptUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (response.ok) {
+        setToast({
+          show: true,
+          message: "Message sent successfully!",
+          type: "success",
+        });
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setToast({
+          show: true,
+          message: "Failed to send message. Please try again.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting form : ", error);
+      setToast({
+        show: true,
+        message: "Something went wrong. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      {/* Toast Notification */}
+      {toast.show && (
+        <div
+          className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform ${
+            toast.type === "success"
+              ? "bg-green-500 text-white"
+              : "bg-red-500 text-white"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">{toast.message}</span>
+            <button
+              onClick={() => setToast({ show: false, message: "", type: "" })}
+              className="ml-4 text-white hover:text-gray-200"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
       <main className="container mx-auto px-4 py-16">
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -102,6 +202,7 @@ export default function Contact() {
             </div>
           </motion.section>
 
+          {/* Contact Form */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -110,7 +211,10 @@ export default function Contact() {
             <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
               Send Us a Message
             </h2>
-            <form className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg"
+            >
               <div className="mb-4">
                 <label
                   htmlFor="name"
@@ -122,6 +226,8 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                 />
@@ -137,6 +243,8 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                 />
@@ -152,6 +260,8 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                 />
@@ -167,20 +277,28 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300"
+                disabled={isSubmitting}
+                className={`w-full font-bold py-2 px-4 rounded-md transition-colors duration-300 ${
+                  isSubmitting
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-orange-500 hover:bg-orange-600"
+                } text-white`}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </motion.section>
         </div>
 
+        {/* FAQ Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -208,6 +326,7 @@ export default function Contact() {
           </div>
         </motion.section>
 
+        {/* Help Center Link */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

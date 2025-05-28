@@ -14,12 +14,6 @@ export default function About() {
         "Our system helps you find the lowest prices and save money on your purchases.",
     },
     {
-      icon: Users,
-      title: "Community Driven",
-      description:
-        "Join a community of savvy shoppers sharing tips and experiences to maximize savings.",
-    },
-    {
       icon: Zap,
       title: "Real-time Tracking",
       description:
@@ -29,7 +23,7 @@ export default function About() {
       icon: Globe,
       title: "Global Coverage",
       description:
-        "Track prices across multiple countries and currencies for the best international deals.",
+        "Track prices across multiple online platforms for the best deals.",
     },
   ];
 
@@ -95,7 +89,7 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-200">
             Our Mission
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <FeatureCard key={index} {...feature} />
             ))}
@@ -113,20 +107,6 @@ export default function About() {
           <h2 className="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-gray-200">
             Meet Our Team
           </h2>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  "flex justify-center",
-                  index === teamMembers.length - 1 &&
-                    "md:col-span-2 md:justify-center lg:col-span-1"
-                )}
-              >
-                <TeamMember {...member} />
-              </div>
-            ))}
-          </div> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
             {/* First row */}
             {teamMembers.slice(0, 3).map((member, index) => (
@@ -156,13 +136,12 @@ export default function About() {
             Join Our Team
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            We're always looking for talented individuals to help us
+            We are always looking for talented individuals to help us
             revolutionize online shopping. Join us in our mission to empower
             shoppers worldwide.
           </p>
-          <Link to="/signup">
+          <Link to="/contact">
             <motion.a
-              href="/careers"
               className="inline-flex items-center px-6 py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

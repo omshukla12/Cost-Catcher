@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IndianRupee, ExternalLink, ChevronRight } from "lucide-react";
@@ -6,7 +5,6 @@ import { IndianRupee, ExternalLink, ChevronRight } from "lucide-react";
 const footerLinks = [
   { name: "About", href: "/about" },
   { name: "Features", href: "/features" },
-  { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -53,7 +51,9 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 md:mb-0">
-            © {new Date().getFullYear()} CostCatcher. All rights reserved.
+            © {new Date().getFullYear()}{" "}
+            <span className="text-orange-500">CostCatcher</span>. All rights
+            reserved.
           </p>
           <div className="flex space-x-6">
             <Link
@@ -69,7 +69,7 @@ export default function Footer() {
               Terms of Service
             </Link>
             <a
-              href="https://github.com/omshukla12/Cost-Catcher"
+              href="https://github.com/omshukla12/CostCatcher"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-300 flex items-center"

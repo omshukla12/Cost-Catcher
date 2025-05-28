@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ProductDetails from "./ProductDetails";
 
 const ParentComponent = ({ productId }) => {
@@ -29,7 +29,7 @@ const ParentComponent = ({ productId }) => {
           setError(result.message || "Failed to fetch product.");
         }
       } catch (err) {
-        console.error("Error fetching product:", err);
+        console.error("Error fetching product : ", err);
         setError("Error fetching product.");
       } finally {
         setLoading(false);
@@ -40,7 +40,7 @@ const ParentComponent = ({ productId }) => {
   }, [productId]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p>Error : {error}</p>;
 
   return product ? (
     <ProductDetails product={product} />

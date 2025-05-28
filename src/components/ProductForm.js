@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { extractProductID } from "../utils/productUtils";
 
 const ProductForm = ({
@@ -19,7 +18,7 @@ const ProductForm = ({
       return;
     }
 
-    // Validate if it's a proper Amazon link
+    // Validate if it is a proper Amazon link
     const productId = extractProductID(productLink);
     if (!productId) {
       setError("Invalid Amazon product link. Please check the URL format.");

@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { ArrowLeft } from "lucide-react";
 import Loading from "../../../components/Loading";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function TrendingProducts() {
-  const [trendingProducts, setTrendingProducts] = useState([]);
+  const { token } = useContext(AuthContext);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [trendingProducts, setTrendingProducts] = useState([]);
 
   useEffect(() => {
     const fetchTrendingProducts = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await fetch(
           `${process.env.REACT_APP_CC_API}/trendingProducts`,
           {
@@ -80,6 +82,7 @@ export default function TrendingProducts() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
           {trendingProducts.map((product) => (
             <li
               key={product._id}

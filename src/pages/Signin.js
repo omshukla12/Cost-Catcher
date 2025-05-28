@@ -26,11 +26,7 @@ const Signin = () => {
       });
 
       const data = await response.json();
-      console.log("API Response:", data);
-
       if (response.ok && data.token) {
-        // localStorage.setItem("token", data.token);
-
         login(data.token);
         navigate("/dashboard");
       } else {

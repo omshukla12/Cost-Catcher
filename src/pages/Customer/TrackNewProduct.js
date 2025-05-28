@@ -55,11 +55,6 @@ const TrackNewProduct = () => {
               </Link>
               <h1 className="text-2xl font-bold">Track New Product</h1>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar name="User" size="32" round={true} color="#FF6B6B" />
-              </div>
-            </div>
           </div>
         </div>
       </header>

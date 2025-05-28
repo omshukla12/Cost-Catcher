@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FileText, UserCheck, AlertTriangle, HelpCircle } from "lucide-react";
 
@@ -8,7 +7,7 @@ export default function TermsOfService() {
       icon: FileText,
       title: "Acceptance of Terms",
       content:
-        "By accessing or using Cost-Catcher's services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.",
+        "By accessing or using CostCatcher's services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.",
     },
     {
       icon: UserCheck,
@@ -20,7 +19,7 @@ export default function TermsOfService() {
       icon: AlertTriangle,
       title: "Limitations of Liability",
       content:
-        "Cost-Catcher shall not be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
+        "CostCatcher shall not be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
     },
     {
       icon: HelpCircle,
@@ -43,8 +42,9 @@ export default function TermsOfService() {
             Terms of Service
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-            Please read these Terms of Service carefully before using the
-            Cost-Catcher website and services.
+            Please read these Terms of Service carefully before using the{" "}
+            <span className="text-orange-500 font-bold">CostCatcher</span>{" "}
+            website and services.
           </p>
         </motion.section>
 
