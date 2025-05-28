@@ -38,3 +38,9 @@ coverage/
 # Misc.
 *.txt
 *.gs
+
+*/backend/server/node_modules
+*/backend/server/.env
+*/backend/server/.jpg
+*/backend/server/.png
+*/backend/server/.wav

@@ -1,0 +1,21 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "Backend architecture for Cost Catcher - major project for BTech 2021-2025 Batch, BBDNIIT.",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Anurag Dubey",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "cors": "^2.8.5",
+        "express": "^4.21.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.6.3",
+        "phone": "^3.1.52",
+        "dotenv": "^16.5.0"
+    }
+}
